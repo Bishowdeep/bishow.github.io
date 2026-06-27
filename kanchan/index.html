@@ -17,7 +17,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
     </script>
 
-    <!-- (styles – same as before, keep them) -->
     <style>
         /* ───── RESET & BASE ───── */
         * {
@@ -796,9 +795,50 @@
             pointer-events: none;
             z-index: 9998;
         }
+
+        /* ─── MUSIC TOGGLE BUTTON ─── */
+        #music-toggle {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 99999;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 215, 200, 0.15);
+            border-radius: 50%;
+            width: 52px;
+            height: 52px;
+            color: #f5ede7;
+            font-size: 1.4rem;
+            cursor: pointer;
+            transition: 0.3s;
+            touch-action: manipulation;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #music-toggle:hover {
+            transform: scale(1.05);
+            background: rgba(0, 0, 0, 0.7);
+        }
+        #music-toggle:active {
+            transform: scale(0.92);
+        }
     </style>
 </head>
 <body>
+
+    <!-- ─── BACKGROUND MUSIC ─── -->
+    <audio id="bg-music" loop preload="auto">
+        <!-- REPLACE this src with the actual URL of her favourite song -->
+        <source src="images/YOUR_SONG_URL.mp3" type="audio/mpeg" />
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- ─── MUSIC TOGGLE BUTTON ─── -->
+    <button id="music-toggle" title="Toggle Music">🔊</button>
 
     <!-- CANVASES -->
     <canvas id="stars-canvas"></canvas>
@@ -834,8 +874,7 @@
                 <h3>your smile</h3>
                 <p>I've seen thousands of smiles. Some look nice. Some look pretty. But yours somehow feels peaceful.</p>
                 <div class="image-placeholder">
-                    <img src="https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=400&h=250&fit=crop&crop=face" alt="smile" />
-                    <span class="stock-label">📸 stock</span>
+                    <img src="images/smile.jpg" alt="smile" />
                 </div>
             </div>
             <div class="section-card">
@@ -843,8 +882,7 @@
                 <h3>your eyes</h3>
                 <p>Some people write poems about stars. I'd rather just look into your eyes.</p>
                 <div class="image-placeholder">
-                    <img src="https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?w=400&h=250&fit=crop&crop=face" alt="eyes" />
-                    <span class="stock-label">📸 stock</span>
+                    <img src="images/eyes.jpg" alt="eyes" />
                 </div>
             </div>
             <div class="section-card" id="research-card">
@@ -867,7 +905,7 @@
                 <h3>little things</h3>
                 <p>The way you laugh. The way you talk. The way you don't even realize how adorable you are. Those little things stay in my mind much longer than they should.</p>
                 <div class="image-placeholder" style="aspect-ratio:16/8;margin-top:0.6rem;">
-                    <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400&h=200&fit=crop" alt="cherry blossom" />
+                    <img src="images/things.jpg" />
                     <span class="stock-label">🌸</span>
                 </div>
             </div>
@@ -948,7 +986,7 @@
     </div>
 
     <!-- ════════════════════════════════════════════════════ -->
-    <!--  JAVASCRIPT (Fixed EmailJS with correct template)    -->
+    <!--  JAVASCRIPT                                         -->
     <!-- ════════════════════════════════════════════════════ -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -986,6 +1024,59 @@
             let proposalAnswered = false;
             let terminalOpen = false;
             let homeInitDone = false;
+
+            // ─── BACKGROUND MUSIC ───
+            const bgMusic = document.getElementById('bg-music');
+            const musicToggle = document.getElementById('music-toggle');
+            let musicStarted = false;
+            let musicPlaying = false;
+
+            // Set default volume (0.0 – 1.0)
+            bgMusic.volume = 0.3;
+
+            // Function to start music (called on user interaction)
+            function startMusic() {
+                if (musicStarted) return;
+                bgMusic.play().then(() => {
+                    musicStarted = true;
+                    musicPlaying = true;
+                    musicToggle.textContent = '🔊';
+                }).catch((err) => {
+                    // Autoplay blocked – user will tap the button to start
+                    console.log('Tap the music button to play.');
+                });
+            }
+
+            // ─── Play music when login button is clicked ───
+            loginBtn.addEventListener('click', startMusic);
+
+            // ─── Toggle music on button click ───
+            musicToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                if (!musicStarted) {
+                    startMusic();
+                    return;
+                }
+                if (musicPlaying) {
+                    bgMusic.pause();
+                    musicPlaying = false;
+                    musicToggle.textContent = '🔇';
+                } else {
+                    bgMusic.play().then(() => {
+                        musicPlaying = true;
+                        musicToggle.textContent = '🔊';
+                    }).catch((err) => {
+                        console.log('Error resuming:', err);
+                    });
+                }
+            });
+
+            // ─── Fallback: start music on any click/tap (mobile friendly) ───
+            document.addEventListener('click', function() {
+                if (!musicStarted) {
+                    startMusic();
+                }
+            }, { once: false });
 
             // ─── STARS ───
             (function initStars() {
@@ -1399,9 +1490,9 @@
                     {
                         name: name,
                         time: now,
-                        message: 'Answer: YES ❤️', // We put the answer in the message field
-                        userName: name, // optional if your template has {{userName}}
-                        answer: 'YES ❤️' // optional if your template has {{answer}}
+                        message: 'Answer: YES ❤️',
+                        userName: name,
+                        answer: 'YES ❤️'
                     }
                 ).then(() => {
                     console.log('✅ Email sent – she said YES!');
@@ -1575,8 +1666,9 @@
             document.addEventListener('contextmenu', e => e.preventDefault());
 
             console.log('🌸 A Small Corner of the Internet — built with love and overthinking.');
-            console.log('📧 EmailJS is now using template: template_a6cswfu');
+            console.log('📧 EmailJS is using template: template_a6cswfu');
             console.log('🔢 Secret code to unlock proposal: 9863454697 (type in terminal)');
+            console.log('🎵 Background music ready – will start on first click/tap.');
         });
     </script>
 
