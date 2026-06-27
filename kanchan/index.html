@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>A Small Corner of the Internet</title>
+
+    <!-- Fonts & Libraries -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1">
+    </script>
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+
+    <style>
+        /* ───── RESET & BASE ───── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0b0a0c;
+            color: #f5ede7;
+            min-height: 100vh;
+            overflow-x: hidden;
+            cursor: default;
+            -webkit-tap-highlight-color: transparent;
+        }
+        a {
+            text-decoration: none;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1518;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #b8866b;
+            border-radius: 12px;
+        }
+        .glass {
+            background: rgba(255, 240, 235, 0.07);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 1px solid rgba(255, 215, 200, 0.15);
+            border-radius: 32px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 215, 200, 0.05);
+        }
+        #stars-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            pointer-events: none;
+        }
+        #petals-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            pointer-events: none;
+        }
+        #cursor-glow {
+            position: fixed;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 200, 180, 0.5) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, opacity 0.3s;
+            mix-blend-mode: screen;
+        }
+        @media (max-width: 768px) {
+            #cursor-glow {
+                display: none;
+            }
+        }
+        .page {
+            display: none;
+            position: relative;
+            z-index: 2;
+            min-height: 100vh;
+            padding: 2rem 1.2rem;
+            opacity: 0;
+            transition: opacity 0.9s ease;
+        }
+        .page.active {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 1;
+        }
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* ───── LOGIN ───── */
+        #login-page {
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .login-card {
+            width: 100%;
+            max-width: 440px;
+            padding: 2.8rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 5;
+        }
+        .login-card .logo-icon {
+            font-size: 3.2rem;
+            margin-bottom: 0.2rem;
+            display: inline-block;
+            cursor: pointer;
+            transition: transform 0.2s;
+            user-select: none;
+        }
+        .login-card .logo-icon:active {
+            transform: scale(0.9);
+        }
+        .login-card h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.6rem;
+            font-weight: 400;
+            color: #f5e6dc;
+            margin-bottom: 0.1rem;
+            letter-spacing: 1px;
+        }
+        .login-card .sub {
+            font-size: 0.8rem;
+            color: #b8a69c;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1.8rem;
+            font-weight: 300;
+        }
+        .login-card .hint-text {
+            font-size: 0.85rem;
+            color: #d4bfb0;
+            background: rgba(255, 215, 200, 0.06);
+            padding: 0.6rem 1rem;
+            border-radius: 40px;
+            display: inline-block;
+            margin-bottom: 1.8rem;
+            border: 1px dashed rgba(255, 215, 200, 0.15);
+            font-style: italic;
+            transition: opacity 0.4s;
+        }
+        .login-card input {
+            width: 100%;
+            padding: 0.9rem 1.2rem;
+            border-radius: 60px;
+            border: 1px solid rgba(255, 215, 200, 0.15);
+            background: rgba(255, 240, 235, 0.04);
+            color: #f5ede7;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+            margin-bottom: 1.2rem;
+            font-family: 'Poppins', sans-serif;
+            -webkit-appearance: none;
+        }
+        .login-card input::placeholder {
+            color: #8a7a70;
+            font-weight: 300;
+        }
+        .login-card input:focus {
+            border-color: #d4a587;
+            box-shadow: 0 0 30px rgba(212, 165, 135, 0.08);
+        }
+        .login-card .error-msg {
+            color: #e8b4a0;
+            font-size: 0.85rem;
+            min-height: 1.8rem;
+            margin-bottom: 0.6rem;
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .login-card .error-msg.show {
+            opacity: 1;
+        }
+        .login-card button {
+            width: 100%;
+            padding: 0.9rem;
+            border: none;
+            border-radius: 60px;
+            background: linear-gradient(135deg, #b8866b, #a06b50);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 1px;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 8px 30px rgba(184, 134, 107, 0.25);
+            touch-action: manipulation;
+        }
+        .login-card button:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 40px rgba(184, 134, 107, 0.4);
+        }
+        .login-card button:active {
+            transform: scale(0.97);
+        }
+        .login-card .footnote {
+            margin-top: 1.8rem;
+            font-size: 0.7rem;
+            color: #6a5e56;
+            letter-spacing: 1px;
+        }
+        /* ───── HOME ───── */
+        #home-page {
+            padding-top: 1rem;
+            max-width: 1100px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .hero {
+            text-align: center;
+            padding: 1.5rem 0 1rem;
+            position: relative;
+        }
+        .hero .greeting {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8rem;
+            color: #f5e6dc;
+            font-weight: 400;
+            min-height: 4.5rem;
+            margin-bottom: 0.3rem;
+        }
+        .hero .greeting .highlight {
+            color: #dbb8a8;
+        }
+        .hero .sub-greeting {
+            font-size: 0.85rem;
+            color: #b8a69c;
+            font-weight: 300;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+        .hero .divider-line {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #dbb8a8, transparent);
+            margin: 1.2rem auto;
+            border-radius: 4px;
+        }
+        .section-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        @media (min-width: 768px) {
+            .section-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        .section-card {
+            padding: 1.8rem 1.5rem;
+            border-radius: 28px;
+            background: rgba(255, 240, 235, 0.04);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 215, 200, 0.06);
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+        }
+        .section-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 215, 200, 0.15);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        }
+        .section-card .card-icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+        .section-card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f5ede7;
+            margin-bottom: 0.3rem;
+            letter-spacing: 0.5px;
+        }
+        .section-card p {
+            font-size: 0.9rem;
+            color: #c9b9ae;
+            line-height: 1.7;
+            font-weight: 300;
+        }
+        .section-card .image-placeholder {
+            width: 100%;
+            aspect-ratio: 16/10;
+            border-radius: 16px;
+            margin: 0.8rem 0 0.2rem;
+            background: linear-gradient(145deg, #1f191b, #2a2124);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #6a5e56;
+            font-size: 0.8rem;
+            border: 1px solid rgba(255, 215, 200, 0.05);
+            overflow: hidden;
+            position: relative;
+        }
+        .section-card .image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+            transition: transform 0.6s;
+        }
+        .section-card .image-placeholder img:hover {
+            transform: scale(1.02);
+        }
+        .section-card .image-placeholder .stock-label {
+            position: absolute;
+            bottom: 8px;
+            right: 12px;
+            font-size: 0.5rem;
+            color: rgba(255, 215, 200, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+        }
+        .obs-list {
+            list-style: none;
+            padding: 0;
+            margin: 0.6rem 0 0;
+        }
+        .obs-list li {
+            padding: 0.5rem 0 0.5rem 1.8rem;
+            border-bottom: 1px solid rgba(255, 215, 200, 0.04);
+            font-size: 0.85rem;
+            color: #d4c4b8;
+            position: relative;
+            line-height: 1.6;
+        }
+        .obs-list li::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            color: #dbb8a8;
+            font-size: 0.7rem;
+            top: 0.6rem;
+        }
+        .obs-list li:last-child {
+            border-bottom: none;
+        }
+        .easter-hint {
+            font-size: 0.65rem;
+            color: #4a403a;
+            text-align: center;
+            margin-top: 2rem;
+            letter-spacing: 1px;
+            font-weight: 300;
+            opacity: 0.5;
+            transition: opacity 0.6s;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem 1.2rem;
+        }
+        .easter-hint:hover {
+            opacity: 1;
+        }
+        .easter-hint kbd {
+            background: rgba(255, 215, 200, 0.05);
+            padding: 0 0.5rem;
+            border-radius: 4px;
+            font-size: 0.6rem;
+            color: #6a5e56;
+        }
+        .mobile-egg-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 215, 200, 0.08);
+            color: #6a5e56;
+            padding: 0.3rem 1rem;
+            border-radius: 30px;
+            font-size: 0.65rem;
+            font-family: 'Poppins', sans-serif;
+            cursor: pointer;
+            transition: 0.3s;
+            touch-action: manipulation;
+            letter-spacing: 0.5px;
+        }
+        .mobile-egg-btn:active {
+            transform: scale(0.95);
+            border-color: rgba(255, 215, 200, 0.2);
+        }
+        /* ───── PROPOSAL ───── */
+        #proposal-page {
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem 1.2rem;
+        }
+        .proposal-card {
+            max-width: 640px;
+            width: 100%;
+            padding: 2.8rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 5;
+        }
+        .proposal-card .envelope-icon {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        .proposal-card h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8rem;
+            color: #f5e6dc;
+            font-weight: 400;
+            margin-bottom: 1.2rem;
+        }
+        .proposal-card .letter-text {
+            font-size: 0.95rem;
+            color: #d4c4b8;
+            line-height: 2;
+            text-align: left;
+            font-weight: 300;
+            padding: 0 0.2rem;
+        }
+        .proposal-card .letter-text .sig {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.6rem;
+            color: #dbb8a8;
+            text-align: right;
+            margin-top: 0.8rem;
+        }
+        .proposal-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+        .proposal-btns button {
+            padding: 0.8rem 2.2rem;
+            border: none;
+            border-radius: 60px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+            touch-action: manipulation;
+            min-height: 54px;
+        }
+        .proposal-btns .btn-yes {
+            background: linear-gradient(135deg, #dbb8a8, #b8866b);
+            color: #fff;
+            box-shadow: 0 8px 30px rgba(184, 134, 107, 0.25);
+        }
+        .proposal-btns .btn-yes:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px rgba(184, 134, 107, 0.4);
+        }
+        .proposal-btns .btn-yes:active {
+            transform: scale(0.96);
+        }
+        .proposal-btns .btn-later {
+            background: rgba(255, 215, 200, 0.06);
+            color: #b8a69c;
+            border: 1px solid rgba(255, 215, 200, 0.1);
+        }
+        .proposal-btns .btn-later:hover {
+            background: rgba(255, 215, 200, 0.1);
+            transform: scale(1.03);
+        }
+        .proposal-btns .btn-later:active {
+            transform: scale(0.96);
+        }
+        .proposal-response {
+            margin-top: 1.8rem;
+            font-size: 1rem;
+            color: #dbb8a8;
+            min-height: 3rem;
+            font-weight: 300;
+            font-style: italic;
+        }
+        /* Message box */
+        .message-box {
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 215, 200, 0.08);
+            padding-top: 1.8rem;
+        }
+        .message-box textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 215, 200, 0.1);
+            background: rgba(255, 240, 235, 0.03);
+            color: #f5ede7;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            resize: vertical;
+            min-height: 80px;
+            outline: none;
+            transition: 0.3s;
+        }
+        .message-box textarea:focus {
+            border-color: #d4a587;
+            box-shadow: 0 0 30px rgba(212, 165, 135, 0.05);
+        }
+        .message-box .send-btn {
+            margin-top: 0.8rem;
+            padding: 0.6rem 2rem;
+            border: none;
+            border-radius: 60px;
+            background: linear-gradient(135deg, #b8866b, #a06b50);
+            color: #fff;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-family: 'Poppins', sans-serif;
+            box-shadow: 0 8px 30px rgba(184, 134, 107, 0.2);
+            touch-action: manipulation;
+        }
+        .message-box .send-btn:active {
+            transform: scale(0.96);
+        }
+        .message-box .send-status {
+            font-size: 0.8rem;
+            color: #b8a69c;
+            margin-top: 0.5rem;
+            min-height: 1.5rem;
+        }
+        /* ───── ENDING ───── */
+        #ending-page {
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 2rem 1.2rem;
+        }
+        #ending-page .end-heart {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 0.8rem;
+        }
+        #ending-page h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.8rem;
+            color: #f5e6dc;
+            font-weight: 400;
+        }
+        #ending-page p {
+            color: #b8a69c;
+            font-weight: 300;
+            max-width: 480px;
+            line-height: 1.9;
+            margin-top: 0.6rem;
+            font-size: 0.95rem;
+        }
+        /* ───── TERMINAL ───── */
+        #terminal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+        #terminal-overlay.open {
+            display: flex;
+        }
+        .terminal-box {
+            background: #0d0b0c;
+            border: 1px solid #2a2124;
+            border-radius: 20px;
+            padding: 1.8rem 1.8rem;
+            max-width: 560px;
+            width: 100%;
+            font-family: 'Courier New', monospace;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8);
+        }
+        .terminal-box .term-header {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+        .terminal-box .term-header span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .terminal-box .term-header .dot-red {
+            background: #ff5f56;
+        }
+        .terminal-box .term-header .dot-yellow {
+            background: #ffbd2e;
+        }
+        .terminal-box .term-header .dot-green {
+            background: #27c93f;
+        }
+        .terminal-box .term-prompt {
+            color: #7ecf8a;
+            font-size: 0.9rem;
+        }
+        .terminal-box .term-prompt span {
+            color: #f5ede7;
+        }
+        .terminal-box .term-output {
+            color: #c9b9ae;
+            font-size: 0.85rem;
+            line-height: 1.9;
+            margin: 0.8rem 0 1.2rem;
+            min-height: 80px;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .terminal-box .term-input {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #2a2124;
+            color: #f5ede7;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            padding: 0.4rem 0;
+            width: 100%;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        .terminal-box .term-input:focus {
+            border-bottom-color: #b8866b;
+        }
+        .terminal-box .term-close {
+            margin-top: 1.2rem;
+            color: #6a5e56;
+            font-size: 0.7rem;
+            cursor: pointer;
+            text-align: right;
+            letter-spacing: 1px;
+            touch-action: manipulation;
+        }
+        .terminal-box .term-close:active {
+            color: #dbb8a8;
+        }
+        @media (max-width: 600px) {
+            .login-card {
+                padding: 2rem 1.2rem;
+            }
+            .login-card h1 {
+                font-size: 2rem;
+            }
+            .hero .greeting {
+                font-size: 2.2rem;
+                min-height: 3.8rem;
+            }
+            .proposal-card {
+                padding: 1.8rem 1.2rem;
+            }
+            .proposal-card h2 {
+                font-size: 2.2rem;
+            }
+            .proposal-btns button {
+                padding: 0.7rem 1.6rem;
+                font-size: 0.9rem;
+                min-height: 48px;
+            }
+            .section-grid {
+                gap: 1rem;
+            }
+            .section-card {
+                padding: 1.2rem 1rem;
+            }
+            .section-card h3 {
+                font-size: 1rem;
+            }
+            .section-card p {
+                font-size: 0.8rem;
+            }
+            .easter-hint {
+                font-size: 0.55rem;
+                gap: 0.4rem 0.8rem;
+            }
+            .mobile-egg-btn {
+                font-size: 0.55rem;
+                padding: 0.2rem 0.8rem;
+            }
+            .message-box textarea {
+                font-size: 0.8rem;
+                min-height: 60px;
+            }
+        }
+        .hidden {
+            display: none !important;
+        }
+        .text-gold {
+            color: #dbb8a8;
+        }
+        .text-soft {
+            color: #b8a69c;
+        }
+        .mt-1 {
+            margin-top: 1rem;
+        }
+        .mt-2 {
+            margin-top: 2rem;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .w-full {
+            width: 100%;
+        }
+        .max-w-2xl {
+            max-width: 720px;
+        }
+        .flex-center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .gap-2 {
+            gap: 0.5rem;
+        }
+        .egg-flash {
+            animation: eggFlash 0.6s ease;
+        }
+        @keyframes eggFlash {
+            0%,
+            100% {
+                filter: brightness(1);
+            }
+            50% {
+                filter: brightness(1.6) saturate(1.2);
+            }
+        }
+        .moon-crowned {
+            transition: all 0.8s;
+        }
+        .moon-crowned::after {
+            content: "👑";
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 1.6rem;
+            animation: crownPop 0.6s ease;
+        }
+        @keyframes crownPop {
+            0% {
+                transform: scale(0) rotate(-20deg);
+                opacity: 0;
+            }
+            60% {
+                transform: scale(1.3) rotate(5deg);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+        }
+        .typed-cursor {
+            color: #dbb8a8;
+            font-size: 1.6rem;
+        }
+        .confetti-overlay {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9998;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CANVASES -->
+    <canvas id="stars-canvas"></canvas>
+    <canvas id="petals-canvas"></canvas>
+    <div id="cursor-glow"></div>
+    <div class="confetti-overlay" id="confetti-overlay"></div>
+
+    <!-- LOGIN PAGE -->
+    <div class="page active" id="login-page">
+        <div class="login-card glass">
+            <span class="logo-icon" id="login-logo">🌙</span>
+            <h1>a small corner</h1>
+            <div class="sub">of the internet</div>
+            <div class="hint-text" id="password-hint">✦ sometimes the answer is simpler than you think ✦</div>
+            <input type="text" id="username-input" placeholder="Your beautiful name..." autocomplete="off" />
+            <input type="password" id="password-input" placeholder="Password" autocomplete="off" />
+            <div class="error-msg" id="login-error"></div>
+            <button id="login-btn">enter →</button>
+            <div class="footnote">this place wasn't made for everyone</div>
+        </div>
+    </div>
+
+    <!-- HOME PAGE -->
+    <div class="page" id="home-page">
+        <div class="hero">
+            <div class="greeting" id="greeting-typed"></div>
+            <div class="sub-greeting">✦ you finally found this little corner ✦</div>
+            <div class="divider-line"></div>
+        </div>
+        <div class="section-grid">
+            <div class="section-card">
+                <span class="card-icon">✨</span>
+                <h3>your smile</h3>
+                <p>I've seen thousands of smiles. Some look nice. Some look pretty. But yours somehow feels peaceful.</p>
+                <div class="image-placeholder">
+                    <img src="https://images.unsplash.com/photo-1519331379826-f10be5486c6f?w=400&h=250&fit=crop&crop=face" alt="smile" />
+                    <span class="stock-label">📸 stock</span>
+                </div>
+            </div>
+            <div class="section-card">
+                <span class="card-icon">👁️</span>
+                <h3>your eyes</h3>
+                <p>Some people write poems about stars. I'd rather just look into your eyes.</p>
+                <div class="image-placeholder">
+                    <img src="https://images.unsplash.com/photo-1500916434205-0c77489c6cf7?w=400&h=250&fit=crop&crop=face" alt="eyes" />
+                    <span class="stock-label">📸 stock</span>
+                </div>
+            </div>
+            <div class="section-card" id="research-card">
+                <span class="card-icon">📋</span>
+                <h3>research notes</h3>
+                <p style="font-size:0.8rem;color:#b8a69c;font-style:italic;">— classified —</p>
+                <ul class="obs-list">
+                    <li><strong>Subject:</strong> Kanchan</li>
+                    <li><strong>Danger level:</strong> Extremely distracting</li>
+                    <li><strong>Weakness:</strong> Probably puppies <span style="color:#6a5e56;">(not verified)</span></li>
+                    <li><strong>Current status:</strong> Making someone smile without realizing it</li>
+                </ul>
+                <div style="margin-top:0.8rem;font-size:0.7rem;color:#6a5e56;border-top:1px solid rgba(255,215,200,0.04);padding-top:0.6rem;display:flex;flex-wrap:wrap;gap:0.8rem;align-items:center;justify-content:space-between;">
+                    <span id="moon-click-trigger" style="cursor:pointer;display:inline-block;transition:0.3s;touch-action:manipulation;">🌙 click the moon</span>
+                    <button class="mobile-egg-btn" id="open-terminal-btn">🔍 terminal</button>
+                </div>
+            </div>
+            <div class="section-card">
+                <span class="card-icon">🌸</span>
+                <h3>little things</h3>
+                <p>The way you laugh. The way you talk. The way you don't even realize how adorable you are. Those little things stay in my mind much longer than they should.</p>
+                <div class="image-placeholder" style="aspect-ratio:16/8;margin-top:0.6rem;">
+                    <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400&h=200&fit=crop" alt="cherry blossom" />
+                    <span class="stock-label">🌸</span>
+                </div>
+            </div>
+        </div>
+        <div class="easter-hint">
+            <span>↑ ↑ ↓ ↓ ← → ← →</span>
+            <span>·</span>
+            <span>tap logo 5×</span>
+            <span>·</span>
+            <span>double‑tap 🌙</span>
+            <span>·</span>
+            <span><kbd>K</kbd> petals</span>
+            <span>·</span>
+            <span style="color:#6a5e56;">🔍 try the terminal...</span>
+        </div>
+        <!-- No "continue reading" button – proposal is an Easter egg -->
+    </div>
+
+    <!-- PROPOSAL PAGE (hidden by default – triggered via terminal) -->
+    <div class="page" id="proposal-page">
+        <div class="proposal-card glass">
+            <span class="envelope-icon">💌</span>
+            <h2>a letter for you</h2>
+            <div class="letter-text">
+                <p>Kanchan,</p>
+                <p>Life gives us countless people to meet. But every once in a while, someone arrives quietly… and starts making ordinary days feel a little brighter.</p>
+                <p>You've become that person for me.</p>
+                <p>Your smile stays with me long after we've talked. Your eyes have a way of making the world slow down. Your kindness, your laugh, and the little moments we share mean more to me than I can easily put into words.</p>
+                <p>I don't know what the future holds. But I'd genuinely like the chance to discover it with you.</p>
+                <p>Would you let me be the person who gets to know you a little more each day?</p>
+                <div class="sig">— Bishowdeep</div>
+            </div>
+
+            <div class="proposal-btns">
+                <button class="btn-yes" id="proposal-yes">❤️ Yes</button>
+                <button class="btn-later" id="proposal-later">😊 Let's take things slowly</button>
+            </div>
+            <div class="proposal-response" id="proposal-response"></div>
+
+            <!-- MESSAGE BOX -->
+            <div class="message-box">
+                <p style="font-size:0.8rem;color:#b8a69c;margin-bottom:0.4rem;">💬 send me a message (anything you'd like)</p>
+                <textarea id="message-input" placeholder="Type your message here…"></textarea>
+                <button class="send-btn" id="send-message-btn">Send Message ✦</button>
+                <div class="send-status" id="send-status"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ENDING PAGE -->
+    <div class="page" id="ending-page">
+        <div>
+            <span class="end-heart">🌙</span>
+            <h2>thank you</h2>
+            <p>for visiting this tiny corner of the internet.</p>
+            <p style="font-size:0.85rem;color:#6a5e56;margin-top:1.2rem;">no matter what your answer is, i'm really glad you were here.</p>
+            <p style="font-size:0.7rem;color:#4a403a;margin-top:2.5rem;letter-spacing:1px;">✦ made with too much coffee &amp; one very special inspiration ✦</p>
+        </div>
+    </div>
+
+    <!-- TERMINAL OVERLAY -->
+    <div id="terminal-overlay">
+        <div class="terminal-box">
+            <div class="term-header">
+                <span class="dot-red"></span>
+                <span class="dot-yellow"></span>
+                <span class="dot-green"></span>
+            </div>
+            <div class="term-prompt">research@heart:~$ <span id="term-cmd-display">search feelings</span></div>
+            <div class="term-output" id="term-output">
+                &gt; Searching...<br />
+                &gt; Found.<br />
+                &gt; One result.<br />
+                &gt; You.
+            </div>
+            <input class="term-input" id="term-input" placeholder="type a command…" autofocus />
+            <div class="term-close" id="term-close">[ close ]</div>
+        </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════ -->
+    <!--  JAVASCRIPT (with EmailJS & Easter egg triggers)    -->
+    <!-- ════════════════════════════════════════════════════ -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // ─── DOM REFS ───
+            const loginPage = document.getElementById('login-page');
+            const homePage = document.getElementById('home-page');
+            const proposalPage = document.getElementById('proposal-page');
+            const endingPage = document.getElementById('ending-page');
+            const usernameInput = document.getElementById('username-input');
+            const passwordInput = document.getElementById('password-input');
+            const loginBtn = document.getElementById('login-btn');
+            const loginError = document.getElementById('login-error');
+            const greetingTyped = document.getElementById('greeting-typed');
+            const proposalYes = document.getElementById('proposal-yes');
+            const proposalLater = document.getElementById('proposal-later');
+            const proposalResponse = document.getElementById('proposal-response');
+            const terminalOverlay = document.getElementById('terminal-overlay');
+            const termInput = document.getElementById('term-input');
+            const termOutput = document.getElementById('term-output');
+            const termClose = document.getElementById('term-close');
+            const moonTrigger = document.getElementById('moon-click-trigger');
+            const loginLogo = document.getElementById('login-logo');
+            const openTerminalBtn = document.getElementById('open-terminal-btn');
+            const sendMessageBtn = document.getElementById('send-message-btn');
+            const messageInput = document.getElementById('message-input');
+            const sendStatus = document.getElementById('send-status');
+
+            let currentPage = 'login';
+            let konamiIndex = 0;
+            const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft',
+                'ArrowRight', 'b', 'B'
+            ];
+            let konamiTriggered = false;
+            let proposalAnswered = false;
+            let terminalOpen = false;
+            let homeInitDone = false;
+
+            // ─── STARS ───
+            (function initStars() {
+                const canvas = document.getElementById('stars-canvas');
+                const ctx = canvas.getContext('2d');
+                let w, h, stars = [];
+
+                function resize() {
+                    w = canvas.width = window.innerWidth;
+                    h = canvas.height = window.innerHeight;
+                }
+                window.addEventListener('resize', resize);
+                resize();
+
+                for (let i = 0; i < 180; i++) {
+                    stars.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h,
+                        r: Math.random() * 1.2 + 0.3,
+                        a: Math.random() * 0.7 + 0.3,
+                        speed: Math.random() * 0.006 + 0.002
+                    });
+                }
+
+                function drawStars() {
+                    ctx.clearRect(0, 0, w, h);
+                    for (const s of stars) {
+                        s.a += (Math.random() - 0.5) * 0.01;
+                        s.a = Math.min(0.9, Math.max(0.2, s.a));
+                        ctx.beginPath();
+                        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(255,240,235,${s.a})`;
+                        ctx.fill();
+                    }
+                    requestAnimationFrame(drawStars);
+                }
+                drawStars();
+            })();
+
+            // ─── SAKURA PETALS ───
+            (function initPetals() {
+                const canvas = document.getElementById('petals-canvas');
+                const ctx = canvas.getContext('2d');
+                let w, h, petals = [];
+
+                function resize() {
+                    w = canvas.width = window.innerWidth;
+                    h = canvas.height = window.innerHeight;
+                }
+                window.addEventListener('resize', resize);
+                resize();
+
+                const colors = ['#f7d4d4', '#f5c8c8', '#f0b8b8', '#fce4ec', '#ffd6e0'];
+                for (let i = 0; i < 28; i++) {
+                    petals.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h - h,
+                        r: 4 + Math.random() * 8,
+                        speed: 0.4 + Math.random() * 0.8,
+                        drift: (Math.random() - 0.5) * 0.6,
+                        color: colors[Math.floor(Math.random() * colors.length)],
+                        phase: Math.random() * Math.PI * 2
+                    });
+                }
+
+                function drawPetals() {
+                    ctx.clearRect(0, 0, w, h);
+                    for (const p of petals) {
+                        p.y += p.speed;
+                        p.x += Math.sin(p.phase + p.y * 0.008) * 0.5 + p.drift;
+                        p.phase += 0.02;
+                        if (p.y > h + 20) { p.y = -20;
+                            p.x = Math.random() * w; }
+                        ctx.save();
+                        ctx.translate(p.x, p.y);
+                        ctx.rotate(p.y * 0.01);
+                        ctx.globalAlpha = 0.6 + Math.sin(p.phase) * 0.2;
+                        ctx.fillStyle = p.color;
+                        ctx.beginPath();
+                        ctx.ellipse(0, 0, p.r * 0.7, p.r * 0.4, 0, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                    requestAnimationFrame(drawPetals);
+                }
+                drawPetals();
+            })();
+
+            // ─── CURSOR GLOW ───
+            const glow = document.getElementById('cursor-glow');
+            document.addEventListener('mousemove', e => {
+                glow.style.left = e.clientX + 'px';
+                glow.style.top = e.clientY + 'px';
+            });
+            document.addEventListener('touchstart', () => { glow.style.opacity = '0'; });
+
+            // ─── PAGE TRANSITION ───
+            function showPage(pageId) {
+                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+                const target = document.getElementById(pageId);
+                if (target) {
+                    target.classList.add('active');
+                    target.style.opacity = '0';
+                    requestAnimationFrame(() => {
+                        target.style.opacity = '1';
+                    });
+                }
+                currentPage = pageId;
+            }
+
+            // ─── LOGIN ───
+            const correctPassword = 'kanchan';
+            let loginAttempts = 0;
+            const wrongMessages = [
+                'Hmm… not quite.',
+                'Maybe try something closer to your own heart?',
+                'You\'re beautiful. Computers, however, are strict.',
+                'Almost… but not yet.',
+                'The password is the name of someone I call my goddess.'
+            ];
+
+            function handleLogin() {
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value.trim();
+                if (!username) {
+                    loginError.textContent = 'Please enter your name first ✦';
+                    loginError.classList.add('show');
+                    return;
+                }
+                if (password.toLowerCase() === correctPassword) {
+                    loginError.classList.remove('show');
+                    showPage('home-page');
+                    initHome();
+                } else {
+                    loginAttempts++;
+                    const idx = Math.min(loginAttempts - 1, wrongMessages.length - 1);
+                    loginError.textContent = wrongMessages[idx] || 'Try again.';
+                    loginError.classList.add('show');
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                }
+            }
+
+            loginBtn.addEventListener('click', handleLogin);
+            passwordInput.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
+            usernameInput.addEventListener('keydown', e => { if (e.key === 'Enter') passwordInput.focus(); });
+
+            // Rotate password hint
+            const hints = [
+                '✦ sometimes the answer is simpler than you think ✦',
+                '✦ what if the password is simply your name? ✦',
+                '✦ the person this website was made for already knows it ✦',
+                '✦ the password is the name of someone I call my goddess ✦'
+            ];
+            let hintIdx = 0;
+            setInterval(() => {
+                const el = document.getElementById('password-hint');
+                if (el) {
+                    hintIdx = (hintIdx + 1) % hints.length;
+                    el.style.opacity = '0';
+                    setTimeout(() => {
+                        el.textContent = hints[hintIdx];
+                        el.style.opacity = '1';
+                    }, 300);
+                }
+            }, 4000);
+
+            // ─── MOBILE: tap login logo 5× → Konami egg ───
+            let logoClickCount = 0;
+            let logoResetTimer = null;
+            loginLogo.addEventListener('click', function(e) {
+                logoClickCount++;
+                if (logoClickCount >= 5) {
+                    logoClickCount = 0;
+                    if (!konamiTriggered) {
+                        konamiTriggered = true;
+                        triggerKonamiEgg();
+                    }
+                }
+                clearTimeout(logoResetTimer);
+                logoResetTimer = setTimeout(() => { logoClickCount = 0; }, 2000);
+            });
+
+            function triggerKonamiEgg() {
+                const overlay = document.createElement('div');
+                overlay.style.cssText =
+                    'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.92);display:flex;flex-direction:column;align-items:center;justify-content:center;animation:fadeIn 0.8s ease;padding:2rem;';
+                overlay.innerHTML = `
+                    <div style="font-size:3rem;margin-bottom:0.5rem;">🌌</div>
+                    <div style="font-family:'Great Vibes',cursive;font-size:2.4rem;color:#f5e6dc;text-align:center;">you found the hidden page</div>
+                    <div style="color:#b8a69c;margin-top:0.8rem;font-size:0.95rem;text-align:center;max-width:400px;line-height:1.8;">some places aren't meant for everyone.<br />but you? you're the exception.</div>
+                    <button style="margin-top:2rem;background:transparent;border:1px solid rgba(255,215,200,0.2);color:#b8a69c;padding:0.6rem 2rem;border-radius:40px;cursor:pointer;font-family:Poppins,sans-serif;font-size:0.85rem;letter-spacing:1px;touch-action:manipulation;" onclick="this.parentElement.remove()">continue ✦</button>
+                `;
+                document.body.appendChild(overlay);
+                confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+            }
+
+            // ─── HOME INIT ───
+            function initHome() {
+                if (homeInitDone) return;
+                homeInitDone = true;
+
+                const name = usernameInput.value.trim() || 'Goddess';
+
+                // Typed greeting
+                new Typed('#greeting-typed', {
+                    strings: [
+                        `Welcome, <span class="highlight">${name}</span> ❤️`,
+                        `Welcome, My Goddess ❤️`
+                    ],
+                    typeSpeed: 60,
+                    backSpeed: 30,
+                    backDelay: 3000,
+                    loop: true,
+                    cursorChar: '✦',
+                });
+
+                // ─── MOON: click 7× → crown ───
+                let moonClicks = 0;
+                moonTrigger.addEventListener('click', function(e) {
+                    moonClicks++;
+                    if (moonClicks >= 7) {
+                        moonClicks = 0;
+                        this.classList.add('moon-crowned');
+                        this.textContent = '👑';
+                        setTimeout(() => {
+                            this.classList.remove('moon-crowned');
+                            this.textContent = '🌙';
+                        }, 2000);
+                        const msg = document.createElement('div');
+                        msg.textContent = '👑 Even the moon knows its queen.';
+                        msg.style.cssText =
+                            'position:fixed;bottom:30%;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.7);backdrop-filter:blur(12px);padding:1rem 2rem;border-radius:40px;color:#f5e6dc;font-size:1rem;z-index:9999;font-family:Poppins,sans-serif;border:1px solid rgba(255,215,200,0.1);animation:fadeIn 0.6s ease;text-align:center;max-width:90%;';
+                        document.body.appendChild(msg);
+                        setTimeout(() => { msg.style.opacity = '0';
+                            setTimeout(() => msg.remove(), 600); }, 3000);
+                    } else {
+                        this.style.transform = 'scale(1.2)';
+                        setTimeout(() => { this.style.transform = 'scale(1)'; }, 200);
+                    }
+                });
+
+                // ─── MOON: double-tap → petals burst ───
+                moonTrigger.addEventListener('dblclick', function(e) {
+                    triggerPetalsBurst();
+                });
+
+                function triggerPetalsBurst() {
+                    for (let i = 0; i < 50; i++) {
+                        setTimeout(() => {
+                            confetti({
+                                particleCount: 6,
+                                spread: 40,
+                                origin: { x: Math.random(), y: Math.random() * 0.5 + 0.3 },
+                                colors: ['#f7d4d4', '#f5c8c8', '#f0b8b8', '#fce4ec', '#ffd6e0'],
+                                shapes: ['circle']
+                            });
+                        }, i * 30);
+                    }
+                    const msg = document.createElement('div');
+                    msg.textContent = '🌸 cherry blossoms for you';
+                    msg.style.cssText =
+                        'position:fixed;bottom:25%;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.6);backdrop-filter:blur(8px);padding:0.6rem 1.8rem;border-radius:40px;color:#f5e6dc;font-size:0.9rem;z-index:9999;font-family:Poppins,sans-serif;border:1px solid rgba(255,215,200,0.05);animation:fadeIn 0.5s ease;text-align:center;max-width:90%;';
+                    document.body.appendChild(msg);
+                    setTimeout(() => { msg.style.opacity = '0';
+                        setTimeout(() => msg.remove(), 500); }, 2000);
+                }
+
+                // ─── KONAMI CODE (keyboard) ───
+                document.addEventListener('keydown', function konami(e) {
+                    if (konamiTriggered) return;
+                    const key = e.key;
+                    if (key === konamiCode[konamiIndex] || key === konamiCode[konamiIndex]?.toLowerCase()) {
+                        konamiIndex++;
+                        if (konamiIndex === konamiCode.length) {
+                            konamiTriggered = true;
+                            triggerKonamiEgg();
+                        }
+                    } else {
+                        konamiIndex = 0;
+                    }
+                });
+
+                // ─── K KEY → petals burst (keyboard) ───
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'k' || e.key === 'K') {
+                        if (currentPage === 'home' || currentPage === 'proposal' || currentPage === 'ending') {
+                            triggerPetalsBurst();
+                        }
+                    }
+                });
+
+                // ─── CTRL+SHIFT+G → Terminal (keyboard) ───
+                document.addEventListener('keydown', function(e) {
+                    if (e.ctrlKey && e.shiftKey && (e.key === 'g' || e.key === 'G')) {
+                        e.preventDefault();
+                        openTerminal();
+                    }
+                });
+
+                // ─── TERMINAL BUTTON (mobile) ───
+                openTerminalBtn.addEventListener('click', openTerminal);
+
+                // ─── FLOATING HEARTS ───
+                document.addEventListener('click', function heartClick(e) {
+                    if (currentPage !== 'home' && currentPage !== 'proposal' && currentPage !== 'ending') return;
+                    const heart = document.createElement('span');
+                    heart.textContent = '❤️';
+                    heart.style.position = 'fixed';
+                    heart.style.left = e.clientX + 'px';
+                    heart.style.top = e.clientY + 'px';
+                    heart.style.fontSize = (14 + Math.random() * 24) + 'px';
+                    heart.style.pointerEvents = 'none';
+                    heart.style.zIndex = '9997';
+                    heart.style.transition = 'all 1.8s ease-out';
+                    heart.style.opacity = '1';
+                    heart.style.transform = 'translate(-50%, -50%) scale(0.5)';
+                    document.body.appendChild(heart);
+                    requestAnimationFrame(() => {
+                        heart.style.transform = `translate(-50%, -70%) scale(1.2)`;
+                        heart.style.opacity = '0';
+                        heart.style.marginTop = '-120px';
+                    });
+                    setTimeout(() => heart.remove(), 2000);
+                });
+            }
+
+            // ─── TERMINAL ───
+            function openTerminal() {
+                terminalOverlay.classList.add('open');
+                terminalOpen = true;
+                termInput.value = '';
+                termOutput.innerHTML = `&gt; Searching...<br />&gt; Found.<br />&gt; One result.<br />&gt; You.`;
+                termInput.focus();
+            }
+
+            termClose.addEventListener('click', () => {
+                terminalOverlay.classList.remove('open');
+                terminalOpen = false;
+            });
+
+            // ─── TERMINAL COMMANDS (including phone number trigger) ───
+            termInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    const cmd = this.value.trim();
+                    const lower = cmd.toLowerCase();
+                    let output = '';
+
+                    // ─── PHONE NUMBER TRIGGER (Easter egg) ───
+                    if (cmd === '9863454697') {
+                        // Close terminal and show proposal page
+                        terminalOverlay.classList.remove('open');
+                        terminalOpen = false;
+                        showPage('proposal-page');
+                        // Confetti celebration
+                        for (let i = 0; i < 4; i++) {
+                            setTimeout(() => {
+                                confetti({
+                                    particleCount: 80,
+                                    spread: 70,
+                                    origin: { y: 0.5 }
+                                });
+                            }, i * 200);
+                        }
+                        this.value = '';
+                        return;
+                    }
+
+                    // Other commands
+                    if (lower === 'search smile') output = '&gt; Searching...<br />&gt; Found: one radiant smile. 💛';
+                    else if (lower === 'search eyes') output = '&gt; Searching...<br />&gt; Found: eyes that hold the stars. ✨';
+                    else if (lower === 'search laugh') output = '&gt; Searching...<br />&gt; Found: the most infectious laugh. 🎵';
+                    else if (lower === 'search goddess') output =
+                        '&gt; Searching...<br />&gt; Found: you. always you. 👑';
+                    else if (lower === 'search future') output =
+                        '&gt; Searching...<br />&gt; 1 result found.<br />&gt; Hopefully… us. 🌙';
+                    else if (lower === 'help') output =
+                        '&gt; Commands: search smile, search eyes, search laugh, search goddess, search future, clear, exit, or try a secret number...';
+                    else if (lower === 'clear') { termOutput.innerHTML = '';
+                        this.value = '';
+                        return; } else if (lower === 'exit') { terminalOverlay.classList.remove('open');
+                        terminalOpen = false;
+                        return; } else if (lower === '') { output = ''; } else { output =
+                            `&gt; Command not recognized: "${cmd}"<br />&gt; Try: help`; }
+
+                    if (output) {
+                        termOutput.innerHTML += `<br />${output}`;
+                        termOutput.scrollTop = termOutput.scrollHeight;
+                    }
+                    this.value = '';
+                }
+            });
+
+            // ─── PROPOSAL BUTTONS (Yes / Later) ───
+            // These work as before, sending email via EmailJS
+            proposalYes.addEventListener('click', function() {
+                if (proposalAnswered) return;
+                proposalAnswered = true;
+
+                const userName = document.getElementById('username-input').value.trim() || 'Goddess';
+
+                emailjs.init({
+                    publicKey: 'w6eBtXs5ncsRW_Kni'
+                });
+
+                emailjs.send(
+                    'service_fya8l4g',
+                    'template_5v1wqiq', {
+                        userName: userName,
+                        answer: 'YES ❤️',
+                        time: new Date().toLocaleString()
+                    }
+                ).then(() => {
+                    console.log('✅ Email sent – she said YES!');
+                }).catch((err) => {
+                    console.log('❌ Email failed (safe to ignore)', err);
+                });
+
+                proposalResponse.innerHTML = '❤️ Thank you. That means more than you know. ❤️';
+                proposalResponse.style.color = '#dbb8a8';
+
+                for (let i = 0; i < 6; i++) {
+                    setTimeout(() => {
+                        confetti({
+                            particleCount: 120,
+                            spread: 90,
+                            origin: { x: Math.random(), y: Math.random() * 0.3 + 0.2 },
+                            startVelocity: 25
+                        });
+                    }, i * 350);
+                }
+                setTimeout(() => {
+                    confetti({
+                        particleCount: 200,
+                        spread: 120,
+                        origin: { y: 0.5 }
+                    });
+                }, 2000);
+                setTimeout(() => {
+                    showPage('ending-page');
+                }, 3500);
+            });
+
+            proposalLater.addEventListener('click', function() {
+                if (proposalAnswered) return;
+                proposalAnswered = true;
+
+                const userName = document.getElementById('username-input').value.trim() || 'Goddess';
+
+                emailjs.init({
+                    publicKey: 'w6eBtXs5ncsRW_Kni'
+                });
+
+                emailjs.send(
+                    'service_fya8l4g',
+                    'template_5v1wqiq', {
+                        userName: userName,
+                        answer: 'Let\'s take things slowly 😊',
+                        time: new Date().toLocaleString()
+                    }
+                ).then(() => {
+                    console.log('✅ Email sent – she chose slowly.');
+                }).catch((err) => {
+                    console.log('❌ Email failed (safe to ignore)', err);
+                });
+
+                proposalResponse.innerHTML =
+                    '😊 That\'s okay. Some of the best stories aren\'t rushed. I\'ll still be happy this little website made you smile.';
+                proposalResponse.style.color = '#b8a69c';
+                setTimeout(() => {
+                    showPage('ending-page');
+                }, 3000);
+            });
+
+            // ─── SEND MESSAGE via EmailJS ───
+            sendMessageBtn.addEventListener('click', function() {
+                const message = messageInput.value.trim();
+                if (!message) {
+                    sendStatus.textContent = '✍️ Please write something first.';
+                    sendStatus.style.color = '#b8a69c';
+                    return;
+                }
+
+                const userName = document.getElementById('username-input').value.trim() || 'Goddess';
+
+                emailjs.init({
+                    publicKey: 'w6eBtXs5ncsRW_Kni'
+                });
+
+                sendStatus.textContent = '⏳ Sending...';
+                sendStatus.style.color = '#dbb8a8';
+
+                emailjs.send(
+                    'service_fya8l4g',
+                    'template_5v1wqiq', {
+                        userName: userName,
+                        answer: '📩 MESSAGE',
+                        time: new Date().toLocaleString(),
+                        message: message // make sure your template has {{message}}
+                    }
+                ).then(() => {
+                    sendStatus.textContent = '✅ Message sent! Thank you 💛';
+                    sendStatus.style.color = '#7ecf8a';
+                    messageInput.value = '';
+                }).catch((err) => {
+                    console.log('❌ Message failed', err);
+                    sendStatus.textContent = '❌ Could not send. Please try again.';
+                    sendStatus.style.color = '#e8b4a0';
+                });
+            });
+
+            // ─── ESC to close terminal ───
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && terminalOpen) {
+                    terminalOverlay.classList.remove('open');
+                    terminalOpen = false;
+                }
+            });
+
+            // ─── DOUBLE-CLICK LOGO → dev notes ───
+            loginLogo.addEventListener('dblclick', function() {
+                const note = document.createElement('div');
+                note.style.cssText =
+                    'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.8);backdrop-filter:blur(10px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;animation:fadeIn 0.6s ease;';
+                note.innerHTML = `
+                        <div style="background:rgba(255,240,235,0.04);border:1px solid rgba(255,215,200,0.06);border-radius:28px;padding:2rem 1.8rem;max-width:440px;text-align:center;width:100%;">
+                            <div style="font-size:2.4rem;margin-bottom:0.4rem;">📝</div>
+                            <h3 style="font-family:'Great Vibes',cursive;font-size:2rem;color:#f5e6dc;font-weight:400;">developer notes</h3>
+                            <div style="color:#b8a69c;font-size:0.85rem;line-height:2;margin-top:0.8rem;font-weight:300;">
+                                v1.0<br />
+                                Made with:<br />
+                                ☕ too much coffee<br />
+                                🤔 too much overthinking<br />
+                                ✨ one very special inspiration.
+                            </div>
+                            <button style="margin-top:1.8rem;background:transparent;border:1px solid rgba(255,215,200,0.1);color:#6a5e56;padding:0.4rem 1.8rem;border-radius:40px;cursor:pointer;font-family:Poppins,sans-serif;font-size:0.75rem;letter-spacing:1px;touch-action:manipulation;" onclick="this.closest('div[style]').remove()">close</button>
+                        </div>
+                    `;
+                document.body.appendChild(note);
+            });
+
+            // ─── 5 MINUTE MESSAGE ───
+            setTimeout(() => {
+                if (currentPage === 'home' || currentPage === 'proposal') {
+                    const msg = document.createElement('div');
+                    msg.textContent =
+                        '✨ Thank you for spending these few minutes here. They already mean a lot to me.';
+                    msg.style.cssText =
+                        'position:fixed;bottom:10%;left:50%;transform:translateX(-50%);background:rgba(0,0,0,0.65);backdrop-filter:blur(12px);padding:0.8rem 1.8rem;border-radius:40px;color:#f5e6dc;font-size:0.85rem;z-index:9998;font-family:Poppins,sans-serif;border:1px solid rgba(255,215,200,0.05);animation:fadeIn 1.2s ease;text-align:center;max-width:90%;';
+                    document.body.appendChild(msg);
+                    setTimeout(() => { msg.style.opacity = '0';
+                        setTimeout(() => msg.remove(), 800); }, 5000);
+                }
+            }, 300000);
+
+            // ─── SPACEBAR → fireworks on proposal ───
+            document.addEventListener('keydown', function(e) {
+                if (e.key === ' ' && currentPage === 'proposal' && !proposalAnswered) {
+                    e.preventDefault();
+                    for (let i = 0; i < 8; i++) {
+                        setTimeout(() => {
+                            confetti({
+                                particleCount: 40,
+                                spread: 60,
+                                origin: { x: Math.random(), y: Math.random() * 0.3 + 0.1 },
+                                startVelocity: 20
+                            });
+                        }, i * 120);
+                    }
+                }
+            });
+
+            // ─── PREVENT DEFAULT CONTEXT MENU ───
+            document.addEventListener('contextmenu', e => e.preventDefault());
+
+            console.log('🌸 A Small Corner of the Internet — built with love and overthinking.');
+            console.log('📱 Mobile friendly: tap logo 5×, double-tap moon, terminal button, and more!');
+            console.log('📧 EmailJS will send you notifications.');
+            console.log('🔢 Secret code to unlock proposal: 9863454697 (type in terminal)');
+        });
+    </script>
+
+</body>
+</html>
