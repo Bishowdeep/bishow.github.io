@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+</head>
+<body>
+    <button onclick="sendTest()">Send Test Email</button>
+    <p id="status"></p>
+    <script>
+        function sendTest() {
+            emailjs.init({
+                publicKey: 'w6eBtXs5ncsRW_Kni'
+            });
+
+            emailjs.send(
+                'service_fya8l4g',
+                'template_5v1wqiq', {
+                    userName: 'Test User',
+                    answer: 'TEST',
+                    time: new Date().toLocaleString(),
+                    message: 'This is a test email from EmailJS.'
+                }
+            ).then(() => {
+                document.getElementById('status').textContent = '✅ Email sent! Check your inbox/spam.';
+            }).catch((err) => {
+                document.getElementById('status').textContent = '❌ Failed: ' + err.text;
+                console.error(err);
+            });
+        }
+    </script>
+</body>
+</html>
