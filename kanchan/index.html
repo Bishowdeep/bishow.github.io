@@ -17,6 +17,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
     </script>
 
+    <!-- (styles – same as before, keep them) -->
     <style>
         /* ───── RESET & BASE ───── */
         * {
@@ -506,7 +507,6 @@
             font-weight: 300;
             font-style: italic;
         }
-        /* Message box */
         .message-box {
             margin-top: 2rem;
             border-top: 1px solid rgba(255, 215, 200, 0.08);
@@ -883,10 +883,9 @@
             <span>·</span>
             <span style="color:#6a5e56;">🔍 try the terminal...</span>
         </div>
-        <!-- No "continue reading" button – proposal is an Easter egg -->
     </div>
 
-    <!-- PROPOSAL PAGE (hidden by default – triggered via terminal) -->
+    <!-- PROPOSAL PAGE -->
     <div class="page" id="proposal-page">
         <div class="proposal-card glass">
             <span class="envelope-icon">💌</span>
@@ -949,7 +948,7 @@
     </div>
 
     <!-- ════════════════════════════════════════════════════ -->
-    <!--  JAVASCRIPT (with EmailJS & Easter egg triggers)    -->
+    <!--  JAVASCRIPT (Fixed EmailJS with correct template)    -->
     <!-- ════════════════════════════════════════════════════ -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1337,11 +1336,9 @@
 
                     // ─── PHONE NUMBER TRIGGER (Easter egg) ───
                     if (cmd === '9863454697') {
-                        // Close terminal and show proposal page
                         terminalOverlay.classList.remove('open');
                         terminalOpen = false;
                         showPage('proposal-page');
-                        // Confetti celebration
                         for (let i = 0; i < 4; i++) {
                             setTimeout(() => {
                                 confetti({
@@ -1380,13 +1377,17 @@
                 }
             });
 
-            // ─── PROPOSAL BUTTONS (Yes / Later) ───
-            // These work as before, sending email via EmailJS
+            // ════════════════════════════════════════════════════
+            //  EMAILJS – FIXED with correct template and variables
+            // ════════════════════════════════════════════════════
+
+            // ─── PROPOSAL YES ───
             proposalYes.addEventListener('click', function() {
                 if (proposalAnswered) return;
                 proposalAnswered = true;
 
-                const userName = document.getElementById('username-input').value.trim() || 'Goddess';
+                const name = document.getElementById('username-input').value.trim() || 'Goddess';
+                const now = new Date().toLocaleString();
 
                 emailjs.init({
                     publicKey: 'w6eBtXs5ncsRW_Kni'
@@ -1394,15 +1395,18 @@
 
                 emailjs.send(
                     'service_fya8l4g',
-                    'template_5v1wqiq', {
-                        userName: userName,
-                        answer: 'YES ❤️',
-                        time: new Date().toLocaleString()
+                    'template_a6cswfu', // ← CORRECT TEMPLATE ID
+                    {
+                        name: name,
+                        time: now,
+                        message: 'Answer: YES ❤️', // We put the answer in the message field
+                        userName: name, // optional if your template has {{userName}}
+                        answer: 'YES ❤️' // optional if your template has {{answer}}
                     }
                 ).then(() => {
                     console.log('✅ Email sent – she said YES!');
                 }).catch((err) => {
-                    console.log('❌ Email failed (safe to ignore)', err);
+                    console.log('❌ Email failed:', err);
                 });
 
                 proposalResponse.innerHTML = '❤️ Thank you. That means more than you know. ❤️';
@@ -1430,11 +1434,13 @@
                 }, 3500);
             });
 
+            // ─── PROPOSAL LATER ───
             proposalLater.addEventListener('click', function() {
                 if (proposalAnswered) return;
                 proposalAnswered = true;
 
-                const userName = document.getElementById('username-input').value.trim() || 'Goddess';
+                const name = document.getElementById('username-input').value.trim() || 'Goddess';
+                const now = new Date().toLocaleString();
 
                 emailjs.init({
                     publicKey: 'w6eBtXs5ncsRW_Kni'
@@ -1442,15 +1448,18 @@
 
                 emailjs.send(
                     'service_fya8l4g',
-                    'template_5v1wqiq', {
-                        userName: userName,
-                        answer: 'Let\'s take things slowly 😊',
-                        time: new Date().toLocaleString()
+                    'template_a6cswfu',
+                    {
+                        name: name,
+                        time: now,
+                        message: 'Answer: Let\'s take things slowly 😊',
+                        userName: name,
+                        answer: 'Let\'s take things slowly 😊'
                     }
                 ).then(() => {
                     console.log('✅ Email sent – she chose slowly.');
                 }).catch((err) => {
-                    console.log('❌ Email failed (safe to ignore)', err);
+                    console.log('❌ Email failed:', err);
                 });
 
                 proposalResponse.innerHTML =
@@ -1461,7 +1470,7 @@
                 }, 3000);
             });
 
-            // ─── SEND MESSAGE via EmailJS ───
+            // ─── SEND MESSAGE ───
             sendMessageBtn.addEventListener('click', function() {
                 const message = messageInput.value.trim();
                 if (!message) {
@@ -1470,7 +1479,8 @@
                     return;
                 }
 
-                const userName = document.getElementById('username-input').value.trim() || 'Goddess';
+                const name = document.getElementById('username-input').value.trim() || 'Goddess';
+                const now = new Date().toLocaleString();
 
                 emailjs.init({
                     publicKey: 'w6eBtXs5ncsRW_Kni'
@@ -1481,18 +1491,20 @@
 
                 emailjs.send(
                     'service_fya8l4g',
-                    'template_5v1wqiq', {
-                        userName: userName,
-                        answer: '📩 MESSAGE',
-                        time: new Date().toLocaleString(),
-                        message: message // make sure your template has {{message}}
+                    'template_a6cswfu',
+                    {
+                        name: name,
+                        time: now,
+                        message: message,
+                        userName: name,
+                        answer: 'Message sent via box'
                     }
                 ).then(() => {
                     sendStatus.textContent = '✅ Message sent! Thank you 💛';
                     sendStatus.style.color = '#7ecf8a';
                     messageInput.value = '';
                 }).catch((err) => {
-                    console.log('❌ Message failed', err);
+                    console.log('❌ Message failed:', err);
                     sendStatus.textContent = '❌ Could not send. Please try again.';
                     sendStatus.style.color = '#e8b4a0';
                 });
@@ -1563,8 +1575,7 @@
             document.addEventListener('contextmenu', e => e.preventDefault());
 
             console.log('🌸 A Small Corner of the Internet — built with love and overthinking.');
-            console.log('📱 Mobile friendly: tap logo 5×, double-tap moon, terminal button, and more!');
-            console.log('📧 EmailJS will send you notifications.');
+            console.log('📧 EmailJS is now using template: template_a6cswfu');
             console.log('🔢 Secret code to unlock proposal: 9863454697 (type in terminal)');
         });
     </script>
