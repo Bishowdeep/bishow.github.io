@@ -747,7 +747,7 @@
             align-items: center;
             gap: 0.5rem;
         }
-        /* ─── MEMORY CARD GAME ─── */
+        /* ─── MEMORY CARD GAME (FIXED) ─── */
         .memory-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -763,49 +763,27 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 2.2rem;
             cursor: pointer;
-            transition: transform 0.3s, background 0.3s;
+            transition: background 0.3s, transform 0.2s;
             user-select: none;
             touch-action: manipulation;
-            position: relative;
+            font-weight: 400;
+            color: #f5ede7;
+        }
+        .memory-card:active {
+            transform: scale(0.95);
         }
         .memory-card.flipped {
-            background: rgba(255, 215, 200, 0.15);
+            background: rgba(255, 215, 200, 0.18);
             border-color: #dbb8a8;
         }
         .memory-card.matched {
             background: rgba(255, 215, 200, 0.05);
             border-color: #b8866b;
-            opacity: 0.6;
+            opacity: 0.5;
             cursor: default;
             pointer-events: none;
-        }
-        .memory-card .card-back {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-        }
-        .memory-card .card-front {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-        }
-        .memory-card.flipped .card-back {
-            display: none;
-        }
-        .memory-card.flipped .card-front {
-            display: flex;
-        }
-        .memory-card.matched .card-front {
-            display: flex;
-        }
-        .memory-card.matched .card-back {
-            display: none;
         }
         .game-status {
             margin-top: 1rem;
@@ -1150,7 +1128,7 @@
                     <span class="stock-label">🌸</span>
                 </div>
             </div>
-            <!-- NEW: Mini Games card -->
+            <!-- Mini Games card -->
             <div class="section-card" style="grid-column: 1 / -1;">
                 <span class="card-icon">🎮</span>
                 <h3>mini games</h3>
@@ -1184,7 +1162,7 @@
             <p style="color:#b8a69c;font-size:0.85rem;margin-bottom:0.8rem;">Find the matching pairs of romantic emojis.</p>
             <div class="memory-grid" id="memory-grid"></div>
             <div class="game-status" id="memory-status">Tap a card to flip</div>
-            <div class="memory-hint">💡 Tap a card to flip it, find the matching pair</div>
+            <div class="memory-hint">💡 Tap a card to reveal the emoji, find its match</div>
             <button class="reset-btn" id="memory-reset">🔄 New Game</button>
         </div>
 
@@ -1769,12 +1747,13 @@
                 }
             });
 
-            // ─── MEMORY CARD GAME ───
+            // ─── MEMORY CARD GAME (FIXED – simpler approach) ───
             const memoryEmojis = ['❤️', '🌹', '💕', '✨', '🎶', '🍫', '🌙', '💌'];
             let memoryCards = [];
             let memoryFlipped = [];
             let memoryLocked = false;
             let memoryMatches = 0;
+            let memoryCardElements = [];
 
             function initMemoryGame() {
                 const grid = memoryGrid;
@@ -1783,8 +1762,9 @@
                 memoryLocked = false;
                 memoryMatches = 0;
                 memoryStatus.textContent = 'Tap a card to flip';
+                memoryCardElements = [];
 
-                // Double the emojis and shuffle
+                // Double and shuffle
                 let deck = [...memoryEmojis, ...memoryEmojis];
                 for (let i = deck.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
@@ -1797,19 +1777,23 @@
                     card.className = 'memory-card';
                     card.dataset.index = index;
                     card.dataset.emoji = emoji;
-                    card.innerHTML = `
-                        <div class="card-back">?</div>
-                        <div class="card-front">${emoji}</div>
-                    `;
+                    card.dataset.flipped = 'false';
+                    card.dataset.matched = 'false';
+                    card.textContent = '?';
                     card.addEventListener('click', () => flipCard(card));
                     grid.appendChild(card);
+                    memoryCardElements.push(card);
                 });
             }
 
             function flipCard(card) {
                 if (memoryLocked) return;
-                if (card.classList.contains('flipped') || card.classList.contains('matched')) return;
+                if (card.dataset.flipped === 'true') return;
+                if (card.dataset.matched === 'true') return;
 
+                // Reveal the emoji
+                card.textContent = card.dataset.emoji;
+                card.dataset.flipped = 'true';
                 card.classList.add('flipped');
                 memoryFlipped.push(card);
 
@@ -1821,11 +1805,15 @@
                     const emoji2 = card2.dataset.emoji;
 
                     if (emoji1 === emoji2) {
+                        // Match!
+                        card1.dataset.matched = 'true';
+                        card2.dataset.matched = 'true';
                         card1.classList.add('matched');
                         card2.classList.add('matched');
                         memoryMatches++;
                         memoryFlipped = [];
                         memoryLocked = false;
+
                         if (memoryMatches === 8) {
                             memoryStatus.textContent = '🎉 You found all pairs! You\'re amazing! 💖';
                             for (let i = 0; i < 3; i++) {
@@ -1838,12 +1826,18 @@
                                 }, i * 300);
                             }
                         } else {
-                            memoryStatus.textContent = `Found ${memoryMatches} pair${memoryMatches>1?'s':''}! Keep going!`;
+                            memoryStatus.textContent =
+                                `Found ${memoryMatches} pair${memoryMatches>1?'s':''}! Keep going!`;
                         }
                     } else {
+                        // No match – flip back after delay
                         memoryStatus.textContent = 'Not a match, try again!';
                         setTimeout(() => {
+                            card1.textContent = '?';
+                            card1.dataset.flipped = 'false';
                             card1.classList.remove('flipped');
+                            card2.textContent = '?';
+                            card2.dataset.flipped = 'false';
                             card2.classList.remove('flipped');
                             memoryFlipped = [];
                             memoryLocked = false;
@@ -1912,7 +1906,7 @@
                 }
             });
 
-            // ─── EMAILJS ─── (unchanged)
+            // ─── EMAILJS ───
             // ─── PROPOSAL YES ───
             proposalYes.addEventListener('click', function() {
                 if (proposalAnswered) return;
