@@ -769,7 +769,6 @@
             user-select: none;
             touch-action: manipulation;
             position: relative;
-            transform-style: preserve-3d;
         }
         .memory-card.flipped {
             background: rgba(255, 215, 200, 0.15);
@@ -778,85 +777,35 @@
         .memory-card.matched {
             background: rgba(255, 215, 200, 0.05);
             border-color: #b8866b;
-            opacity: 0.5;
+            opacity: 0.6;
             cursor: default;
             pointer-events: none;
         }
-        .memory-card .card-face {
-            backface-visibility: hidden;
-            position: absolute;
-            inset: 0;
+        .memory-card .card-back {
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 16px;
-            font-size: 2.2rem;
-        }
-        .memory-card .card-back {
-            background: rgba(255, 215, 200, 0.08);
-            transform: rotateY(0deg);
-        }
-        .memory-card .card-front {
-            background: rgba(255, 215, 200, 0.12);
-            transform: rotateY(180deg);
-        }
-        .memory-card.flipped .card-back {
-            transform: rotateY(180deg);
-        }
-        .memory-card.flipped .card-front {
-            transform: rotateY(0deg);
-        }
-        /* fallback for old browsers */
-        .memory-card .card-front,
-        .memory-card .card-back {
-            transition: transform 0.4s ease;
-        }
-        /* simple fallback: show emoji directly without 3D */
-        .memory-card .card-front {
-            display: none;
-        }
-        .memory-card.flipped .card-front {
-            display: flex;
-        }
-        .memory-card.flipped .card-back {
-            display: none;
-        }
-        /* better: use 3D transforms */
-        .memory-card .card-inner {
             width: 100%;
             height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            transition: transform 0.4s ease;
-            border-radius: 16px;
-        }
-        .memory-card.flipped .card-inner {
-            transform: rotateY(180deg);
-        }
-        .memory-card .card-front,
-        .memory-card .card-back {
-            position: absolute;
-            inset: 0;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.2rem;
-            backface-visibility: hidden;
-        }
-        .memory-card .card-back {
-            background: rgba(255, 215, 200, 0.08);
-            transform: rotateY(0deg);
         }
         .memory-card .card-front {
-            background: rgba(255, 215, 200, 0.12);
-            transform: rotateY(180deg);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
         }
-        .memory-card.matched .card-inner {
-            transform: rotateY(180deg);
+        .memory-card.flipped .card-back {
+            display: none;
+        }
+        .memory-card.flipped .card-front {
+            display: flex;
         }
         .memory-card.matched .card-front {
-            opacity: 0.7;
+            display: flex;
+        }
+        .memory-card.matched .card-back {
+            display: none;
         }
         .game-status {
             margin-top: 1rem;
@@ -881,7 +830,12 @@
         .reset-btn:active {
             transform: scale(0.95);
         }
-
+        .memory-hint {
+            font-size: 0.7rem;
+            color: #6a5e56;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
         /* ─── LOVE METER ─── */
         .love-meter-container {
             text-align: center;
@@ -945,7 +899,6 @@
             min-height: 2.5rem;
             font-style: italic;
         }
-
         /* ───── RESPONSIVE ───── */
         @media (max-width: 600px) {
             .login-card {
@@ -999,8 +952,7 @@
             .memory-grid {
                 gap: 0.4rem;
             }
-            .memory-card .card-front,
-            .memory-card .card-back {
+            .memory-card {
                 font-size: 1.6rem;
             }
             .game-section {
@@ -1085,7 +1037,6 @@
             pointer-events: none;
             z-index: 9998;
         }
-
         /* ─── MUSIC TOGGLE BUTTON ─── */
         #music-toggle {
             position: fixed;
@@ -1123,7 +1074,7 @@
     <!-- ─── BACKGROUND MUSIC ─── -->
     <audio id="bg-music" loop preload="auto">
         <!-- REPLACE this src with the actual URL of her favourite song -->
-        <source src="images/YOUR_SONG_URL.mp3" type="audio/mpeg" />
+        <source src="YOUR_SONG_URL.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
     </audio>
 
@@ -1232,7 +1183,8 @@
             <h3>🧠 memory match</h3>
             <p style="color:#b8a69c;font-size:0.85rem;margin-bottom:0.8rem;">Find the matching pairs of romantic emojis.</p>
             <div class="memory-grid" id="memory-grid"></div>
-            <div class="game-status" id="memory-status">Find all pairs!</div>
+            <div class="game-status" id="memory-status">Tap a card to flip</div>
+            <div class="memory-hint">💡 Tap a card to flip it, find the matching pair</div>
             <button class="reset-btn" id="memory-reset">🔄 New Game</button>
         </div>
 
@@ -1830,11 +1782,14 @@
                 memoryFlipped = [];
                 memoryLocked = false;
                 memoryMatches = 0;
-                memoryStatus.textContent = 'Find all pairs!';
+                memoryStatus.textContent = 'Tap a card to flip';
 
                 // Double the emojis and shuffle
                 let deck = [...memoryEmojis, ...memoryEmojis];
-                deck = deck.sort(() => Math.random() - 0.5);
+                for (let i = deck.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [deck[i], deck[j]] = [deck[j], deck[i]];
+                }
                 memoryCards = deck;
 
                 deck.forEach((emoji, index) => {
@@ -1843,10 +1798,8 @@
                     card.dataset.index = index;
                     card.dataset.emoji = emoji;
                     card.innerHTML = `
-                        <div class="card-inner">
-                            <div class="card-back">?</div>
-                            <div class="card-front">${emoji}</div>
-                        </div>
+                        <div class="card-back">?</div>
+                        <div class="card-front">${emoji}</div>
                     `;
                     card.addEventListener('click', () => flipCard(card));
                     grid.appendChild(card);
@@ -1875,7 +1828,6 @@
                         memoryLocked = false;
                         if (memoryMatches === 8) {
                             memoryStatus.textContent = '🎉 You found all pairs! You\'re amazing! 💖';
-                            // confetti
                             for (let i = 0; i < 3; i++) {
                                 setTimeout(() => {
                                     confetti({
@@ -1889,14 +1841,13 @@
                             memoryStatus.textContent = `Found ${memoryMatches} pair${memoryMatches>1?'s':''}! Keep going!`;
                         }
                     } else {
-                        // Unflip after delay
                         memoryStatus.textContent = 'Not a match, try again!';
                         setTimeout(() => {
                             card1.classList.remove('flipped');
                             card2.classList.remove('flipped');
                             memoryFlipped = [];
                             memoryLocked = false;
-                            memoryStatus.textContent = memoryMatches === 0 ? 'Find all pairs!' :
+                            memoryStatus.textContent = memoryMatches === 0 ? 'Tap a card to flip' :
                                 `Found ${memoryMatches} pair${memoryMatches>1?'s':''}!`;
                         }, 600);
                     }
@@ -1919,11 +1870,9 @@
                 'You\'re perfect 🌙'
             ];
             let loveLevel = 0;
-            let loveMessageIndex = 0;
 
             function resetLoveMeter() {
                 loveLevel = 0;
-                loveMessageIndex = 0;
                 loveMeterFill.style.width = '0%';
                 loveMeterLabel.textContent = '0%';
                 loveMeterBtn.disabled = false;
@@ -1935,13 +1884,11 @@
             loveMeterBtn.addEventListener('click', function() {
                 if (loveLevel >= 100) return;
 
-                // Increase by random 5-15%
                 const increment = 5 + Math.floor(Math.random() * 11);
                 loveLevel = Math.min(100, loveLevel + increment);
                 loveMeterFill.style.width = loveLevel + '%';
                 loveMeterLabel.textContent = loveLevel + '%';
 
-                // Show random message
                 if (loveLevel < 100) {
                     const msg = loveMessages[Math.floor(Math.random() * loveMessages.length)];
                     loveMessage.textContent = msg;
@@ -1953,7 +1900,6 @@
                     loveMeterBtn.textContent = '💖 Full!';
                     loveMessage.textContent = '💖 You filled my heart with love! I\'m yours. 💖';
                     loveMessage.style.color = '#ff6b6b';
-                    // confetti
                     for (let i = 0; i < 5; i++) {
                         setTimeout(() => {
                             confetti({
@@ -1966,8 +1912,7 @@
                 }
             });
 
-            // ─── EMAILJS ───
-            // (unchanged – keep existing code for proposal and message)
+            // ─── EMAILJS ─── (unchanged)
             // ─── PROPOSAL YES ───
             proposalYes.addEventListener('click', function() {
                 if (proposalAnswered) return;
