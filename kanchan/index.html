@@ -348,6 +348,26 @@
             border-radius: 20px;
             letter-spacing: 0.5px;
         }
+        .section-card .play-btn {
+            margin-top: 0.8rem;
+            padding: 0.5rem 1.5rem;
+            border: 1px solid rgba(255, 215, 200, 0.15);
+            border-radius: 40px;
+            background: transparent;
+            color: #dbb8a8;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.3s;
+            touch-action: manipulation;
+        }
+        .section-card .play-btn:hover {
+            background: rgba(255, 215, 200, 0.05);
+            transform: scale(1.02);
+        }
+        .section-card .play-btn:active {
+            transform: scale(0.96);
+        }
         .obs-list {
             list-style: none;
             padding: 0;
@@ -670,6 +690,263 @@
         .terminal-box .term-close:active {
             color: #dbb8a8;
         }
+        /* ───── GAMES PAGE ───── */
+        #games-page {
+            padding: 1.5rem 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .games-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .games-header h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.2rem;
+            color: #f5e6dc;
+            font-weight: 400;
+            margin: 0;
+        }
+        .games-header .back-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 215, 200, 0.1);
+            color: #b8a69c;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            transition: 0.3s;
+            touch-action: manipulation;
+        }
+        .games-header .back-btn:active {
+            transform: scale(0.95);
+        }
+        .game-section {
+            background: rgba(255, 240, 235, 0.04);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 215, 200, 0.06);
+            border-radius: 28px;
+            padding: 1.8rem 1.5rem;
+            margin-bottom: 2rem;
+            width: 100%;
+        }
+        .game-section h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #f5ede7;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        /* ─── MEMORY CARD GAME ─── */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.6rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .memory-card {
+            aspect-ratio: 1 / 1;
+            background: rgba(255, 215, 200, 0.08);
+            border: 1px solid rgba(255, 215, 200, 0.1);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+            user-select: none;
+            touch-action: manipulation;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        .memory-card.flipped {
+            background: rgba(255, 215, 200, 0.15);
+            border-color: #dbb8a8;
+        }
+        .memory-card.matched {
+            background: rgba(255, 215, 200, 0.05);
+            border-color: #b8866b;
+            opacity: 0.5;
+            cursor: default;
+            pointer-events: none;
+        }
+        .memory-card .card-face {
+            backface-visibility: hidden;
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            font-size: 2.2rem;
+        }
+        .memory-card .card-back {
+            background: rgba(255, 215, 200, 0.08);
+            transform: rotateY(0deg);
+        }
+        .memory-card .card-front {
+            background: rgba(255, 215, 200, 0.12);
+            transform: rotateY(180deg);
+        }
+        .memory-card.flipped .card-back {
+            transform: rotateY(180deg);
+        }
+        .memory-card.flipped .card-front {
+            transform: rotateY(0deg);
+        }
+        /* fallback for old browsers */
+        .memory-card .card-front,
+        .memory-card .card-back {
+            transition: transform 0.4s ease;
+        }
+        /* simple fallback: show emoji directly without 3D */
+        .memory-card .card-front {
+            display: none;
+        }
+        .memory-card.flipped .card-front {
+            display: flex;
+        }
+        .memory-card.flipped .card-back {
+            display: none;
+        }
+        /* better: use 3D transforms */
+        .memory-card .card-inner {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.4s ease;
+            border-radius: 16px;
+        }
+        .memory-card.flipped .card-inner {
+            transform: rotateY(180deg);
+        }
+        .memory-card .card-front,
+        .memory-card .card-back {
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            backface-visibility: hidden;
+        }
+        .memory-card .card-back {
+            background: rgba(255, 215, 200, 0.08);
+            transform: rotateY(0deg);
+        }
+        .memory-card .card-front {
+            background: rgba(255, 215, 200, 0.12);
+            transform: rotateY(180deg);
+        }
+        .memory-card.matched .card-inner {
+            transform: rotateY(180deg);
+        }
+        .memory-card.matched .card-front {
+            opacity: 0.7;
+        }
+        .game-status {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #b8a69c;
+            text-align: center;
+        }
+        .reset-btn {
+            display: inline-block;
+            margin: 0.8rem auto 0;
+            padding: 0.4rem 1.5rem;
+            border: 1px solid rgba(255, 215, 200, 0.1);
+            border-radius: 40px;
+            background: transparent;
+            color: #b8a69c;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.3s;
+            touch-action: manipulation;
+        }
+        .reset-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* ─── LOVE METER ─── */
+        .love-meter-container {
+            text-align: center;
+            margin: 1rem 0;
+        }
+        .love-meter {
+            width: 100%;
+            max-width: 300px;
+            height: 30px;
+            background: rgba(255, 215, 200, 0.08);
+            border-radius: 40px;
+            overflow: hidden;
+            margin: 0 auto;
+            border: 1px solid rgba(255, 215, 200, 0.1);
+            position: relative;
+        }
+        .love-meter-fill {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #b8866b, #dbb8a8);
+            border-radius: 40px;
+            transition: width 0.5s ease;
+        }
+        .love-meter-label {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #f5ede7;
+            mix-blend-mode: difference;
+        }
+        .love-meter-btn {
+            margin-top: 0.8rem;
+            padding: 0.5rem 2rem;
+            border: none;
+            border-radius: 40px;
+            background: linear-gradient(135deg, #b8866b, #a06b50);
+            color: #fff;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            touch-action: manipulation;
+            box-shadow: 0 4px 20px rgba(184, 134, 107, 0.2);
+        }
+        .love-meter-btn:active {
+            transform: scale(0.95);
+        }
+        .love-meter-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .love-message {
+            margin-top: 0.8rem;
+            font-size: 0.9rem;
+            color: #dbb8a8;
+            min-height: 2.5rem;
+            font-style: italic;
+        }
+
+        /* ───── RESPONSIVE ───── */
         @media (max-width: 600px) {
             .login-card {
                 padding: 2rem 1.2rem;
@@ -715,6 +992,19 @@
             .message-box textarea {
                 font-size: 0.8rem;
                 min-height: 60px;
+            }
+            .games-header h2 {
+                font-size: 1.8rem;
+            }
+            .memory-grid {
+                gap: 0.4rem;
+            }
+            .memory-card .card-front,
+            .memory-card .card-back {
+                font-size: 1.6rem;
+            }
+            .game-section {
+                padding: 1.2rem 0.8rem;
             }
         }
         .hidden {
@@ -833,7 +1123,7 @@
     <!-- ─── BACKGROUND MUSIC ─── -->
     <audio id="bg-music" loop preload="auto">
         <!-- REPLACE this src with the actual URL of her favourite song -->
-        <source src="images/YOUR_SONG_URL.mp3" type="audio/mpeg" />
+        <source src="YOUR_SONG_URL.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
     </audio>
 
@@ -909,6 +1199,13 @@
                     <span class="stock-label">🌸</span>
                 </div>
             </div>
+            <!-- NEW: Mini Games card -->
+            <div class="section-card" style="grid-column: 1 / -1;">
+                <span class="card-icon">🎮</span>
+                <h3>mini games</h3>
+                <p>Play some love‑themed games and have fun! Memory match and a sweet love meter.</p>
+                <button class="play-btn" id="go-to-games-btn">Play Games →</button>
+            </div>
         </div>
         <div class="easter-hint">
             <span>↑ ↑ ↓ ↓ ← → ← →</span>
@@ -920,6 +1217,37 @@
             <span><kbd>K</kbd> petals</span>
             <span>·</span>
             <span style="color:#6a5e56;">🔍 try the terminal...</span>
+        </div>
+    </div>
+
+    <!-- GAMES PAGE -->
+    <div class="page" id="games-page">
+        <div class="games-header">
+            <h2>🎮 mini games</h2>
+            <button class="back-btn" id="games-back-btn">← Back to Home</button>
+        </div>
+
+        <!-- Memory Card Game -->
+        <div class="game-section">
+            <h3>🧠 memory match</h3>
+            <p style="color:#b8a69c;font-size:0.85rem;margin-bottom:0.8rem;">Find the matching pairs of romantic emojis.</p>
+            <div class="memory-grid" id="memory-grid"></div>
+            <div class="game-status" id="memory-status">Find all pairs!</div>
+            <button class="reset-btn" id="memory-reset">🔄 New Game</button>
+        </div>
+
+        <!-- Love Meter -->
+        <div class="game-section">
+            <h3>❤️ love meter</h3>
+            <p style="color:#b8a69c;font-size:0.85rem;margin-bottom:0.8rem;">Tap the button to fill the meter with love.</p>
+            <div class="love-meter-container">
+                <div class="love-meter">
+                    <div class="love-meter-fill" id="love-meter-fill" style="width:0%;"></div>
+                    <div class="love-meter-label" id="love-meter-label">0%</div>
+                </div>
+                <button class="love-meter-btn" id="love-meter-btn">💖 Add Love</button>
+                <div class="love-message" id="love-message"></div>
+            </div>
         </div>
     </div>
 
@@ -994,6 +1322,7 @@
             // ─── DOM REFS ───
             const loginPage = document.getElementById('login-page');
             const homePage = document.getElementById('home-page');
+            const gamesPage = document.getElementById('games-page');
             const proposalPage = document.getElementById('proposal-page');
             const endingPage = document.getElementById('ending-page');
             const usernameInput = document.getElementById('username-input');
@@ -1014,6 +1343,19 @@
             const sendMessageBtn = document.getElementById('send-message-btn');
             const messageInput = document.getElementById('message-input');
             const sendStatus = document.getElementById('send-status');
+            const goToGamesBtn = document.getElementById('go-to-games-btn');
+            const gamesBackBtn = document.getElementById('games-back-btn');
+
+            // Memory game refs
+            const memoryGrid = document.getElementById('memory-grid');
+            const memoryStatus = document.getElementById('memory-status');
+            const memoryReset = document.getElementById('memory-reset');
+
+            // Love meter refs
+            const loveMeterFill = document.getElementById('love-meter-fill');
+            const loveMeterLabel = document.getElementById('love-meter-label');
+            const loveMeterBtn = document.getElementById('love-meter-btn');
+            const loveMessage = document.getElementById('love-message');
 
             let currentPage = 'login';
             let konamiIndex = 0;
@@ -1031,10 +1373,8 @@
             let musicStarted = false;
             let musicPlaying = false;
 
-            // Set default volume (0.0 – 1.0)
             bgMusic.volume = 0.3;
 
-            // Function to start music (called on user interaction)
             function startMusic() {
                 if (musicStarted) return;
                 bgMusic.play().then(() => {
@@ -1042,15 +1382,12 @@
                     musicPlaying = true;
                     musicToggle.textContent = '🔊';
                 }).catch((err) => {
-                    // Autoplay blocked – user will tap the button to start
                     console.log('Tap the music button to play.');
                 });
             }
 
-            // ─── Play music when login button is clicked ───
             loginBtn.addEventListener('click', startMusic);
 
-            // ─── Toggle music on button click ───
             musicToggle.addEventListener('click', function(e) {
                 e.stopPropagation();
                 if (!musicStarted) {
@@ -1071,7 +1408,6 @@
                 }
             });
 
-            // ─── Fallback: start music on any click/tap (mobile friendly) ───
             document.addEventListener('click', function() {
                 if (!musicStarted) {
                     startMusic();
@@ -1380,9 +1716,22 @@
                 // ─── TERMINAL BUTTON (mobile) ───
                 openTerminalBtn.addEventListener('click', openTerminal);
 
+                // ─── GAMES BUTTON ───
+                goToGamesBtn.addEventListener('click', function() {
+                    showPage('games-page');
+                    initMemoryGame();
+                    resetLoveMeter();
+                });
+
+                // ─── GAMES BACK BUTTON ───
+                gamesBackBtn.addEventListener('click', function() {
+                    showPage('home-page');
+                });
+
                 // ─── FLOATING HEARTS ───
                 document.addEventListener('click', function heartClick(e) {
-                    if (currentPage !== 'home' && currentPage !== 'proposal' && currentPage !== 'ending') return;
+                    if (currentPage !== 'home' && currentPage !== 'proposal' && currentPage !== 'ending' &&
+                        currentPage !== 'games-page') return;
                     const heart = document.createElement('span');
                     heart.textContent = '❤️';
                     heart.style.position = 'fixed';
@@ -1418,14 +1767,14 @@
                 terminalOpen = false;
             });
 
-            // ─── TERMINAL COMMANDS (including phone number trigger) ───
+            // ─── TERMINAL COMMANDS ───
             termInput.addEventListener('keydown', function(e) {
                 if (e.key === 'Enter') {
                     const cmd = this.value.trim();
                     const lower = cmd.toLowerCase();
                     let output = '';
 
-                    // ─── PHONE NUMBER TRIGGER (Easter egg) ───
+                    // ─── PHONE NUMBER TRIGGER ───
                     if (cmd === '9863454697') {
                         terminalOverlay.classList.remove('open');
                         terminalOpen = false;
@@ -1468,10 +1817,157 @@
                 }
             });
 
-            // ════════════════════════════════════════════════════
-            //  EMAILJS – FIXED with correct template and variables
-            // ════════════════════════════════════════════════════
+            // ─── MEMORY CARD GAME ───
+            const memoryEmojis = ['❤️', '🌹', '💕', '✨', '🎶', '🍫', '🌙', '💌'];
+            let memoryCards = [];
+            let memoryFlipped = [];
+            let memoryLocked = false;
+            let memoryMatches = 0;
 
+            function initMemoryGame() {
+                const grid = memoryGrid;
+                grid.innerHTML = '';
+                memoryFlipped = [];
+                memoryLocked = false;
+                memoryMatches = 0;
+                memoryStatus.textContent = 'Find all pairs!';
+
+                // Double the emojis and shuffle
+                let deck = [...memoryEmojis, ...memoryEmojis];
+                deck = deck.sort(() => Math.random() - 0.5);
+                memoryCards = deck;
+
+                deck.forEach((emoji, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'memory-card';
+                    card.dataset.index = index;
+                    card.dataset.emoji = emoji;
+                    card.innerHTML = `
+                        <div class="card-inner">
+                            <div class="card-back">?</div>
+                            <div class="card-front">${emoji}</div>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => flipCard(card));
+                    grid.appendChild(card);
+                });
+            }
+
+            function flipCard(card) {
+                if (memoryLocked) return;
+                if (card.classList.contains('flipped') || card.classList.contains('matched')) return;
+
+                card.classList.add('flipped');
+                memoryFlipped.push(card);
+
+                if (memoryFlipped.length === 2) {
+                    memoryLocked = true;
+                    const card1 = memoryFlipped[0];
+                    const card2 = memoryFlipped[1];
+                    const emoji1 = card1.dataset.emoji;
+                    const emoji2 = card2.dataset.emoji;
+
+                    if (emoji1 === emoji2) {
+                        card1.classList.add('matched');
+                        card2.classList.add('matched');
+                        memoryMatches++;
+                        memoryFlipped = [];
+                        memoryLocked = false;
+                        if (memoryMatches === 8) {
+                            memoryStatus.textContent = '🎉 You found all pairs! You\'re amazing! 💖';
+                            // confetti
+                            for (let i = 0; i < 3; i++) {
+                                setTimeout(() => {
+                                    confetti({
+                                        particleCount: 60,
+                                        spread: 60,
+                                        origin: { y: 0.5 }
+                                    });
+                                }, i * 300);
+                            }
+                        } else {
+                            memoryStatus.textContent = `Found ${memoryMatches} pair${memoryMatches>1?'s':''}! Keep going!`;
+                        }
+                    } else {
+                        // Unflip after delay
+                        memoryStatus.textContent = 'Not a match, try again!';
+                        setTimeout(() => {
+                            card1.classList.remove('flipped');
+                            card2.classList.remove('flipped');
+                            memoryFlipped = [];
+                            memoryLocked = false;
+                            memoryStatus.textContent = memoryMatches === 0 ? 'Find all pairs!' :
+                                `Found ${memoryMatches} pair${memoryMatches>1?'s':''}!`;
+                        }, 600);
+                    }
+                }
+            }
+
+            memoryReset.addEventListener('click', initMemoryGame);
+
+            // ─── LOVE METER ───
+            const loveMessages = [
+                'You make me smile 😊',
+                'You\'re beautiful 🌸',
+                'I love your laugh 🎵',
+                'Your eyes sparkle ✨',
+                'You\'re my sunshine ☀️',
+                'Thinking of you 💭',
+                'You\'re amazing 💖',
+                'You\'re my everything 🌹',
+                'I adore you 💕',
+                'You\'re perfect 🌙'
+            ];
+            let loveLevel = 0;
+            let loveMessageIndex = 0;
+
+            function resetLoveMeter() {
+                loveLevel = 0;
+                loveMessageIndex = 0;
+                loveMeterFill.style.width = '0%';
+                loveMeterLabel.textContent = '0%';
+                loveMeterBtn.disabled = false;
+                loveMeterBtn.textContent = '💖 Add Love';
+                loveMessage.textContent = 'Tap the button to add love!';
+                loveMessage.style.color = '#b8a69c';
+            }
+
+            loveMeterBtn.addEventListener('click', function() {
+                if (loveLevel >= 100) return;
+
+                // Increase by random 5-15%
+                const increment = 5 + Math.floor(Math.random() * 11);
+                loveLevel = Math.min(100, loveLevel + increment);
+                loveMeterFill.style.width = loveLevel + '%';
+                loveMeterLabel.textContent = loveLevel + '%';
+
+                // Show random message
+                if (loveLevel < 100) {
+                    const msg = loveMessages[Math.floor(Math.random() * loveMessages.length)];
+                    loveMessage.textContent = msg;
+                    loveMessage.style.color = '#dbb8a8';
+                }
+
+                if (loveLevel >= 100) {
+                    loveMeterBtn.disabled = true;
+                    loveMeterBtn.textContent = '💖 Full!';
+                    loveMessage.textContent = '💖 You filled my heart with love! I\'m yours. 💖';
+                    loveMessage.style.color = '#ff6b6b';
+                    // confetti
+                    for (let i = 0; i < 5; i++) {
+                        setTimeout(() => {
+                            confetti({
+                                particleCount: 80,
+                                spread: 70,
+                                origin: { y: 0.5 }
+                            });
+                        }, i * 250);
+                    }
+                }
+            });
+
+            // ─── EMAILJS ───
+            // (unchanged – keep existing code for proposal and message)
             // ─── PROPOSAL YES ───
             proposalYes.addEventListener('click', function() {
                 if (proposalAnswered) return;
@@ -1486,8 +1982,7 @@
 
                 emailjs.send(
                     'service_fya8l4g',
-                    'template_a6cswfu', // ← CORRECT TEMPLATE ID
-                    {
+                    'template_a6cswfu', {
                         name: name,
                         time: now,
                         message: 'Answer: YES ❤️',
@@ -1539,8 +2034,7 @@
 
                 emailjs.send(
                     'service_fya8l4g',
-                    'template_a6cswfu',
-                    {
+                    'template_a6cswfu', {
                         name: name,
                         time: now,
                         message: 'Answer: Let\'s take things slowly 😊',
@@ -1582,8 +2076,7 @@
 
                 emailjs.send(
                     'service_fya8l4g',
-                    'template_a6cswfu',
-                    {
+                    'template_a6cswfu', {
                         name: name,
                         time: now,
                         message: message,
@@ -1633,7 +2126,7 @@
 
             // ─── 5 MINUTE MESSAGE ───
             setTimeout(() => {
-                if (currentPage === 'home' || currentPage === 'proposal') {
+                if (currentPage === 'home' || currentPage === 'proposal' || currentPage === 'games-page') {
                     const msg = document.createElement('div');
                     msg.textContent =
                         '✨ Thank you for spending these few minutes here. They already mean a lot to me.';
@@ -1669,6 +2162,7 @@
             console.log('📧 EmailJS is using template: template_a6cswfu');
             console.log('🔢 Secret code to unlock proposal: 9863454697 (type in terminal)');
             console.log('🎵 Background music ready – will start on first click/tap.');
+            console.log('🎮 Mini Games added – memory match & love meter!');
         });
     </script>
 
