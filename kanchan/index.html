@@ -13,7 +13,6 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1">
     </script>
-    <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
     </script>
 
@@ -693,7 +692,7 @@
         /* ───── GAMES PAGE ───── */
         #games-page {
             padding: 1.5rem 1.2rem;
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             width: 100%;
         }
@@ -742,12 +741,17 @@
             font-size: 1.4rem;
             font-weight: 600;
             color: #f5ede7;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
-        /* ─── MEMORY CARD GAME (FIXED) ─── */
+        .game-section .game-desc {
+            color: #b8a69c;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+        /* ───── MEMORY CARD GAME ───── */
         .memory-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -814,7 +818,116 @@
             text-align: center;
             margin-top: 0.5rem;
         }
-        /* ─── LOVE METER ─── */
+        /* ───── LOVE QUIZ ───── */
+        .quiz-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .quiz-question {
+            font-size: 1.1rem;
+            color: #f5ede7;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 500;
+        }
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+        }
+        .quiz-option {
+            padding: 0.8rem 0.6rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 215, 200, 0.1);
+            background: rgba(255, 215, 200, 0.04);
+            color: #f5ede7;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: 0.3s;
+            touch-action: manipulation;
+            text-align: center;
+        }
+        .quiz-option:hover {
+            background: rgba(255, 215, 200, 0.08);
+        }
+        .quiz-option:active {
+            transform: scale(0.96);
+        }
+        .quiz-option.correct {
+            border-color: #4caf50;
+            background: rgba(76, 175, 80, 0.15);
+        }
+        .quiz-option.wrong {
+            border-color: #e74c3c;
+            background: rgba(231, 76, 60, 0.15);
+        }
+        .quiz-option.disabled {
+            cursor: default;
+            pointer-events: none;
+            opacity: 0.6;
+        }
+        .quiz-result {
+            margin-top: 1rem;
+            font-size: 0.95rem;
+            color: #dbb8a8;
+            text-align: center;
+            min-height: 2rem;
+        }
+        .quiz-score {
+            font-size: 0.85rem;
+            color: #b8a69c;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+        /* ───── HEART CATCH ───── */
+        .catch-game-container {
+            text-align: center;
+            position: relative;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        .catch-game-canvas {
+            background: rgba(255, 215, 200, 0.04);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 215, 200, 0.06);
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 1 / 1.2;
+            touch-action: none;
+        }
+        .catch-score {
+            margin-top: 0.8rem;
+            font-size: 1rem;
+            color: #dbb8a8;
+        }
+        .catch-controls {
+            display: flex;
+            gap: 0.8rem;
+            justify-content: center;
+            margin-top: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .catch-controls button {
+            padding: 0.4rem 1.2rem;
+            border: 1px solid rgba(255, 215, 200, 0.1);
+            border-radius: 40px;
+            background: transparent;
+            color: #b8a69c;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: 0.3s;
+            touch-action: manipulation;
+        }
+        .catch-controls button:active {
+            transform: scale(0.95);
+        }
+        .catch-controls button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        /* ───── LOVE METER ───── */
         .love-meter-container {
             text-align: center;
             margin: 1rem 0;
@@ -936,6 +1049,9 @@
             .game-section {
                 padding: 1.2rem 0.8rem;
             }
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
         }
         .hidden {
             display: none !important;
@@ -1051,8 +1167,7 @@
 
     <!-- ─── BACKGROUND MUSIC ─── -->
     <audio id="bg-music" loop preload="auto">
-        <!-- REPLACE this src with the actual URL of her favourite song -->
-        <source src="images/YOUR_SONG_URL.mp3" type="audio/mpeg" />
+        <source src="YOUR_SONG_URL.mp3" type="audio/mpeg" />
         Your browser does not support the audio element.
     </audio>
 
@@ -1132,7 +1247,7 @@
             <div class="section-card" style="grid-column: 1 / -1;">
                 <span class="card-icon">🎮</span>
                 <h3>mini games</h3>
-                <p>Play some love‑themed games and have fun! Memory match and a sweet love meter.</p>
+                <p>Play some love‑themed games and have fun! Memory match, love quiz, heart catch &amp; more.</p>
                 <button class="play-btn" id="go-to-games-btn">Play Games →</button>
             </div>
         </div>
@@ -1156,20 +1271,48 @@
             <button class="back-btn" id="games-back-btn">← Back to Home</button>
         </div>
 
-        <!-- Memory Card Game -->
+        <!-- Game 1: Memory Match -->
         <div class="game-section">
             <h3>🧠 memory match</h3>
-            <p style="color:#b8a69c;font-size:0.85rem;margin-bottom:0.8rem;">Find the matching pairs of romantic emojis.</p>
+            <div class="game-desc">Find the matching pairs of romantic emojis.</div>
             <div class="memory-grid" id="memory-grid"></div>
             <div class="game-status" id="memory-status">Tap a card to flip</div>
             <div class="memory-hint">💡 Tap a card to reveal the emoji, find its match</div>
             <button class="reset-btn" id="memory-reset">🔄 New Game</button>
         </div>
 
-        <!-- Love Meter -->
+        <!-- Game 2: Love Quiz -->
+        <div class="game-section">
+            <h3>💕 love quiz</h3>
+            <div class="game-desc">Answer these cute questions about us!</div>
+            <div class="quiz-container" id="quiz-container">
+                <div class="quiz-question" id="quiz-question">Loading question...</div>
+                <div class="quiz-options" id="quiz-options"></div>
+                <div class="quiz-result" id="quiz-result"></div>
+                <div class="quiz-score" id="quiz-score">Score: 0 / 0</div>
+                <button class="reset-btn" id="quiz-reset" style="margin-top:0.8rem;">🔄 Restart Quiz</button>
+            </div>
+        </div>
+
+        <!-- Game 3: Heart Catch -->
+        <div class="game-section">
+            <h3>💖 heart catch</h3>
+            <div class="game-desc">Catch falling hearts with your basket! Move left/right to collect.</div>
+            <div class="catch-game-container">
+                <canvas id="catchCanvas" class="catch-game-canvas"></canvas>
+                <div class="catch-score" id="catch-score">❤️ Hearts: 0</div>
+                <div class="catch-controls">
+                    <button id="catch-left">◀ Left</button>
+                    <button id="catch-right">Right ▶</button>
+                    <button id="catch-start">▶ Start Game</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game 4: Love Meter -->
         <div class="game-section">
             <h3>❤️ love meter</h3>
-            <p style="color:#b8a69c;font-size:0.85rem;margin-bottom:0.8rem;">Tap the button to fill the meter with love.</p>
+            <div class="game-desc">Tap the button to fill the meter with love.</div>
             <div class="love-meter-container">
                 <div class="love-meter">
                     <div class="love-meter-fill" id="love-meter-fill" style="width:0%;"></div>
@@ -1286,6 +1429,21 @@
             const loveMeterLabel = document.getElementById('love-meter-label');
             const loveMeterBtn = document.getElementById('love-meter-btn');
             const loveMessage = document.getElementById('love-message');
+
+            // Quiz refs
+            const quizQuestion = document.getElementById('quiz-question');
+            const quizOptions = document.getElementById('quiz-options');
+            const quizResult = document.getElementById('quiz-result');
+            const quizScore = document.getElementById('quiz-score');
+            const quizReset = document.getElementById('quiz-reset');
+
+            // Catch game refs
+            const catchCanvas = document.getElementById('catchCanvas');
+            const catchCtx = catchCanvas.getContext('2d');
+            const catchScore = document.getElementById('catch-score');
+            const catchLeft = document.getElementById('catch-left');
+            const catchRight = document.getElementById('catch-right');
+            const catchStart = document.getElementById('catch-start');
 
             let currentPage = 'login';
             let konamiIndex = 0;
@@ -1651,6 +1809,8 @@
                     showPage('games-page');
                     initMemoryGame();
                     resetLoveMeter();
+                    initQuiz();
+                    initCatchGame();
                 });
 
                 // ─── GAMES BACK BUTTON ───
@@ -1722,7 +1882,6 @@
                         return;
                     }
 
-                    // Other commands
                     if (lower === 'search smile') output = '&gt; Searching...<br />&gt; Found: one radiant smile. 💛';
                     else if (lower === 'search eyes') output = '&gt; Searching...<br />&gt; Found: eyes that hold the stars. ✨';
                     else if (lower === 'search laugh') output = '&gt; Searching...<br />&gt; Found: the most infectious laugh. 🎵';
@@ -1747,13 +1906,11 @@
                 }
             });
 
-            // ─── MEMORY CARD GAME (FIXED – simpler approach) ───
+            // ─── MEMORY CARD GAME ───
             const memoryEmojis = ['❤️', '🌹', '💕', '✨', '🎶', '🍫', '🌙', '💌'];
-            let memoryCards = [];
             let memoryFlipped = [];
             let memoryLocked = false;
             let memoryMatches = 0;
-            let memoryCardElements = [];
 
             function initMemoryGame() {
                 const grid = memoryGrid;
@@ -1762,15 +1919,12 @@
                 memoryLocked = false;
                 memoryMatches = 0;
                 memoryStatus.textContent = 'Tap a card to flip';
-                memoryCardElements = [];
 
-                // Double and shuffle
                 let deck = [...memoryEmojis, ...memoryEmojis];
                 for (let i = deck.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
                     [deck[i], deck[j]] = [deck[j], deck[i]];
                 }
-                memoryCards = deck;
 
                 deck.forEach((emoji, index) => {
                     const card = document.createElement('div');
@@ -1782,7 +1936,6 @@
                     card.textContent = '?';
                     card.addEventListener('click', () => flipCard(card));
                     grid.appendChild(card);
-                    memoryCardElements.push(card);
                 });
             }
 
@@ -1791,7 +1944,6 @@
                 if (card.dataset.flipped === 'true') return;
                 if (card.dataset.matched === 'true') return;
 
-                // Reveal the emoji
                 card.textContent = card.dataset.emoji;
                 card.dataset.flipped = 'true';
                 card.classList.add('flipped');
@@ -1801,11 +1953,8 @@
                     memoryLocked = true;
                     const card1 = memoryFlipped[0];
                     const card2 = memoryFlipped[1];
-                    const emoji1 = card1.dataset.emoji;
-                    const emoji2 = card2.dataset.emoji;
 
-                    if (emoji1 === emoji2) {
-                        // Match!
+                    if (card1.dataset.emoji === card2.dataset.emoji) {
                         card1.dataset.matched = 'true';
                         card2.dataset.matched = 'true';
                         card1.classList.add('matched');
@@ -1830,7 +1979,6 @@
                                 `Found ${memoryMatches} pair${memoryMatches>1?'s':''}! Keep going!`;
                         }
                     } else {
-                        // No match – flip back after delay
                         memoryStatus.textContent = 'Not a match, try again!';
                         setTimeout(() => {
                             card1.textContent = '?';
@@ -1849,6 +1997,302 @@
             }
 
             memoryReset.addEventListener('click', initMemoryGame);
+
+            // ─── LOVE QUIZ ───
+            const quizData = [{
+                question: 'What is the best thing about being with me?',
+                options: ['Your jokes 😂', 'Your smile 😊', 'Your cooking 🍳', 'Everything! 💖'],
+                correct: 3
+            }, {
+                question: 'What would we do on a perfect date?',
+                options: ['Watch a movie 🎬', 'Go for a walk 🌅', 'Eat ice cream 🍦', 'All of the above! ✨'],
+                correct: 3
+            }, {
+                question: 'What song makes you think of me?',
+                options: ['A love song 🎵', 'A sad song 😢', 'A party song 🎉', 'A silly song 🤪'],
+                correct: 0
+            }, {
+                question: 'What do you love most about yourself?',
+                options: ['Your smile 😁', 'Your heart ❤️', 'Your laugh 😂', 'Your kindness 🌸'],
+                correct: 3
+            }, {
+                question: 'How do you feel when I text you?',
+                options: ['Happy 😊', 'Excited ✨', 'Giddy 🤭', 'All of the above! 💖'],
+                correct: 3
+            }];
+
+            let quizCurrent = 0;
+            let quizScoreValue = 0;
+            let quizAnswered = false;
+
+            function initQuiz() {
+                quizCurrent = 0;
+                quizScoreValue = 0;
+                quizAnswered = false;
+                quizResult.textContent = '';
+                renderQuizQuestion();
+            }
+
+            function renderQuizQuestion() {
+                if (quizCurrent >= quizData.length) {
+                    const total = quizData.length;
+                    let msg = '';
+                    if (quizScoreValue === total) {
+                        msg = '💖 Perfect score! You really know me! I love you! 💖';
+                    } else if (quizScoreValue >= total - 1) {
+                        msg = '🌟 Amazing! You almost got all of them! 🌟';
+                    } else if (quizScoreValue >= total / 2) {
+                        msg = '😊 Not bad! You\'re learning about me! 😊';
+                    } else {
+                        msg = '💕 That\'s okay! We have so many more memories to make! 💕';
+                    }
+                    quizResult.textContent = msg;
+                    quizResult.style.color = '#dbb8a8';
+                    quizQuestion.textContent = '🎉 Quiz complete!';
+                    quizOptions.innerHTML = '';
+                    return;
+                }
+
+                const q = quizData[quizCurrent];
+                quizQuestion.textContent = `${quizCurrent + 1}. ${q.question}`;
+                quizOptions.innerHTML = '';
+                quizAnswered = false;
+
+                q.options.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'quiz-option';
+                    btn.textContent = opt;
+                    btn.dataset.idx = idx;
+                    btn.addEventListener('click', () => handleQuizAnswer(idx));
+                    quizOptions.appendChild(btn);
+                });
+
+                quizScore.textContent = `Score: ${quizScoreValue} / ${quizData.length}`;
+            }
+
+            function handleQuizAnswer(idx) {
+                if (quizAnswered) return;
+                quizAnswered = true;
+
+                const q = quizData[quizCurrent];
+                const options = quizOptions.querySelectorAll('.quiz-option');
+                options.forEach((btn, i) => {
+                    btn.classList.add('disabled');
+                    if (i === q.correct) {
+                        btn.classList.add('correct');
+                    } else if (i === idx && idx !== q.correct) {
+                        btn.classList.add('wrong');
+                    }
+                });
+
+                if (idx === q.correct) {
+                    quizScoreValue++;
+                    quizResult.textContent = '✅ Correct! You know me so well! 💖';
+                    quizResult.style.color = '#4caf50';
+                } else {
+                    quizResult.textContent = `❌ Oops! The answer was: "${q.options[q.correct]}"`;
+                    quizResult.style.color = '#e74c3c';
+                }
+
+                quizScore.textContent = `Score: ${quizScoreValue} / ${quizData.length}`;
+
+                setTimeout(() => {
+                    quizCurrent++;
+                    renderQuizQuestion();
+                }, 1500);
+            }
+
+            quizReset.addEventListener('click', initQuiz);
+
+            // ─── HEART CATCH GAME ───
+            let catchRunning = false;
+            let catchAnimationId = null;
+            let catchScoreValue = 0;
+            let basketX = 0;
+            let hearts = [];
+            let heartFallSpeed = 1.5;
+            const basketWidth = 70;
+            const basketHeight = 40;
+
+            function initCatchGame() {
+                const rect = catchCanvas.getBoundingClientRect();
+                const dpr = window.devicePixelRatio || 1;
+                const w = rect.width || 400;
+                const h = rect.height || 480;
+                catchCanvas.width = w * dpr;
+                catchCanvas.height = h * dpr;
+                catchCanvas.style.width = w + 'px';
+                catchCanvas.style.height = h + 'px';
+                catchCtx.scale(dpr, dpr);
+                catchCanvas._w = w;
+                catchCanvas._h = h;
+                basketX = w / 2 - basketWidth / 2;
+                hearts = [];
+                catchScoreValue = 0;
+                catchScore.textContent = '❤️ Hearts: 0';
+                catchRunning = false;
+                catchStart.textContent = '▶ Start Game';
+                drawCatchGame();
+            }
+
+            function drawCatchGame() {
+                const w = catchCanvas._w || 400;
+                const h = catchCanvas._h || 480;
+                catchCtx.clearRect(0, 0, w, h);
+
+                // Background
+                const grad = catchCtx.createLinearGradient(0, 0, 0, h);
+                grad.addColorStop(0, 'rgba(255,215,200,0.02)');
+                grad.addColorStop(1, 'rgba(255,215,200,0.08)');
+                catchCtx.fillStyle = grad;
+                catchCtx.fillRect(0, 0, w, h);
+
+                // Hearts
+                hearts.forEach(heart => {
+                    catchCtx.font = `${heart.size}px serif`;
+                    catchCtx.textAlign = 'center';
+                    catchCtx.textBaseline = 'middle';
+                    catchCtx.fillText('❤️', heart.x, heart.y);
+                });
+
+                // Basket
+                catchCtx.fillStyle = 'rgba(255,215,200,0.15)';
+                catchCtx.strokeStyle = 'rgba(255,215,200,0.3)';
+                catchCtx.lineWidth = 2;
+                const bx = basketX;
+                const by = h - 50;
+                catchCtx.beginPath();
+                catchCtx.roundRect(bx, by, basketWidth, basketHeight, 10);
+                catchCtx.fill();
+                catchCtx.stroke();
+
+                // Basket handle
+                catchCtx.beginPath();
+                catchCtx.moveTo(bx + 10, by);
+                catchCtx.lineTo(bx + basketWidth / 2, by - 20);
+                catchCtx.lineTo(bx + basketWidth - 10, by);
+                catchCtx.stroke();
+            }
+
+            // RoundRect polyfill for canvas
+            if (!CanvasRenderingContext2D.prototype.roundRect) {
+                CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+                    if (r > w / 2) r = w / 2;
+                    if (r > h / 2) r = h / 2;
+                    this.moveTo(x + r, y);
+                    this.lineTo(x + w - r, y);
+                    this.quadraticCurveTo(x + w, y, x + w, y + r);
+                    this.lineTo(x + w, y + h - r);
+                    this.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+                    this.lineTo(x + r, y + h);
+                    this.quadraticCurveTo(x, y + h, x, y + h - r);
+                    this.lineTo(x, y + r);
+                    this.quadraticCurveTo(x, y, x + r, y);
+                    this.closePath();
+                    return this;
+                };
+            }
+
+            function updateCatchGame() {
+                if (!catchRunning) return;
+                const w = catchCanvas._w || 400;
+                const h = catchCanvas._h || 480;
+
+                // Spawn hearts
+                if (Math.random() < 0.02) {
+                    hearts.push({
+                        x: 20 + Math.random() * (w - 40),
+                        y: -20,
+                        size: 18 + Math.random() * 14,
+                        speed: 1 + Math.random() * heartFallSpeed
+                    });
+                }
+
+                // Move hearts
+                for (let i = hearts.length - 1; i >= 0; i--) {
+                    hearts[i].y += hearts[i].speed;
+                    // Check catch
+                    const by = h - 50;
+                    if (hearts[i].y > by - 30 && hearts[i].y < by + 10 &&
+                        hearts[i].x > basketX - 10 && hearts[i].x < basketX + basketWidth + 10) {
+                        hearts.splice(i, 1);
+                        catchScoreValue++;
+                        catchScore.textContent = `❤️ Hearts: ${catchScoreValue}`;
+                        // Confetti on catch
+                        confetti({
+                            particleCount: 8,
+                            spread: 30,
+                            origin: { x: Math.random(), y: 0.4 }
+                        });
+                        continue;
+                    }
+                    if (hearts[i].y > h + 20) {
+                        hearts.splice(i, 1);
+                    }
+                }
+
+                drawCatchGame();
+                catchAnimationId = requestAnimationFrame(updateCatchGame);
+            }
+
+            // Catch controls
+            function moveBasket(dx) {
+                const w = catchCanvas._w || 400;
+                basketX = Math.max(0, Math.min(w - basketWidth, basketX + dx));
+            }
+
+            catchLeft.addEventListener('click', () => moveBasket(-30));
+            catchRight.addEventListener('click', () => moveBasket(30));
+
+            // Touch controls for mobile
+            catchCanvas.addEventListener('touchmove', function(e) {
+                e.preventDefault();
+                const rect = this.getBoundingClientRect();
+                const touch = e.touches[0];
+                const x = touch.clientX - rect.left;
+                const w = catchCanvas._w || 400;
+                const scale = w / rect.width;
+                const canvasX = x * scale;
+                basketX = Math.max(0, Math.min(w - basketWidth, canvasX - basketWidth / 2));
+            }, { passive: false });
+
+            catchCanvas.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                const rect = this.getBoundingClientRect();
+                const touch = e.touches[0];
+                const x = touch.clientX - rect.left;
+                const w = catchCanvas._w || 400;
+                const scale = w / rect.width;
+                const canvasX = x * scale;
+                basketX = Math.max(0, Math.min(w - basketWidth, canvasX - basketWidth / 2));
+            }, { passive: false });
+
+            // Mouse move for desktop
+            catchCanvas.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const w = catchCanvas._w || 400;
+                const scale = w / rect.width;
+                const canvasX = x * scale;
+                basketX = Math.max(0, Math.min(w - basketWidth, canvasX - basketWidth / 2));
+            });
+
+            catchStart.addEventListener('click', function() {
+                if (catchRunning) {
+                    catchRunning = false;
+                    if (catchAnimationId) {
+                        cancelAnimationFrame(catchAnimationId);
+                        catchAnimationId = null;
+                    }
+                    catchStart.textContent = '▶ Resume';
+                } else {
+                    catchRunning = true;
+                    catchStart.textContent = '⏸ Pause';
+                    if (!catchAnimationId) {
+                        updateCatchGame();
+                    }
+                }
+            });
 
             // ─── LOVE METER ───
             const loveMessages = [
@@ -2101,7 +2545,7 @@
             console.log('📧 EmailJS is using template: template_a6cswfu');
             console.log('🔢 Secret code to unlock proposal: 9863454697 (type in terminal)');
             console.log('🎵 Background music ready – will start on first click/tap.');
-            console.log('🎮 Mini Games added – memory match & love meter!');
+            console.log('🎮 4 Mini Games: Memory Match, Love Quiz, Heart Catch & Love Meter!');
         });
     </script>
 
