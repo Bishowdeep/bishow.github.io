@@ -708,7 +708,7 @@
     </div>
     <p style="margin-top:18px; color:#aab8c8; font-size:0.95rem;">
       <span style="color:#6cd4ff;">▸</span> Apple Certified Support Technician (ACST) &amp; Apple Certified Repair Technician (ACRT).<br>
-      <span style="color:#f7d44a;">▸</span> Currently at Evostore since February 2025.
+      <span style="color:#f7d44a;">▸</span> Currently at Evostore since July 2026.
     </p>
   </div>
 </section>
@@ -785,12 +785,15 @@
   (function() {
     'use strict';
 
-    // ----- DYNAMIC MONTHS for Evostore (start: Feb 2025) -----
+    // ----- DYNAMIC MONTHS for Evostore (start: July 2026) -----
     function updateEvostoreMonths() {
-      const start = new Date(2025, 1, 1); // Feb 1, 2025 (month index 1)
+      const start = new Date(2026, 6, 1); // July 1, 2026 (month index 6)
       const now = new Date();
       let months = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
-      if (now.getDate() < start.getDate()) months--;
+      // If the current day is before the start day, subtract one month
+      if (now.getDate() < start.getDate()) {
+        months--;
+      }
       if (months < 1) months = 1;
       const el = document.getElementById('evostoreMonths');
       if (el) el.textContent = months + (months === 1 ? ' month' : ' months');
