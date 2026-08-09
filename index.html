@@ -4,27 +4,26 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bishowdeep Sharma · Portfolio</title>
-  <!-- Font Awesome for icons -->
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* ---- Reset & base ---- */
     * { margin:0; padding:0; box-sizing:border-box; }
     html { scroll-behavior:smooth; }
     body {
       font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: #0b0b0b;
-      color: #eaeaea;
+      background: #0a0a12;
+      color: #f0f0f5;
       line-height:1.6;
     }
-    a { color:#2cccc4; text-decoration:none; transition:0.25s; }
-    a:hover { color:#f5d654; }
+    a { color:#6cd4ff; text-decoration:none; transition:0.25s; }
+    a:hover { color:#f7d44a; }
     .container { max-width:1200px; margin:0 auto; padding:0 24px; }
     .section-title {
       font-size:clamp(2rem, 4vw, 2.8rem);
       font-weight:700;
       margin-bottom:1.5rem;
       display:inline-block;
-      background:linear-gradient(135deg, #f5d654, #2cccc4);
+      background:linear-gradient(135deg, #f7d44a, #6cd4ff);
       -webkit-background-clip:text;
       -webkit-text-fill-color:transparent;
       background-clip:text;
@@ -32,22 +31,21 @@
     .section-title::after {
       content:'';
       display:block;
-      width:60px;
+      width:70px;
       height:4px;
-      background:linear-gradient(90deg, #f5d654, #2cccc4);
+      background:linear-gradient(90deg, #f7d44a, #6cd4ff);
       border-radius:4px;
       margin-top:6px;
     }
-
-    /* ---- Header ---- */
+    /* header */
     header {
-      background:rgba(11,11,11,0.85);
-      backdrop-filter:blur(12px);
+      background:rgba(10,10,18,0.85);
+      backdrop-filter:blur(14px);
       padding:16px 0;
       position:sticky;
       top:0;
       z-index:100;
-      border-bottom:1px solid rgba(44,204,196,0.2);
+      border-bottom:1px solid rgba(108,212,255,0.2);
     }
     header .container {
       display:flex;
@@ -57,11 +55,14 @@
       gap:12px;
     }
     .logo {
-      font-size:1.8rem;
+      font-size:1.9rem;
       font-weight:800;
       letter-spacing:-0.5px;
+      background:linear-gradient(135deg, #f7d44a, #6cd4ff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
     }
-    .logo span { color:#f5d654; }
     .nav-links {
       display:flex;
       gap:28px;
@@ -69,7 +70,7 @@
       font-weight:500;
     }
     .nav-links a {
-      color:#ccc;
+      color:#c8d0e0;
       font-size:1rem;
       position:relative;
       padding:4px 0;
@@ -81,7 +82,7 @@
       bottom:-2px;
       width:0;
       height:2px;
-      background:linear-gradient(90deg, #f5d654, #2cccc4);
+      background:linear-gradient(90deg, #f7d44a, #6cd4ff);
       transition:width 0.3s;
     }
     .nav-links a:hover::after,
@@ -100,26 +101,30 @@
       display:block;
       width:28px;
       height:3px;
-      background:#eee;
-      border-radius:3px;
+      background:#e0e8f0;
+      border-radius:4px;
       transition:0.25s;
     }
-
-    /* ---- Hero ---- */
+    /* hero */
     .hero {
       padding:80px 0 60px;
       text-align:center;
-      background:radial-gradient(circle at 20% 30%, #1a1a1a, #0b0b0b);
+      background:radial-gradient(circle at 30% 20%, #14141f, #0a0a12);
+      border-bottom:1px solid rgba(108,212,255,0.05);
     }
     .hero h1 {
-      font-size:clamp(3rem, 8vw, 5.5rem);
+      font-size:clamp(3rem, 8vw, 5.2rem);
       font-weight:800;
       letter-spacing:-1px;
       margin-bottom:8px;
+      background:linear-gradient(135deg, #ffffff, #6cd4ff);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text;
     }
     .hero .subhead {
       font-size:clamp(1.1rem, 2.2vw, 1.5rem);
-      color:#aaa;
+      color:#b0c0d0;
       max-width:700px;
       margin:0 auto 16px;
     }
@@ -129,23 +134,24 @@
       justify-content:center;
       gap:12px 24px;
       margin-top:20px;
-      font-weight:400;
-      color:#ccc;
+      color:#c8d0e0;
     }
     .hero .badge-list span {
-      background:rgba(255,255,255,0.05);
-      padding:6px 20px;
+      background:rgba(255,255,255,0.04);
+      padding:6px 22px;
       border-radius:40px;
-      border:1px solid rgba(255,255,255,0.08);
+      border:1px solid rgba(108,212,255,0.15);
       backdrop-filter:blur(4px);
+      transition:0.2s;
     }
-
-    /* ---- Sections ---- */
-    section { padding:60px 0; }
-    .dark-bg { background:#0f0f0f; }
-    .darker-bg { background:#0b0b0b; }
-
-    /* ---- Cards ---- */
+    .hero .badge-list span:hover {
+      border-color:#f7d44a;
+      background:rgba(247,212,74,0.05);
+    }
+    /* sections */
+    section { padding:64px 0; }
+    .dark-bg { background:#0e0e18; }
+    .darker-bg { background:#0a0a12; }
     .card-grid {
       display:grid;
       grid-template-columns:1fr 1fr;
@@ -153,21 +159,21 @@
     }
     .card {
       background:rgba(255,255,255,0.03);
-      border-radius:20px;
+      border-radius:24px;
       padding:28px 30px;
       border:1px solid rgba(255,255,255,0.06);
       backdrop-filter:blur(4px);
       transition:0.3s;
     }
     .card:hover {
-      border-color:#2cccc4;
+      border-color:#6cd4ff;
       transform:translateY(-4px);
-      box-shadow:0 12px 40px rgba(44,204,196,0.08);
+      box-shadow:0 16px 48px rgba(108,212,255,0.06);
     }
     .card h3 {
       font-size:1.25rem;
       margin-bottom:12px;
-      color:#f5d654;
+      color:#f7d44a;
     }
     .card ul { list-style:none; padding:0; }
     .card ul li {
@@ -179,7 +185,7 @@
       content:'▹';
       position:absolute;
       left:0;
-      color:#2cccc4;
+      color:#6cd4ff;
       font-weight:700;
     }
     .chip-container {
@@ -189,19 +195,24 @@
       margin-top:8px;
     }
     .chip {
-      background:rgba(255,255,255,0.06);
+      background:rgba(255,255,255,0.05);
       padding:6px 18px;
       border-radius:40px;
       font-size:0.9rem;
       border:1px solid rgba(255,255,255,0.06);
       transition:0.2s;
+      color:#d0d8e5;
     }
     .chip:hover {
-      border-color:#2cccc4;
-      background:rgba(44,204,196,0.08);
+      border-color:#6cd4ff;
+      background:rgba(108,212,255,0.06);
+      color:#fff;
     }
-
-    /* ---- Experience ---- */
+    .chip-glow {
+      border-color:#f7d44a;
+      background:rgba(247,212,74,0.05);
+    }
+    /* experience */
     .exp-item {
       display:flex;
       flex-wrap:wrap;
@@ -211,77 +222,73 @@
     }
     .exp-item:last-child { border-bottom:none; }
     .exp-item .title { font-weight:600; font-size:1.05rem; }
-    .exp-item .org { color:#aaa; }
-    .exp-item .years { color:#2cccc4; font-weight:500; white-space:nowrap; }
-
-    /* ----- certification cards (apple style) ----- */
+    .exp-item .org { color:#aab8c8; }
+    .exp-item .years { color:#6cd4ff; font-weight:500; white-space:nowrap; }
+    .exp-highlight {
+      background:rgba(247,212,74,0.06);
+      border-left:3px solid #f7d44a;
+      padding-left:16px;
+      border-radius:0 12px 12px 0;
+    }
+    /* certification cards */
     .cert-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 24px;
-      margin-top: 12px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:24px;
     }
     .cert-card {
-      background: rgba(255,255,255,0.03);
-      border-radius: 28px;
-      padding: 24px 32px;
-      flex: 1 1 220px;
-      border: 1px solid rgba(255,255,255,0.08);
-      backdrop-filter: blur(4px);
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      transition: 0.25s;
+      background:rgba(255,255,255,0.02);
+      border-radius:24px;
+      padding:24px 28px;
+      border:1px solid rgba(255,255,255,0.06);
+      display:flex;
+      align-items:center;
+      gap:20px;
+      transition:0.3s;
     }
     .cert-card:hover {
-      border-color: #f5d654;
-      transform: scale(1.02);
-      box-shadow: 0 8px 30px rgba(245,214,84,0.1);
+      border-color:#6cd4ff;
+      transform:scale(1.02);
+      background:rgba(108,212,255,0.03);
     }
-    .cert-card .icon {
-      font-size: 2.8rem;
-      color: #f5d654;
+    .cert-icon {
+      font-size:2.6rem;
+      width:64px;
+      height:64px;
+      background:rgba(108,212,255,0.08);
+      border-radius:20px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#f7d44a;
     }
-    .cert-card .info h4 {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: #eee;
+    .cert-card .info h4 { font-size:1.2rem; margin-bottom:2px; }
+    .cert-card .info p { color:#aab8c8; font-size:0.9rem; }
+    /* project cards */
+    .project-grid {
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
+      gap:24px;
+      margin-top:12px;
     }
-    .cert-card .info p {
-      color: #aaa;
-      font-size: 0.85rem;
-      margin-top: 2px;
-    }
-    .cert-card.apple .icon { color: #a2aaad; } 
-    .cert-card.repair .icon { color: #2cccc4; }
-
-    /* ---- Projects ---- */
     .project-card {
-      background: rgba(255,255,255,0.03);
-      border-radius: 20px;
-      padding: 24px 28px;
-      border: 1px solid rgba(255,255,255,0.06);
-      transition: 0.3s;
+      background:rgba(255,255,255,0.02);
+      border-radius:20px;
+      padding:24px 20px;
+      border:1px solid rgba(255,255,255,0.05);
+      transition:0.3s;
+      text-align:center;
     }
     .project-card:hover {
-      border-color: #f5d654;
-      transform: translateY(-3px);
-      box-shadow: 0 12px 40px rgba(245,214,84,0.06);
+      border-color:#6cd4ff;
+      transform:translateY(-6px);
+      box-shadow:0 20px 40px rgba(0,0,0,0.4);
     }
-    .project-card h4 {
-      color: #f5d654;
-      font-size: 1.3rem;
-      margin-bottom: 6px;
-    }
-    .project-card .proj-link {
-      display: inline-block;
-      margin-top: 8px;
-      font-weight: 500;
-      color: #2cccc4;
-    }
-    .project-card .proj-link i { margin-left: 6px; }
-
-    /* ---- Carousel ---- */
+    .project-card i { font-size:2.4rem; color:#6cd4ff; margin-bottom:12px; }
+    .project-card h4 { color:#f7d44a; margin-bottom:6px; }
+    .project-card p { color:#b0c0d0; font-size:0.9rem; }
+    .project-card .status { font-size:0.8rem; color:#6cd4ff; background:rgba(108,212,255,0.08); padding:4px 14px; border-radius:40px; display:inline-block; margin-top:8px; }
+    /* carousel */
     .carousel-wrapper {
       position:relative;
       width:100%;
@@ -289,8 +296,8 @@
       margin:0 auto;
       border-radius:24px;
       overflow:hidden;
-      background:#0a0a0a;
-      box-shadow:0 24px 60px rgba(0,0,0,0.7);
+      background:#0a0a12;
+      box-shadow:0 24px 60px rgba(0,0,0,0.8);
     }
     .carousel-track {
       display:flex;
@@ -302,9 +309,9 @@
       display:flex;
       align-items:center;
       justify-content:center;
-      min-height:300px;
+      min-height:280px;
       max-height:70vh;
-      background:#0a0a0a;
+      background:#0a0a12;
       cursor:pointer;
       position:relative;
     }
@@ -314,15 +321,9 @@
       max-height:70vh;
       object-fit:contain;
       display:block;
-      background:#0a0a0a;
+      background:#0a0a12;
       user-select:none;
       -webkit-user-drag:none;
-    }
-    .carousel-slide .placeholder {
-      color:#555;
-      font-size:1.2rem;
-      text-align:center;
-      padding:40px;
     }
     .carousel-btn {
       position:absolute;
@@ -344,12 +345,11 @@
       justify-content:center;
     }
     .carousel-btn:hover {
-      background:rgba(44,204,196,0.6);
-      border-color:#2cccc4;
+      background:rgba(108,212,255,0.4);
+      border-color:#6cd4ff;
     }
     .carousel-btn.prev { left:16px; }
     .carousel-btn.next { right:16px; }
-
     .carousel-dots {
       display:flex;
       justify-content:center;
@@ -368,17 +368,16 @@
       padding:0;
     }
     .carousel-dots button.active {
-      background:#2cccc4;
+      background:#6cd4ff;
       transform:scale(1.3);
-      box-shadow:0 0 16px rgba(44,204,196,0.4);
+      box-shadow:0 0 16px rgba(108,212,255,0.4);
     }
-
-    /* ---- Lightbox ---- */
+    /* lightbox */
     .lightbox-overlay {
       position:fixed;
       inset:0;
       background:rgba(0,0,0,0.9);
-      backdrop-filter:blur(12px);
+      backdrop-filter:blur(14px);
       display:none;
       align-items:center;
       justify-content:center;
@@ -394,7 +393,7 @@
       border-radius:12px;
       box-shadow:0 20px 60px rgba(0,0,0,0.9);
       cursor:default;
-      background:#0a0a0a;
+      background:#0a0a12;
     }
     .lightbox-close {
       position:fixed;
@@ -443,19 +442,18 @@
       align-items:center;
       justify-content:center;
     }
-    .lightbox-nav:hover { background:rgba(44,204,196,0.5); border-color:#2cccc4; }
+    .lightbox-nav:hover { background:rgba(108,212,255,0.4); border-color:#6cd4ff; }
     .lightbox-nav.prev { left:20px; }
     .lightbox-nav.next { right:20px; }
-
-    /* ---- Contact / Footer ---- */
+    /* contact */
     .contact-grid {
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:40px;
       align-items:start;
     }
-    .contact-info p { margin:6px 0; color:#ccc; }
-    .contact-info .label { color:#888; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.5px; }
+    .contact-info p { margin:6px 0; color:#c8d0e0; }
+    .contact-info .label { color:#8899aa; font-size:0.85rem; text-transform:uppercase; letter-spacing:0.5px; }
     .footer-bottom {
       margin-top:48px;
       padding-top:24px;
@@ -466,28 +464,26 @@
       align-items:center;
       gap:16px;
       font-size:0.9rem;
-      color:#777;
+      color:#8899aa;
     }
     .social-links {
       display:flex;
       gap:18px;
     }
     .social-links a {
-      color:#aaa;
+      color:#b0c0d0;
       font-size:1.3rem;
       transition:0.2s;
     }
-    .social-links a:hover { color:#f5d654; transform:translateY(-2px); }
-
-    /* ---- Responsive ---- */
+    .social-links a:hover { color:#f7d44a; transform:translateY(-3px); }
+    /* responsive */
     @media (max-width:820px) {
-      .card-grid { grid-template-columns:1fr; }
-      .contact-grid { grid-template-columns:1fr; }
+      .card-grid, .cert-grid, .contact-grid { grid-template-columns:1fr; }
       .nav-links {
         display:none;
         flex-direction:column;
         width:100%;
-        background:rgba(11,11,11,0.95);
+        background:rgba(10,10,18,0.95);
         padding:16px 0 8px;
         gap:12px;
         border-top:1px solid rgba(255,255,255,0.06);
@@ -495,7 +491,7 @@
       .nav-links.open { display:flex; }
       .menu-toggle { display:flex; }
       header .container { flex-wrap:wrap; }
-      .carousel-slide { min-height:200px; max-height:50vh; }
+      .carousel-slide { min-height:180px; max-height:50vh; }
       .carousel-slide img { max-height:50vh; }
       .carousel-btn { width:38px; height:38px; font-size:1.3rem; }
       .carousel-btn.prev { left:8px; }
@@ -504,7 +500,6 @@
       .lightbox-nav.prev { left:8px; }
       .lightbox-nav.next { right:8px; }
       .lightbox-close { top:12px; right:18px; font-size:2rem; }
-      .cert-grid { flex-direction: column; align-items: stretch; }
     }
     @media (max-width:500px) {
       .hero h1 { font-size:2.4rem; }
@@ -512,24 +507,23 @@
       .card { padding:20px; }
       .exp-item { flex-direction:column; gap:4px; }
       .exp-item .years { align-self:flex-start; }
-      .carousel-slide { min-height:160px; max-height:40vh; }
+      .carousel-slide { min-height:140px; max-height:40vh; }
       .carousel-slide img { max-height:40vh; }
       .footer-bottom { flex-direction:column; text-align:center; }
       .container { padding:0 14px; }
     }
-
     ::-webkit-scrollbar { width:8px; }
-    ::-webkit-scrollbar-track { background:#0b0b0b; }
-    ::-webkit-scrollbar-thumb { background:#2cccc4; border-radius:10px; }
-    ::-webkit-scrollbar-thumb:hover { background:#f5d654; }
+    ::-webkit-scrollbar-track { background:#0a0a12; }
+    ::-webkit-scrollbar-thumb { background:#6cd4ff; border-radius:10px; }
+    ::-webkit-scrollbar-thumb:hover { background:#f7d44a; }
+    .glow-text { color:#f7d44a; }
   </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <header>
   <div class="container">
-    <div class="logo">Bishow<span>deep</span></div>
+    <div class="logo">Bishowdeep</div>
     <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">
       <span></span><span></span><span></span>
     </button>
@@ -548,7 +542,7 @@
 <!-- HERO -->
 <section class="hero">
   <div class="container">
-    <h1>Bishowdeep <span style="background:linear-gradient(135deg,#f5d654,#2cccc4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Sharma</span></h1>
+    <h1>Bishowdeep Sharma</h1>
     <p class="subhead">Repair Technician · Micro‑soldering · Apple Certified · Educator · Photographer</p>
     <div class="badge-list">
       <span><i class="fas fa-microchip"></i> iPhone / Mac Repair</span>
@@ -565,7 +559,7 @@
     <h2 class="section-title">About Me</h2>
     <div class="card-grid">
       <div class="card">
-        <h3><i class="fas fa-user-cog" style="color:#2cccc4;margin-right:8px;"></i> Who I Am</h3>
+        <h3><i class="fas fa-user-cog" style="color:#6cd4ff;margin-right:8px;"></i> Who I Am</h3>
         <p style="margin-bottom:12px;">
           Skilled repair technician with <strong>hands‑on experience</strong> in smartphone and laptop repair,
           hardware diagnostics, micro‑soldering, and board‑level troubleshooting. I repair Apple &amp; Android
@@ -576,20 +570,20 @@
           passionate about mentoring the next generation of makers.
         </p>
         <div style="margin-top:16px; display:flex; flex-wrap:wrap; gap:8px;">
-          <span style="background:rgba(255,255,255,0.06); padding:4px 16px; border-radius:20px; border:1px solid rgba(255,255,255,0.08);">ACST</span>
-          <span style="background:rgba(255,255,255,0.06); padding:4px 16px; border-radius:20px; border:1px solid rgba(255,255,255,0.08);">ACRT</span>
+          <span style="background:rgba(108,212,255,0.1); padding:4px 16px; border-radius:20px; border:1px solid rgba(108,212,255,0.2);">ACST</span>
+          <span style="background:rgba(247,212,74,0.08); padding:4px 16px; border-radius:20px; border:1px solid rgba(247,212,74,0.2);">ACRT</span>
         </div>
       </div>
       <div class="card">
-        <h3><i class="fas fa-map-pin" style="color:#2cccc4;margin-right:8px;"></i> Contact</h3>
+        <h3><i class="fas fa-map-pin" style="color:#6cd4ff;margin-right:8px;"></i> Contact</h3>
         <ul>
-          <li><strong>📍</strong> Kathmandu‑20</li>
-          <li><strong>📞</strong> <a href="tel:+9779863454697">+977‑9863454697</a> &nbsp;·&nbsp; <a href="tel:+9779705454697">+977‑9705454697</a></li>
+          <li><strong>📍</strong> Kathmandu‑20, Nepal</li>
+          <li><strong>📞</strong> <a href="tel:+9779863454697">+977‑9863454697</a></li>
           <li><strong>✉️</strong> <a href="mailto:mail@bishowdeep.com.np">mail@bishowdeep.com.np</a></li>
           <li><strong>🌐</strong> <a href="https://bishowdeep.com.np" target="_blank">bishowdeep.com.np</a></li>
         </ul>
         <div style="margin-top:16px;">
-          <span style="color:#2cccc4;font-weight:500;">⚡</span> I built an iPhone XR from scratch —&nbsp;
+          <span style="color:#6cd4ff;font-weight:500;">⚡</span> I built an iPhone XR from scratch —&nbsp;
           <a href="https://youtu.be/sJsgQ9wY5TA?si=8tsdIZD3rtTw-F5v" target="_blank">watch on YouTube</a>
         </div>
       </div>
@@ -603,7 +597,7 @@
     <h2 class="section-title">Skills &amp; Technologies</h2>
     <div class="card-grid">
       <div class="card">
-        <h3><i class="fas fa-tools" style="color:#2cccc4;margin-right:8px;"></i> Repair &amp; Hardware</h3>
+        <h3><i class="fas fa-tools" style="color:#6cd4ff;margin-right:8px;"></i> Repair &amp; Hardware</h3>
         <div class="chip-container">
           <span class="chip">Micro‑soldering</span>
           <span class="chip">iPhone / Mac Repair</span>
@@ -615,7 +609,7 @@
         </div>
       </div>
       <div class="card">
-        <h3><i class="fas fa-laptop-code" style="color:#2cccc4;margin-right:8px;"></i> Tech &amp; Development</h3>
+        <h3><i class="fas fa-laptop-code" style="color:#6cd4ff;margin-right:8px;"></i> Tech &amp; Development</h3>
         <div class="chip-container">
           <span class="chip">Arduino / Embedded C</span>
           <span class="chip">Python</span>
@@ -635,18 +629,20 @@
   <div class="container">
     <h2 class="section-title">Certifications</h2>
     <div class="cert-grid">
-      <div class="cert-card apple">
-        <div class="icon"><i class="fab fa-apple"></i></div>
+      <div class="cert-card">
+        <div class="cert-icon"><i class="fab fa-apple"></i></div>
         <div class="info">
           <h4>ACST</h4>
           <p>Apple Certified Support Technician</p>
+          <span style="color:#6cd4ff;font-size:0.85rem;"><i class="fas fa-check-circle"></i> Verified</span>
         </div>
       </div>
-      <div class="cert-card repair">
-        <div class="icon"><i class="fas fa-screwdriver-wrench"></i></div>
+      <div class="cert-card">
+        <div class="cert-icon"><i class="fas fa-tools"></i></div>
         <div class="info">
           <h4>ACRT</h4>
           <p>Apple Certified Repair Technician</p>
+          <span style="color:#f7d44a;font-size:0.85rem;"><i class="fas fa-check-circle"></i> Verified</span>
         </div>
       </div>
     </div>
@@ -657,35 +653,41 @@
 <section id="projects" class="darker-bg">
   <div class="container">
     <h2 class="section-title">Projects</h2>
-    <div class="card-grid">
+    <div class="project-grid">
       <div class="project-card">
-        <h4>🚀 Gyani Rover</h4>
-        <p style="color:#ccc;">Autonomous rover project with sensor integration and remote control.</p>
-        <a class="proj-link" href="https://bishowdeep.com.np/gyani-rover/" target="_blank">Explore <i class="fas fa-arrow-right"></i></a>
+        <i class="fas fa-robot"></i>
+        <h4>Gyani Rover</h4>
+        <p>Autonomous rover with sensors & telemetry</p>
+        <a href="https://bishowdeep.com.np/gyani-rover/" target="_blank" class="status"><i class="fas fa-external-link-alt"></i> Live Demo</a>
       </div>
       <div class="project-card">
-        <h4>💊 Carepoint Pharmacy</h4>
-        <p style="color:#ccc;">Full‑stack pharmacy management website with inventory &amp; billing.</p>
-        <a class="proj-link" href="https://carepoint.com.np" target="_blank">Visit <i class="fas fa-arrow-right"></i></a>
+        <i class="fas fa-hospital"></i>
+        <h4>CarePoint Pharmacy</h4>
+        <p>Full‑stack pharmacy management system</p>
+        <a href="https://carepoint.com.np" target="_blank" class="status"><i class="fas fa-external-link-alt"></i> Visit Site</a>
       </div>
       <div class="project-card">
-        <h4>✈️ BishowFly (in development)</h4>
-        <p style="color:#ccc;">Custom drone &amp; flight controller – hardware &amp; firmware from scratch.</p>
-        <a class="proj-link" href="https://bishowdeep.com.np/bishowfly/" target="_blank">Preview <i class="fas fa-arrow-right"></i></a>
+        <i class="fas fa-drone"></i>
+        <h4>BishowFly</h4>
+        <p>Custom drone &amp; flight controller (in dev)</p>
+        <span class="status"><i class="fas fa-spinner fa-pulse"></i> Building</span>
       </div>
     </div>
+    <p style="color:#8899aa;margin-top:20px;font-size:0.95rem;">
+      <i class="fas fa-rocket" style="color:#6cd4ff;"></i> More at <a href="https://bishowdeep.com.np" target="_blank">bishowdeep.com.np</a>
+    </p>
   </div>
 </section>
 
-<!-- EXPERIENCE (dynamic months for Evostore) -->
+<!-- EXPERIENCE with dynamic months for Evostore -->
 <section id="experience" class="dark-bg">
   <div class="container">
     <h2 class="section-title">Experience</h2>
-    <div style="background:rgba(255,255,255,0.03); border-radius:20px; padding:20px 24px; border:1px solid rgba(255,255,255,0.05);">
+    <div style="background:rgba(255,255,255,0.02); border-radius:24px; padding:20px 24px; border:1px solid rgba(255,255,255,0.05);">
       <!-- Evostore (dynamic) -->
-      <div class="exp-item">
-        <div><span class="title">Apple Technician</span> · <span class="org">Evostore</span></div>
-        <span class="years" id="evostoreDuration">1 month</span>
+      <div class="exp-item exp-highlight">
+        <div><span class="title">Apple Technician</span> · <span class="org">Evostore (Kathmandu)</span></div>
+        <span class="years" id="evostoreMonths">1 month</span>
       </div>
       <div class="exp-item">
         <div><span class="title">Technician</span> · <span class="org">You and our laptops, New Road</span></div>
@@ -704,9 +706,9 @@
         <span class="years">project‑based</span>
       </div>
     </div>
-    <p style="margin-top:18px; color:#aaa; font-size:0.95rem;">
-      <span style="color:#2cccc4;">▸</span> Conducted laptop repairs, diagnosed hardware/software issues, flashed chips.<br>
-      <span style="color:#2cccc4;">▸</span> Apple Certified Support Technician (ACST) &amp; Apple Certified Repair Technician (ACRT).
+    <p style="margin-top:18px; color:#aab8c8; font-size:0.95rem;">
+      <span style="color:#6cd4ff;">▸</span> Apple Certified Support Technician (ACST) &amp; Apple Certified Repair Technician (ACRT).<br>
+      <span style="color:#f7d44a;">▸</span> Currently at Evostore since February 2025.
     </p>
   </div>
 </section>
@@ -715,12 +717,9 @@
 <section id="photography" class="darker-bg">
   <div class="container">
     <h2 class="section-title">Photography</h2>
-    <p style="color:#aaa; margin-bottom:24px;">Tap any photo to expand — carousel adapts to every aspect ratio.</p>
-
+    <p style="color:#aab8c8; margin-bottom:24px;">Tap any photo to expand — carousel adapts to every aspect ratio.</p>
     <div class="carousel-wrapper" id="carouselWrapper">
-      <div class="carousel-track" id="carouselTrack">
-        <!-- slides injected by JS -->
-      </div>
+      <div class="carousel-track" id="carouselTrack"></div>
       <button class="carousel-btn prev" id="carouselPrev" aria-label="Previous"><i class="fas fa-chevron-left"></i></button>
       <button class="carousel-btn next" id="carouselNext" aria-label="Next"><i class="fas fa-chevron-right"></i></button>
     </div>
@@ -734,36 +733,35 @@
     <div class="contact-grid">
       <div>
         <h2 class="section-title" style="margin-bottom:12px;">Let’s Connect</h2>
-        <p style="color:#bbb; max-width:480px;">
+        <p style="color:#b0c0d0; max-width:480px;">
           Whether it’s a repair, a collaboration, or just a chat about tech &amp; photography —
           I’d love to hear from you.
         </p>
         <div style="margin-top:18px; display:flex; gap:16px; flex-wrap:wrap;">
-          <a href="mailto:mail@bishowdeep.com.np" style="background:rgba(255,255,255,0.05); padding:10px 28px; border-radius:40px; border:1px solid rgba(255,255,255,0.08); display:inline-flex; align-items:center; gap:8px;">
+          <a href="mailto:mail@bishowdeep.com.np" style="background:rgba(255,255,255,0.04); padding:10px 28px; border-radius:40px; border:1px solid rgba(255,255,255,0.08); display:inline-flex; align-items:center; gap:8px;">
             <i class="fas fa-envelope"></i> mail@bishowdeep.com.np
           </a>
-          <a href="tel:+9779863454697" style="background:rgba(255,255,255,0.05); padding:10px 28px; border-radius:40px; border:1px solid rgba(255,255,255,0.08); display:inline-flex; align-items:center; gap:8px;">
+          <a href="tel:+9779863454697" style="background:rgba(255,255,255,0.04); padding:10px 28px; border-radius:40px; border:1px solid rgba(255,255,255,0.08); display:inline-flex; align-items:center; gap:8px;">
             <i class="fas fa-phone-alt"></i> +977‑9863454697
           </a>
         </div>
       </div>
       <div>
-        <div style="background:rgba(255,255,255,0.03); border-radius:20px; padding:24px; border:1px solid rgba(255,255,255,0.05);">
-          <h4 style="color:#f5d654; margin-bottom:8px;"><i class="fas fa-map-marker-alt" style="margin-right:6px;"></i> Find me</h4>
-          <p style="color:#ccc;">Kathmandu‑20</p>
-          <p style="color:#ccc; margin-top:4px;"><i class="fas fa-globe"></i> <a href="https://bishowdeep.com.np" target="_blank">bishowdeep.com.np</a></p>
+        <div style="background:rgba(255,255,255,0.02); border-radius:24px; padding:24px; border:1px solid rgba(255,255,255,0.05);">
+          <h4 style="color:#f7d44a; margin-bottom:8px;"><i class="fas fa-map-marker-alt" style="margin-right:6px;"></i> Find me</h4>
+          <p style="color:#c8d0e0;">Kathmandu‑20, Nepal</p>
+          <p style="color:#c8d0e0; margin-top:4px;"><i class="fas fa-globe"></i> <a href="https://bishowdeep.com.np" target="_blank">bishowdeep.com.np</a></p>
           <div style="margin-top:16px; display:flex; gap:18px; font-size:1.4rem;">
-            <a href="https://fb.com/bishow420" target="_blank" style="color:#aaa;"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://twitter.com/BISHOWDEEP4" target="_blank" style="color:#aaa;"><i class="fab fa-twitter"></i></a>
-            <a href="https://instagr.am/420bishow" target="_blank" style="color:#aaa;"><i class="fab fa-instagram"></i></a>
-            <a href="https://youtu.be/sJsgQ9wY5TA?si=8tsdIZD3rtTw-F5v" target="_blank" style="color:#aaa;"><i class="fab fa-youtube"></i></a>
+            <a href="https://fb.com/bishow420" target="_blank" style="color:#b0c0d0;"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://twitter.com/BISHOWDEEP4" target="_blank" style="color:#b0c0d0;"><i class="fab fa-twitter"></i></a>
+            <a href="https://instagr.am/420bishow" target="_blank" style="color:#b0c0d0;"><i class="fab fa-instagram"></i></a>
+            <a href="https://youtu.be/sJsgQ9wY5TA?si=8tsdIZD3rtTw-F5v" target="_blank" style="color:#b0c0d0;"><i class="fab fa-youtube"></i></a>
           </div>
         </div>
       </div>
     </div>
-
     <div class="footer-bottom">
-      <span>© 2026 Bishowdeep Sharma · Built with <i class="fas fa-heart" style="color:#f5d654;"></i></span>
+      <span>© 2026 Bishowdeep Sharma · Built with <i class="fas fa-heart" style="color:#f7d44a;"></i></span>
       <div class="social-links">
         <a href="https://fb.com/bishow420" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
         <a href="https://twitter.com/BISHOWDEEP4" target="_blank" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
@@ -783,23 +781,21 @@
   <div class="lightbox-counter" id="lightboxCounter">1 / 1</div>
 </div>
 
-<!-- ===== SCRIPT ===== -->
 <script>
   (function() {
     'use strict';
 
-    // ----- Dynamic Evostore months (start date: 1 month ago from today) -----
-    function updateEvostoreDuration() {
-      const start = new Date(2025, 2, 15); // March 15, 2025 (adjust if needed)
+    // ----- DYNAMIC MONTHS for Evostore (start: Feb 2025) -----
+    function updateEvostoreMonths() {
+      const start = new Date(2025, 1, 1); // Feb 1, 2025 (month index 1)
       const now = new Date();
       let months = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
-      // if day of month less than start day, subtract one month
       if (now.getDate() < start.getDate()) months--;
-      if (months < 1) months = 1; // at least 1 month
-      const el = document.getElementById('evostoreDuration');
-      if (el) el.textContent = months + ' month' + (months > 1 ? 's' : '');
+      if (months < 1) months = 1;
+      const el = document.getElementById('evostoreMonths');
+      if (el) el.textContent = months + (months === 1 ? ' month' : ' months');
     }
-    updateEvostoreDuration();
+    updateEvostoreMonths();
 
     // ----- Image list (YOUR LOCAL PATHS) -----
     const images = [
@@ -828,7 +824,6 @@
       'images/imageweb0 (23).jpg'
     ];
 
-    // ----- DOM refs -----
     const track = document.getElementById('carouselTrack');
     const dots = document.getElementById('carouselDots');
     const prevBtn = document.getElementById('carouselPrev');
@@ -844,7 +839,6 @@
     let lightboxIndex = 0;
     let isTransitioning = false;
 
-    // ----- Build carousel -----
     function buildCarousel() {
       track.innerHTML = '';
       dots.innerHTML = '';
@@ -862,6 +856,8 @@
           const placeholder = document.createElement('div');
           placeholder.className = 'placeholder';
           placeholder.textContent = '📷 Image not found';
+          placeholder.style.color = '#8899aa';
+          placeholder.style.padding = '40px';
           slide.appendChild(placeholder);
         };
         slide.appendChild(img);
@@ -895,7 +891,6 @@
     function next() { goTo(currentIndex + 1); }
     function prev() { goTo(currentIndex - 1); }
 
-    // ----- Lightbox -----
     function openLightbox(index) {
       lightboxIndex = index;
       lightboxImg.src = images[index];
@@ -920,7 +915,7 @@
       lightboxCounter.textContent = (idx + 1) + ' / ' + images.length;
     }
 
-    // ----- Event listeners -----
+    // Event listeners
     track.addEventListener('click', function(e) {
       const slide = e.target.closest('.carousel-slide');
       if (slide) {
@@ -939,7 +934,6 @@
       if (e.target === overlay) closeLightbox();
     });
 
-    // Keyboard
     document.addEventListener('keydown', function(e) {
       if (overlay.classList.contains('open')) {
         if (e.key === 'Escape') { closeLightbox(); e.preventDefault(); }
@@ -951,7 +945,6 @@
       if (e.key === 'ArrowRight') { next(); e.preventDefault(); }
     });
 
-    // Touch swipe
     let touchStartX = 0;
     const wrapper = document.getElementById('carouselWrapper');
     wrapper.addEventListener('touchstart', function(e) {
@@ -964,7 +957,7 @@
       }
     }, { passive: true });
 
-    // ----- Menu toggle -----
+    // Menu toggle
     const menuToggle = document.getElementById('menuToggle');
     const navLinks = document.getElementById('navLinks');
     menuToggle.addEventListener('click', function() {
@@ -976,7 +969,6 @@
       });
     });
 
-    // ----- Init -----
     buildCarousel();
     goTo(0);
 
