@@ -514,7 +514,7 @@
       <div class="card">
         <h3><i class="fas fa-map-pin" style="color:#2cccc4;margin-right:8px;"></i> Contact</h3>
         <ul>
-          <li><strong>📍</strong> Kathmandu‑20</li>
+          <li><strong>📍</strong> Jaamana Gubhaju Marg, Kathmandu‑20</li>
           <li><strong>📞</strong> <a href="tel:+9779863454697">+977‑9863454697</a> &nbsp;·&nbsp; <a href="tel:+9779705454697">+977‑9705454697</a></li>
           <li><strong>✉️</strong> <a href="mailto:mail@bishowdeep.com.np">mail@bishowdeep.com.np</a></li>
           <li><strong>🌐</strong> <a href="https://bishowdeep.com.np" target="_blank">bishowdeep.com.np</a></li>
@@ -629,7 +629,7 @@
       <div>
         <div style="background:rgba(255,255,255,0.03); border-radius:20px; padding:24px; border:1px solid rgba(255,255,255,0.05);">
           <h4 style="color:#f5d654; margin-bottom:8px;"><i class="fas fa-map-marker-alt" style="margin-right:6px;"></i> Find me</h4>
-          <p style="color:#ccc;"> Kathmandu‑20</p>
+          <p style="color:#ccc;">Jaamana Gubhaju Marg, Kathmandu‑20</p>
           <p style="color:#ccc; margin-top:4px;"><i class="fas fa-globe"></i> <a href="https://bishowdeep.com.np" target="_blank">bishowdeep.com.np</a></p>
           <div style="margin-top:16px; display:flex; gap:18px; font-size:1.4rem;">
             <a href="https://fb.com/bishow420" target="_blank" style="color:#aaa;"><i class="fab fa-facebook-f"></i></a>
@@ -667,31 +667,31 @@
   (function() {
     'use strict';
 
-    // ----- Image list (replace with your own paths) -----
+    // ----- Image list (YOUR LOCAL PATHS) -----
     const images = [
-      'https://picsum.photos/id/1015/800/600',
-      'https://picsum.photos/id/1016/800/900',
-      'https://picsum.photos/id/1018/800/600',
-      'https://picsum.photos/id/1020/800/700',
-      'https://picsum.photos/id/1024/800/800',
-      'https://picsum.photos/id/1027/800/600',
-      'https://picsum.photos/id/1035/800/900',
-      'https://picsum.photos/id/1039/800/600',
-      'https://picsum.photos/id/1040/800/700',
-      'https://picsum.photos/id/1044/800/800',
-      'https://picsum.photos/id/1045/800/600',
-      'https://picsum.photos/id/1049/800/900',
-      'https://picsum.photos/id/1055/800/600',
-      'https://picsum.photos/id/1057/800/700',
-      'https://picsum.photos/id/1060/800/800',
-      'https://picsum.photos/id/1062/800/600',
-      'https://picsum.photos/id/1069/800/900',
-      'https://picsum.photos/id/1070/800/600',
-      'https://picsum.photos/id/1074/800/700',
-      'https://picsum.photos/id/1084/800/800',
-      'https://picsum.photos/id/1088/800/600',
-      'https://picsum.photos/id/1090/800/900',
-      'https://picsum.photos/id/1092/800/600'
+      'images/imageweb0 (1).png',
+      'images/imageweb0 (2).jpg',
+      'images/imageweb0 (3).jpg',
+      'images/imageweb0 (4).png',
+      'images/imageweb0 (5).jpg',
+      'images/imageweb0 (6).jpg',
+      'images/imageweb0 (7).jpg',
+      'images/imageweb0 (8).jpg',
+      'images/imageweb0 (9).jpg',
+      'images/imageweb0 (10).jpg',
+      'images/imageweb0 (11).jpg',
+      'images/imageweb0 (12).jpg',
+      'images/imageweb0 (13).jpg',
+      'images/imageweb0 (14).jpg',
+      'images/imageweb0 (15).jpg',
+      'images/imageweb0 (16).jpg',
+      'images/imageweb0 (17).jpg',
+      'images/imageweb0 (18).jpg',
+      'images/imageweb0 (19).jpg',
+      'images/imageweb0 (20).jpg',
+      'images/imageweb0 (21).jpg',
+      'images/imageweb0 (22).jpg',
+      'images/imageweb0 (23).jpg'
     ];
 
     // ----- DOM refs -----
@@ -723,6 +723,7 @@
         img.alt = 'Photo ' + (i + 1);
         img.loading = 'lazy';
         img.draggable = false;
+        // if image fails, show placeholder
         img.onerror = function() {
           this.style.display = 'none';
           const placeholder = document.createElement('div');
