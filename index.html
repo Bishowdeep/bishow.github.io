@@ -3,15 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About Me — Bishow Deep</title>
-    <meta name="description" content="Tech enthusiast, photographer, and coffee lover — Bishow Deep's personal portfolio." />
-    <link rel="icon" type="image/jpg" href="favicon.jpg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet" />
-
+    <title>Bishow Deep — Tech Enthusiast &amp; Photographer</title>
+    <meta name="description" content="Bishow Deep — tech enthusiast, photographer, and creator. Explore my work, projects, and photography." />
+    <link rel="icon" type="image/jpg" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📷%3C/text%3E%3C/svg%3E" />
     <style>
-        /* ----- RESET & BASE ----- */
+        /* ===== RESET & BASE ===== */
         *,
         *::before,
         *::after {
@@ -19,473 +15,369 @@
             margin: 0;
             padding: 0;
         }
-
-        :root {
-            --bg: #000;
-            --text: #fff;
-            --text-muted: #aaa;
-            --yellow: #f5d654;
-            --teal: #2cccc4;
-            --blue: #478ac9;
-            --gradient-yellow-teal: linear-gradient(135deg, #f5d654, #2cccc4);
-            --gradient-teal-yellow: linear-gradient(135deg, #2cccc4, #f5d654);
-            --radius: 12px;
-            --shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
-            --transition: 0.3s ease;
-            --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            --carousel-height: 420px;
-        }
-
         html {
             scroll-behavior: smooth;
             -webkit-text-size-adjust: 100%;
         }
-
         body {
-            font-family: var(--font);
-            background: var(--bg);
-            color: var(--text);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0a0a0a;
+            color: #f0f0f0;
             line-height: 1.6;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
+            min-height: 100vh;
             overflow-x: hidden;
         }
-
         img {
             max-width: 100%;
-            height: auto;
             display: block;
         }
-
         a {
-            color: var(--blue);
+            color: #3be8e0;
             text-decoration: none;
-            transition: color var(--transition);
+            transition: color 0.25s;
         }
         a:hover {
-            color: var(--teal);
+            color: #f5d654;
         }
-
         .container {
-            width: 100%;
-            max-width: 1140px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
 
-        /* ----- UTILITY ----- */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            border: 0;
-        }
-
-        .text-gradient {
-            background: var(--gradient-yellow-teal);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        .hidden-mobile {
-            display: none;
-        }
-
-        /* ----- HEADER / NAV ----- */
-        .site-header {
-            background: var(--bg);
-            padding: 14px 0;
+        /* ===== HEADER ===== */
+        header {
+            background: #0a0a0a;
+            padding: 18px 0;
+            border-bottom: 1px solid #1e1e1e;
             position: sticky;
             top: 0;
             z-index: 100;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(8px);
+            background: rgba(10, 10, 10, 0.85);
         }
-
-        .header-inner {
+        header .container {
             display: flex;
-            align-items: center;
             justify-content: space-between;
+            align-items: center;
             flex-wrap: wrap;
             gap: 12px;
         }
-
         .logo {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: 700;
             letter-spacing: -0.5px;
-            color: #fff;
-        }
-        .logo span {
-            color: var(--yellow);
-        }
-
-        /* Hamburger */
-        .nav-toggle {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 4px;
-            z-index: 110;
-        }
-        .nav-toggle span {
-            display: block;
-            width: 28px;
-            height: 2.5px;
-            background: #fff;
-            border-radius: 2px;
-            transition: var(--transition);
-            transform-origin: center;
-        }
-        .nav-toggle.open span:nth-child(1) {
-            transform: translateY(7.5px) rotate(45deg);
-        }
-        .nav-toggle.open span:nth-child(2) {
-            opacity: 0;
-        }
-        .nav-toggle.open span:nth-child(3) {
-            transform: translateY(-7.5px) rotate(-45deg);
-        }
-
-        /* Nav links */
-        .nav-links {
-            display: none;
-            flex-direction: column;
-            width: 100%;
-            gap: 4px;
-            padding: 16px 0 4px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-        }
-        .nav-links.open {
-            display: flex;
-        }
-
-        .nav-links a {
-            color: var(--text-muted);
-            font-size: 1rem;
-            font-weight: 500;
-            padding: 8px 0;
-            transition: color var(--transition);
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: #fff;
-        }
-        .nav-links a .arrow {
-            font-size: 0.7rem;
-            color: var(--text-muted);
-        }
-
-        .nav-links .dropdown {
-            position: relative;
-        }
-        .nav-links .dropdown-menu {
-            padding-left: 20px;
-            display: none;
-            flex-direction: column;
-            gap: 2px;
-        }
-        .nav-links .dropdown-menu.open {
-            display: flex;
-        }
-        .nav-links .dropdown-menu a {
-            font-size: 0.9rem;
-            font-weight: 400;
-            padding: 4px 0;
-            color: var(--text-muted);
-        }
-        .nav-links .dropdown-menu a:hover {
-            color: #fff;
-        }
-
-        @media (min-width: 768px) {
-            .nav-toggle {
-                display: none;
-            }
-            .nav-links {
-                display: flex !important;
-                flex-direction: row;
-                width: auto;
-                border: none;
-                padding: 0;
-                gap: 28px;
-                align-items: center;
-            }
-            .nav-links a {
-                padding: 0;
-                font-size: 0.95rem;
-            }
-            .nav-links .dropdown-menu {
-                position: absolute;
-                top: 100%;
-                left: 0;
-                background: #1a1a1a;
-                padding: 10px 18px;
-                border-radius: var(--radius);
-                min-width: 160px;
-                box-shadow: var(--shadow);
-                display: none;
-                flex-direction: column;
-                gap: 4px;
-            }
-            .nav-links .dropdown:hover .dropdown-menu {
-                display: flex;
-            }
-            .nav-links .dropdown-menu a {
-                font-size: 0.85rem;
-                padding: 4px 0;
-            }
-            .nav-links .dropdown>a .arrow {
-                display: inline-block;
-                margin-left: 4px;
-            }
-        }
-
-        /* ----- SECTIONS ----- */
-        section {
-            padding: 60px 0;
-        }
-
-        .section-title {
-            font-size: 2.4rem;
-            font-weight: 700;
-            letter-spacing: -1px;
-            margin-bottom: 12px;
-        }
-        .section-sub {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-            max-width: 640px;
-            margin: 0 auto 40px;
-        }
-
-        /* ----- HERO / WELCOME ----- */
-        .hero {
-            padding: 40px 0 20px;
-            text-align: center;
-        }
-        .hero h1 {
-            font-size: 2.8rem;
-            font-weight: 700;
-            letter-spacing: -1.5px;
-            animation: fadeUp 0.8s ease forwards;
-        }
-        .hero h1 .highlight {
-            background: var(--gradient-yellow-teal);
+            background: linear-gradient(135deg, #f5d654, #3be8e0);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        @keyframes fadeUp {
-            0% {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #ccc;
+            transition: color 0.25s;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #f5d654, #3be8e0);
+            transition: width 0.3s;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-links a:hover {
+            color: #fff;
+        }
+        .nav-links .btn-outline {
+            padding: 6px 18px;
+            border: 1.5px solid #3be8e0;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            background: transparent;
+            color: #3be8e0;
+            transition: all 0.3s;
+        }
+        .nav-links .btn-outline::after {
+            display: none;
+        }
+        .nav-links .btn-outline:hover {
+            background: #3be8e0;
+            color: #0a0a0a;
         }
 
-        /* ----- TAGS / BADGES ----- */
-        .tags {
+        /* ===== HERO ===== */
+        .hero {
+            padding: 60px 0 40px;
+            text-align: center;
+            border-bottom: 1px solid #1a1a1a;
+        }
+        .hero h1 {
+            font-size: clamp(2.2rem, 7vw, 4.5rem);
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #f5d654, #3be8e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 12px;
+        }
+        .hero .tagline {
+            font-size: clamp(1rem, 2vw, 1.3rem);
+            color: #aaa;
+            max-width: 640px;
+            margin: 0 auto 6px;
+        }
+        .hero .sub-tagline {
+            font-size: 0.95rem;
+            color: #777;
+        }
+        .hero .badge-group {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 12px 24px;
-            padding: 16px 0 8px;
+            gap: 10px 20px;
+            margin-top: 18px;
         }
-        .tags li {
-            list-style: none;
-            font-size: 1.05rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            gap: 6px;
+        .hero .badge {
+            background: #161616;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 0.85rem;
+            color: #ccc;
+            border: 1px solid #262626;
         }
-        .tags li .dot {
-            display: inline-block;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--gradient-yellow-teal);
-            flex-shrink: 0;
+        .hero .badge span {
+            color: #f5d654;
         }
 
-        /* ----- ABOUT CARD ----- */
+        /* ===== ABOUT ===== */
+        .section {
+            padding: 50px 0;
+            border-bottom: 1px solid #141414;
+        }
+        .section:last-of-type {
+            border-bottom: none;
+        }
+        .section-title {
+            font-size: clamp(1.6rem, 4vw, 2.6rem);
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title .accent {
+            color: #f5d654;
+        }
         .about-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 40px;
             align-items: start;
         }
-
-        .about-text {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: var(--radius);
-            padding: 32px 28px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
         .about-text p {
-            font-size: 1rem;
-            color: #ddd;
-            line-height: 1.8;
             margin-bottom: 16px;
+            color: #ccc;
+            font-size: 1.05rem;
         }
         .about-text p:last-child {
             margin-bottom: 0;
         }
-        .about-text .first-letter {
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--yellow);
+        .about-text strong {
+            color: #f5d654;
         }
-
         .about-code {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: var(--radius);
-            padding: 32px 28px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            font-family: 'Courier New', monospace;
+            background: #111;
+            border-radius: 14px;
+            padding: 24px 28px;
+            border: 1px solid #222;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
             font-size: 0.95rem;
-            color: var(--teal);
-            white-space: pre-wrap;
-            line-height: 1.9;
+            color: #3be8e0;
             overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-word;
+            line-height: 1.8;
         }
-        .about-code .comment {
-            color: var(--text-muted);
+        .about-code .kw {
+            color: #f5d654;
         }
-        .about-code .keyword {
-            color: var(--yellow);
+        .about-code .fn {
+            color: #3be8e0;
+        }
+        .about-code .cm {
+            color: #666;
         }
 
-        @media (min-width: 768px) {
-            .about-grid {
-                grid-template-columns: 1fr 1fr;
-            }
+        /* ===== SKILLS ===== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-top: 8px;
+        }
+        .skill-card {
+            background: #111;
+            border: 1px solid #1e1e1e;
+            border-radius: 12px;
+            padding: 18px 14px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: default;
+        }
+        .skill-card:hover {
+            border-color: #3be8e0;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(59, 232, 224, 0.06);
+        }
+        .skill-card .icon {
+            font-size: 2rem;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .skill-card .label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #ddd;
         }
 
-        /* ----- SOCIAL LINKS ----- */
-        .social-bar {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            padding: 16px 0 8px;
-            flex-wrap: wrap;
+        /* ===== PROJECTS ===== */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 24px;
         }
-        .social-bar a {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.06);
-            color: #fff;
-            transition: var(--transition);
+        .project-card {
+            background: #111;
+            border: 1px solid #1e1e1e;
+            border-radius: 14px;
+            padding: 24px 20px;
+            transition: all 0.3s;
+        }
+        .project-card:hover {
+            border-color: #3be8e0;
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(59, 232, 224, 0.06);
+        }
+        .project-card h3 {
             font-size: 1.2rem;
-            border: 1px solid rgba(255, 255, 255, 0.06);
+            margin-bottom: 6px;
+            color: #fff;
         }
-        .social-bar a:hover {
-            background: var(--gradient-yellow-teal);
-            color: #000;
-            transform: translateY(-3px);
-            border-color: transparent;
+        .project-card p {
+            font-size: 0.92rem;
+            color: #999;
+            margin-bottom: 14px;
+        }
+        .project-card .tag {
+            display: inline-block;
+            background: #1a1a1a;
+            padding: 2px 12px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            color: #3be8e0;
+            border: 1px solid #2a2a2a;
+        }
+        .project-card .link {
+            display: inline-block;
+            margin-top: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #3be8e0;
+        }
+        .project-card .link:hover {
+            color: #f5d654;
         }
 
-        /* ----- CAROUSEL ----- */
+        /* ===== CAROUSEL ===== */
         .carousel-section {
-            padding: 20px 0 60px;
+            background: #060606;
+            padding: 40px 0 50px;
         }
-
         .carousel-wrapper {
             position: relative;
-            border-radius: var(--radius);
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
             overflow: hidden;
+            border-radius: 16px;
             background: #0a0a0a;
-            box-shadow: var(--shadow);
-            aspect-ratio: 16 / 10;
-            /* fixed aspect ratio – solves the aspect-ratio bug */
-            max-height: var(--carousel-height);
+            border: 1px solid #1a1a1a;
         }
-
         .carousel-track {
             display: flex;
-            height: 100%;
-            transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             will-change: transform;
+            touch-action: pan-y;
         }
-
         .carousel-slide {
             flex: 0 0 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0a0a0a;
+            min-height: 360px;
+            max-height: 75vh;
+            padding: 12px;
+            cursor: pointer;
         }
-
         .carousel-slide img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
-            /* — fixes random aspect ratios */
-            display: block;
-            background: #111;
+            max-height: 70vh;
+            object-fit: contain;
+            border-radius: 8px;
+            background: #0a0a0a;
+            transition: opacity 0.3s;
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+        .carousel-slide img.lazy {
+            opacity: 0;
+        }
+        .carousel-slide img.loaded {
+            opacity: 1;
         }
 
-        /* fallback for browsers without object-fit */
-        @supports not (object-fit: cover) {
-            .carousel-slide img {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                min-width: 100%;
-                min-height: 100%;
-                width: auto;
-                height: auto;
-            }
-        }
-
-        /* Controls */
+        /* carousel controls */
         .carousel-btn {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(0, 0, 0, 0.6);
-            border: none;
-            color: #fff;
-            width: 44px;
-            height: 44px;
+            width: 46px;
+            height: 46px;
             border-radius: 50%;
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid #2a2a2a;
+            color: #fff;
             font-size: 1.4rem;
             cursor: pointer;
             z-index: 10;
-            transition: var(--transition);
-            backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
             justify-content: center;
-            user-select: none;
+            transition: all 0.25s;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            touch-action: manipulation;
         }
         .carousel-btn:hover {
-            background: var(--gradient-yellow-teal);
-            color: #000;
+            background: rgba(59, 232, 224, 0.2);
+            border-color: #3be8e0;
         }
         .carousel-btn.prev {
             left: 14px;
@@ -493,77 +385,222 @@
         .carousel-btn.next {
             right: 14px;
         }
+        .carousel-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: currentColor;
+            display: block;
+        }
 
-        /* Dots */
+        /* dots */
         .carousel-dots {
             display: flex;
             justify-content: center;
             gap: 10px;
-            padding: 18px 0 4px;
+            margin-top: 20px;
             flex-wrap: wrap;
+            padding: 0 10px;
         }
-        .carousel-dots button {
+        .carousel-dots .dot {
             width: 10px;
             height: 10px;
             border-radius: 50%;
+            background: #2a2a2a;
             border: none;
-            background: rgba(255, 255, 255, 0.2);
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.25s;
             padding: 0;
+            flex-shrink: 0;
         }
-        .carousel-dots button.active {
-            background: var(--gradient-yellow-teal);
-            transform: scale(1.2);
+        .carousel-dots .dot.active {
+            background: #3be8e0;
+            transform: scale(1.25);
+            box-shadow: 0 0 20px rgba(59, 232, 224, 0.25);
         }
-        .carousel-dots button:hover {
-            background: rgba(255, 255, 255, 0.5);
+        .carousel-dots .dot:hover {
+            background: #3be8e0;
         }
 
-        /* ----- FOOTER ----- */
-        .site-footer {
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            padding: 28px 0;
+        /* ===== LIGHTBOX ===== */
+        .lightbox-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.92);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            animation: fadeIn 0.3s ease;
+        }
+        .lightbox-overlay.open {
+            display: flex;
+        }
+        .lightbox-overlay .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 28px;
+            font-size: 2.6rem;
+            color: #fff;
+            cursor: pointer;
+            background: none;
+            border: none;
+            line-height: 1;
+            transition: transform 0.25s;
+            padding: 8px;
+        }
+        .lightbox-overlay .close-btn:hover {
+            transform: rotate(90deg);
+        }
+        .lightbox-overlay .lb-image {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.8);
+            animation: scaleIn 0.3s ease;
+        }
+        .lightbox-overlay .lb-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(20, 20, 20, 0.7);
+            border: 1px solid #2a2a2a;
+            border-radius: 50%;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            touch-action: manipulation;
+        }
+        .lightbox-overlay .lb-nav:hover {
+            background: rgba(59, 232, 224, 0.2);
+            border-color: #3be8e0;
+        }
+        .lightbox-overlay .lb-nav.prev {
+            left: 20px;
+        }
+        .lightbox-overlay .lb-nav.next {
+            right: 20px;
+        }
+        .lightbox-overlay .lb-counter {
+            position: absolute;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #888;
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 6px 18px;
+            border-radius: 30px;
+            border: 1px solid #222;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.92);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* ===== SOCIAL ===== */
+        .social-links {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            border-radius: 40px;
+            background: #111;
+            border: 1px solid #222;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #ccc;
+            transition: all 0.25s;
+        }
+        .social-links a:hover {
+            border-color: #3be8e0;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+        .social-links .icon {
+            font-size: 1.2rem;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: #060606;
+            padding: 30px 0 22px;
             text-align: center;
+            border-top: 1px solid #141414;
+            color: #555;
+            font-size: 0.85rem;
         }
-        .site-footer .footer-link {
-            display: inline-block;
-            padding: 10px 28px;
-            border-radius: 50px;
-            background: var(--gradient-teal-yellow);
-            color: #000;
-            font-weight: 600;
-            font-size: 0.95rem;
-            transition: var(--transition);
+        footer a {
+            color: #777;
         }
-        .site-footer .footer-link:hover {
-            transform: scale(1.04);
-            box-shadow: 0 4px 20px rgba(44, 204, 196, 0.3);
-            color: #000;
-        }
-        .site-footer .copy {
-            margin-top: 16px;
-            font-size: 0.8rem;
-            color: var(--text-muted);
+        footer a:hover {
+            color: #3be8e0;
         }
 
-        /* ----- RESPONSIVE TWEAKS ----- */
-        @media (max-width: 575px) {
-            :root {
-                --carousel-height: 260px;
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 820px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 28px;
             }
-            .section-title {
-                font-size: 1.8rem;
-            }
-            .hero h1 {
-                font-size: 2rem;
-            }
-            .about-text,
             .about-code {
-                padding: 20px 16px;
+                font-size: 0.85rem;
+                padding: 18px 20px;
             }
-            .about-text p {
-                font-size: 0.95rem;
+            .carousel-slide {
+                min-height: 260px;
+            }
+        }
+        @media (max-width: 600px) {
+            header .container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+            }
+            .nav-links {
+                justify-content: center;
+                gap: 14px;
+            }
+            .nav-links a {
+                font-size: 0.85rem;
+            }
+            .hero {
+                padding: 36px 0 28px;
+            }
+            .section {
+                padding: 32px 0;
             }
             .carousel-btn {
                 width: 36px;
@@ -571,96 +608,78 @@
                 font-size: 1rem;
             }
             .carousel-btn.prev {
-                left: 8px;
+                left: 6px;
             }
             .carousel-btn.next {
-                right: 8px;
+                right: 6px;
             }
-            .tags li {
-                font-size: 0.9rem;
+            .carousel-slide {
+                min-height: 200px;
+                padding: 6px;
             }
-        }
-
-        @media (min-width: 576px) and (max-width: 767px) {
-            :root {
-                --carousel-height: 320px;
+            .lightbox-overlay .lb-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+            .lightbox-overlay .lb-nav.prev {
+                left: 6px;
+            }
+            .lightbox-overlay .lb-nav.next {
+                right: 6px;
+            }
+            .lightbox-overlay .close-btn {
+                top: 12px;
+                right: 16px;
+                font-size: 2rem;
+            }
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            .skills-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .social-links a {
+                padding: 6px 14px;
+                font-size: 0.8rem;
             }
             .section-title {
-                font-size: 2.2rem;
+                font-size: 1.4rem;
+            }
+        }
+        @media (max-width: 400px) {
+            .skills-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+            .skill-card {
+                padding: 12px 8px;
+            }
+            .skill-card .icon {
+                font-size: 1.5rem;
+            }
+            .skill-card .label {
+                font-size: 0.75rem;
             }
             .hero h1 {
-                font-size: 2.4rem;
+                font-size: 1.8rem;
             }
-        }
-
-        @media (min-width: 768px) and (max-width: 991px) {
-            :root {
-                --carousel-height: 380px;
-            }
-        }
-
-        @media (min-width: 992px) {
-            :root {
-                --carousel-height: 480px;
-            }
-            .hero {
-                padding: 60px 0 30px;
-            }
-            .hero h1 {
-                font-size: 3.6rem;
-            }
-            section {
-                padding: 80px 0;
-            }
-        }
-
-        /* Lazy load fade */
-        .carousel-slide img.lazy {
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        .carousel-slide img.lazy.loaded {
-            opacity: 1;
-        }
-
-        /* Scrollbar styling (optional) */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #111;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: var(--teal);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--yellow);
         }
     </style>
 </head>
 <body>
 
     <!-- ===== HEADER ===== -->
-    <header class="site-header" role="banner">
-        <div class="container header-inner">
-            <div class="logo">Bishow<span>Deep</span></div>
-
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
-                <span></span><span></span><span></span>
-            </button>
-
-            <nav class="nav-links" id="navLinks" role="navigation" aria-label="Main navigation">
-                <div class="dropdown">
-                    <a href="#" class="dropdown-toggle" aria-haspopup="true" aria-expanded="false">
-                        my-projects <span class="arrow">▾</span>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a href="gyani-rover/">Gyani Rover</a>
-                        <a href="https://agrobotofficial.github.io/Agrobot/">Agro-Bot</a>
-                    </div>
-                </div>
+    <header>
+        <div class="container">
+            <div class="logo">◈ Bishow Deep</div>
+            <nav class="nav-links">
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Projects</a>
+                <a href="#photos">Photos</a>
+                <a href="#social">Connect</a>
+                <a href="#contact" class="btn-outline">Contact</a>
             </nav>
         </div>
     </header>
@@ -668,150 +687,135 @@
     <!-- ===== HERO ===== -->
     <section class="hero">
         <div class="container">
-            <h1>Welcome to my <span class="highlight">profile</span></h1>
-        </div>
-    </section>
-
-    <!-- ===== TAGS ===== -->
-    <section style="padding: 0 0 20px;">
-        <div class="container">
-            <ul class="tags">
-                <li><span class="dot"></span> A coder?</li>
-                <li><span class="dot"></span> A photographer?</li>
-                <li><span class="dot"></span> A Computer Geek?</li>
-                <li><span class="dot"></span> May be a&nbsp; freelancer &lt;/&gt;</li>
-            </ul>
+            <h1>Bishow Deep</h1>
+            <p class="tagline">Tech Enthusiast · Photographer · Creator</p>
+            <p class="sub-tagline">11th grade · code &amp; shutter · coffee addict</p>
+            <div class="badge-group">
+                <span class="badge">💻 <span>coder</span></span>
+                <span class="badge">📷 <span>photographer</span></span>
+                <span class="badge">⚡ <span>geek</span></span>
+                <span class="badge">☕ <span>coffee lover</span></span>
+            </div>
         </div>
     </section>
 
     <!-- ===== ABOUT ===== -->
-    <section>
+    <section class="section" id="about">
         <div class="container">
-            <h2 class="section-title text-center" style="margin-bottom:8px;">&lt;About me&gt;</h2>
-            <p class="section-sub text-center">A glimpse into my world of tech, pixels, and caffeine.</p>
-
+            <div class="section-title"><span class="accent">//</span> About Me</div>
             <div class="about-grid">
                 <div class="about-text">
-                    <p>
-                        <span class="first-letter">H</span>ey there! I'm a tech enthusiast with a passion for all things related to computers and technology. My journey into the computer world started back in grade 6, and although it was challenging at first, I persevered and fell in love with it.
-                    </p>
-                    <p>
-                        Apart from my techy side, I'm also a photography enthusiast. I have a profound love for travel, and my camera is my trusty companion on my adventures. My favorite subjects to capture are portraits, as they tell stories and capture the essence of people and places.
-                    </p>
-                    <p>
-                        Now, let's talk about my other love — coffee. I'm an unabashed coffee addict. There's nothing quite like starting my weekends with a steaming cup of coffee, some good music in the background, and a stack of assignments to tackle. I find solace in these quiet moments.
-                    </p>
+                    <p><strong>H</strong>ey there! I'm a tech enthusiast with a passion for all things computers and technology. My journey started back in grade 6 — challenging at first, but I fell in love with it.</p>
+                    <p>Apart from my techy side, I'm also a <strong>photography enthusiast</strong>. I love travel, and my camera is my trusty companion. My favorite subjects are portraits — they tell stories and capture the essence of people and places.</p>
+                    <p>Now, let's talk about my other love — <strong>coffee</strong>. I'm an unabashed coffee addict. There's nothing quite like starting my weekends with a steaming cup of coffee, good music, and a stack of assignments to tackle. I find solace in these quiet moments.</p>
                 </div>
-
                 <div class="about-code">
-                    <span class="comment">// while (living)</span>
-                    <span class="keyword">while</span> (living) {
-                    &nbsp;&nbsp;&nbsp;&nbsp;eat();
-                    &nbsp;&nbsp;&nbsp;&nbsp;sleep();
-                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">code</span>();
-                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">repeat</span>();
-                    }
+                    <span class="cm">// while (living) {</span>
+                    <br>  <span class="kw">eat</span>();
+                    <br>  <span class="kw">sleep</span>();
+                    <br>  <span class="kw">code</span>();
+                    <br>  <span class="kw">repeat</span>();
+                    <br><span class="cm">// }</span>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <!-- ===== SKILLS ===== -->
+    <section class="section" id="skills">
+        <div class="container">
+            <div class="section-title"><span class="accent">✦</span> Skills &amp; Vibes</div>
+            <div class="skills-grid">
+                <div class="skill-card"><span class="icon">⌨️</span><span class="label">Coding</span></div>
+                <div class="skill-card"><span class="icon">📸</span><span class="label">Photography</span></div>
+                <div class="skill-card"><span class="icon">🤖</span><span class="label">Tech Geek</span></div>
+                <div class="skill-card"><span class="icon">☕</span><span class="label">Coffee Addict</span></div>
+                <div class="skill-card"><span class="icon">🌍</span><span class="label">Travel</span></div>
+                <div class="skill-card"><span class="icon">🎧</span><span class="label">Music</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PROJECTS ===== -->
+    <section class="section" id="projects">
+        <div class="container">
+            <div class="section-title"><span class="accent">▸</span> Projects</div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <h3>Gyani Rover</h3>
+                    <p>Autonomous rover with live feed &amp; sensor fusion.</p>
+                    <span class="tag">robotics</span>
+                    <a href="gyani-rover/" class="link">Explore →</a>
+                </div>
+                <div class="project-card">
+                    <h3>Agro-Bot</h3>
+                    <p>Smart farming robot for monitoring &amp; spraying.</p>
+                    <span class="tag">agritech</span>
+                    <a href="https://agrobotofficial.github.io/Agrobot/" class="link" target="_blank">Explore →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CAROUSEL (PHOTOS) ===== -->
+    <section class="carousel-section" id="photos">
+        <div class="container">
+            <div class="section-title" style="padding-bottom: 6px;"><span class="accent">◈</span> Photography</div>
+        </div>
+        <div class="carousel-wrapper" id="carouselWrapper">
+            <div class="carousel-track" id="carouselTrack">
+                <!-- slides injected by JS -->
+            </div>
+            <button class="carousel-btn prev" id="prevBtn" aria-label="Previous">
+                <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            </button>
+            <button class="carousel-btn next" id="nextBtn" aria-label="Next">
+                <svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
+            </button>
+        </div>
+        <div class="carousel-dots" id="carouselDots"></div>
+        <div style="text-align:center;margin-top:12px;font-size:0.8rem;color:#555;">
+            click any photo to expand
         </div>
     </section>
 
     <!-- ===== SOCIAL ===== -->
-    <section style="padding: 10px 0 30px;">
+    <section class="section" id="social">
         <div class="container">
-            <h3 class="text-center" style="font-weight:500; font-size:1.2rem; color:var(--text-muted); margin-bottom:12px;">{Social Links}</h3>
-            <div class="social-bar">
-                <a href="https://fb.com/bishow420" target="_blank" rel="noopener" aria-label="Facebook">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-                </a>
-                <a href="https://twitter.com/BISHOWDEEP4" target="_blank" rel="noopener" aria-label="Twitter">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                </a>
-                <a href="https://instagr.am/420bishow" target="_blank" rel="noopener" aria-label="Instagram">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-                </a>
+            <div class="section-title"><span class="accent">✧</span> Connect</div>
+            <div class="social-links">
+                <a href="https://fb.com/bishow420" target="_blank" rel="noopener"><span class="icon">📘</span> Facebook</a>
+                <a href="https://twitter.com/BISHOWDEEP4" target="_blank" rel="noopener"><span class="icon">🐦</span> Twitter</a>
+                <a href="https://instagr.am/420bishow" target="_blank" rel="noopener"><span class="icon">📷</span> Instagram</a>
+                <a href="mailto:bishowdeep@example.com" target="_blank"><span class="icon">✉</span> Email</a>
             </div>
         </div>
     </section>
 
-    <!-- ===== CAROUSEL / GALLERY ===== -->
-    <section class="carousel-section">
-        <div class="container">
-            <h2 class="section-title text-center" style="margin-bottom:6px;">My photography</h2>
-            <p class="section-sub text-center" style="margin-bottom:28px;">A few frames from my journey</p>
-
-            <div class="carousel-wrapper" id="carousel" role="region" aria-label="Photo gallery">
-                <div class="carousel-track" id="carouselTrack">
-                    <!-- Slides will be injected by JS -->
-                </div>
-
-                <button class="carousel-btn prev" id="prevBtn" aria-label="Previous slide">‹</button>
-                <button class="carousel-btn next" id="nextBtn" aria-label="Next slide">›</button>
-            </div>
-
-            <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Slides"></div>
+    <!-- ===== CONTACT / OLD VERSION ===== -->
+    <section class="section" id="contact" style="border-bottom: none; padding-top: 10px;">
+        <div class="container" style="display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;">
+            <span style="color:#555; font-size:0.9rem;">📌 <a href="old/" target="_blank" style="color:#777;text-decoration:underline;">visit older version of this site</a></span>
+            <span style="color:#444; font-size:0.8rem;">© 2025 · Bishow Deep</span>
         </div>
     </section>
 
-    <!-- ===== FOOTER ===== -->
-    <footer class="site-footer">
-        <div class="container">
-            <a href="old/" target="_blank" class="footer-link">visit older version of this site</a>
-            <div class="copy">&copy; 2026 Bishow Deep. All rights reserved.</div>
-        </div>
-    </footer>
+    <!-- ===== LIGHTBOX ===== -->
+    <div class="lightbox-overlay" id="lightbox">
+        <button class="close-btn" id="lbClose" aria-label="Close lightbox">✕</button>
+        <button class="lb-nav prev" id="lbPrev" aria-label="Previous">‹</button>
+        <img class="lb-image" id="lbImage" src="" alt="Expanded view" />
+        <button class="lb-nav next" id="lbNext" aria-label="Next">›</button>
+        <div class="lb-counter" id="lbCounter">1 / 1</div>
+    </div>
 
+    <!-- ===== JAVASCRIPT ===== -->
     <script>
-        // ============================================================
-        // 1. NAVIGATION TOGGLE
-        // ============================================================
-        (function navToggle() {
-            const toggle = document.getElementById('navToggle');
-            const nav = document.getElementById('navLinks');
+        (function() {
+            'use strict';
 
-            toggle.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const isOpen = nav.classList.toggle('open');
-                toggle.classList.toggle('open');
-                toggle.setAttribute('aria-expanded', isOpen);
-            });
-
-            // Close nav on outside click (mobile)
-            document.addEventListener('click', function(e) {
-                if (window.innerWidth < 768) {
-                    const target = e.target;
-                    if (!nav.contains(target) && !toggle.contains(target)) {
-                        nav.classList.remove('open');
-                        toggle.classList.remove('open');
-                        toggle.setAttribute('aria-expanded', 'false');
-                    }
-                }
-            });
-
-            // Dropdown toggle on mobile
-            document.querySelectorAll('.dropdown-toggle').forEach(function(link) {
-                link.addEventListener('click', function(e) {
-                    if (window.innerWidth < 768) {
-                        e.preventDefault();
-                        const parent = link.closest('.dropdown');
-                        const menu = parent.querySelector('.dropdown-menu');
-                        if (menu) {
-                            menu.classList.toggle('open');
-                            const expanded = menu.classList.contains('open');
-                            link.setAttribute('aria-expanded', expanded);
-                        }
-                    }
-                });
-            });
-        })();
-
-        // ============================================================
-        // 2. CAROUSEL — handles random aspect ratios via object-fit:cover
-        // ============================================================
-        (function carousel() {
-            // ---- IMAGE LIST ----
-            // Add your images here (supports any aspect ratio)
-            const images = [
+            // ----- PHOTO LIST (random aspect ratios) -----
+            const photos = [
                 'images/imageweb0 (1).png',
                 'images/imageweb0 (2).jpg',
                 'images/imageweb0 (3).jpg',
@@ -837,200 +841,297 @@
                 'images/imageweb0 (23).jpg'
             ];
 
-            // ---- DOM refs ----
+            // ----- DOM refs -----
             const track = document.getElementById('carouselTrack');
-            const dots = document.getElementById('carouselDots');
+            const dotsContainer = document.getElementById('carouselDots');
             const prevBtn = document.getElementById('prevBtn');
             const nextBtn = document.getElementById('nextBtn');
-            const wrapper = document.getElementById('carousel');
+            const wrapper = document.getElementById('carouselWrapper');
 
+            // lightbox
+            const lightbox = document.getElementById('lightbox');
+            const lbImage = document.getElementById('lbImage');
+            const lbClose = document.getElementById('lbClose');
+            const lbPrev = document.getElementById('lbPrev');
+            const lbNext = document.getElementById('lbNext');
+            const lbCounter = document.getElementById('lbCounter');
+
+            // ----- state -----
             let currentIndex = 0;
-            let total = images.length;
-            let autoInterval = null;
-            const AUTO_DELAY = 4500;
+            let total = photos.length;
+            let slideWidth = 0;
+            let isTransitioning = false;
+            let autoPlayInterval = null;
+            const AUTOPLAY_DELAY = 4500;
 
-            // ---- Build slides ----
+            // ----- build carousel -----
             function buildCarousel() {
                 track.innerHTML = '';
-                dots.innerHTML = '';
-
-                images.forEach((src, i) => {
-                    // Slide
+                photos.forEach((src, i) => {
                     const slide = document.createElement('div');
                     slide.className = 'carousel-slide';
+                    slide.dataset.index = i;
                     const img = document.createElement('img');
                     img.src = src;
                     img.alt = 'Photo ' + (i + 1);
                     img.loading = 'lazy';
                     img.classList.add('lazy');
                     img.onload = function() {
+                        this.classList.remove('lazy');
                         this.classList.add('loaded');
                     };
-                    // If image already cached, trigger manually
+                    // fallback: if already cached
                     if (img.complete) {
+                        img.classList.remove('lazy');
                         img.classList.add('loaded');
                     }
                     slide.appendChild(img);
-                    track.appendChild(slide);
-
-                    // Dot
-                    const dot = document.createElement('button');
-                    dot.setAttribute('role', 'tab');
-                    dot.setAttribute('aria-label', 'Slide ' + (i + 1));
-                    if (i === 0) dot.classList.add('active');
-                    dot.dataset.index = i;
-                    dot.addEventListener('click', function() {
-                        goTo(parseInt(this.dataset.index));
+                    slide.addEventListener('click', function(e) {
+                        const idx = parseInt(this.dataset.index, 10);
+                        openLightbox(idx);
                     });
-                    dots.appendChild(dot);
+                    track.appendChild(slide);
                 });
 
-                updateCarousel();
+                // dots
+                dotsContainer.innerHTML = '';
+                for (let i = 0; i < total; i++) {
+                    const dot = document.createElement('button');
+                    dot.className = 'dot' + (i === 0 ? ' active' : '');
+                    dot.dataset.index = i;
+                    dot.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+                    dot.addEventListener('click', function() {
+                        const idx = parseInt(this.dataset.index, 10);
+                        goTo(idx);
+                    });
+                    dotsContainer.appendChild(dot);
+                }
+                updateDots(0);
             }
 
-            // ---- Update position ----
-            function updateCarousel(animate = true) {
-                if (!animate) {
-                    track.style.transition = 'none';
-                } else {
-                    track.style.transition = 'transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                }
-                const offset = -currentIndex * 100;
-                track.style.transform = 'translateX(' + offset + '%)';
-
-                // Dots
-                const allDots = dots.querySelectorAll('button');
-                allDots.forEach((dot, i) => {
-                    dot.classList.toggle('active', i === currentIndex);
-                    dot.setAttribute('aria-selected', i === currentIndex);
-                });
-
-                // Force reflow if no animation
-                if (!animate) {
-                    void track.offsetHeight;
-                    track.style.transition = '';
-                }
+            // ----- update dimensions -----
+            function updateSlideWidth() {
+                const rect = wrapper.getBoundingClientRect();
+                slideWidth = rect.width || window.innerWidth;
+                // if wrapper has padding, account for it
+                const style = getComputedStyle(wrapper);
+                const pad = parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) || 0;
+                slideWidth = Math.max(200, slideWidth - pad);
+                track.style.transition = 'none';
+                track.style.transform = 'translateX(' + (-currentIndex * slideWidth) + 'px)';
+                // force reflow
+                void track.offsetHeight;
+                track.style.transition = 'transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
             }
 
-            // ---- Go to ----
-            function goTo(index) {
+            // ----- go to slide -----
+            function goTo(index, animate) {
+                if (isTransitioning) return;
                 if (index < 0) index = total - 1;
                 if (index >= total) index = 0;
-                if (index === currentIndex) return;
+                if (index === currentIndex && animate !== false) return;
+
+                isTransitioning = true;
                 currentIndex = index;
-                updateCarousel(true);
+                const offset = -currentIndex * slideWidth;
+                track.style.transform = 'translateX(' + offset + 'px)';
+                updateDots(currentIndex);
                 resetAutoPlay();
+
+                setTimeout(function() {
+                    isTransitioning = false;
+                }, 520);
             }
 
-            // ---- Next / Prev ----
+            // ----- dots -----
+            function updateDots(index) {
+                const dots = dotsContainer.querySelectorAll('.dot');
+                dots.forEach((d, i) => {
+                    d.classList.toggle('active', i === index);
+                });
+            }
+
+            // ----- next / prev -----
             function next() {
+                if (isTransitioning) return;
                 goTo(currentIndex + 1);
             }
 
             function prev() {
+                if (isTransitioning) return;
                 goTo(currentIndex - 1);
             }
 
-            // ---- Auto-play ----
-            function startAutoPlay() {
-                stopAutoPlay();
-                autoInterval = setInterval(next, AUTO_DELAY);
+            // ----- autoplay -----
+            function resetAutoPlay() {
+                if (autoPlayInterval) {
+                    clearInterval(autoPlayInterval);
+                    autoPlayInterval = null;
+                }
+                autoPlayInterval = setInterval(next, AUTOPLAY_DELAY);
             }
 
             function stopAutoPlay() {
-                if (autoInterval) {
-                    clearInterval(autoInterval);
-                    autoInterval = null;
+                if (autoPlayInterval) {
+                    clearInterval(autoPlayInterval);
+                    autoPlayInterval = null;
                 }
             }
 
-            function resetAutoPlay() {
-                if (autoInterval) {
-                    stopAutoPlay();
-                    startAutoPlay();
+            // ----- lightbox -----
+            function openLightbox(index) {
+                if (index < 0) index = total - 1;
+                if (index >= total) index = 0;
+                currentIndex = index;
+                const src = photos[currentIndex];
+                lbImage.src = src;
+                lbImage.alt = 'Photo ' + (currentIndex + 1);
+                lbCounter.textContent = (currentIndex + 1) + ' / ' + total;
+                lightbox.classList.add('open');
+                document.body.style.overflow = 'hidden';
+                stopAutoPlay();
+            }
+
+            function closeLightbox() {
+                lightbox.classList.remove('open');
+                document.body.style.overflow = '';
+                resetAutoPlay();
+            }
+
+            function lbNavigate(delta) {
+                let idx = currentIndex + delta;
+                if (idx < 0) idx = total - 1;
+                if (idx >= total) idx = 0;
+                currentIndex = idx;
+                const src = photos[currentIndex];
+                lbImage.src = src;
+                lbImage.alt = 'Photo ' + (currentIndex + 1);
+                lbCounter.textContent = (currentIndex + 1) + ' / ' + total;
+            }
+
+            // ----- keyboard support -----
+            function onKeydown(e) {
+                if (lightbox.classList.contains('open')) {
+                    if (e.key === 'Escape') { closeLightbox();
+                        e.preventDefault(); }
+                    if (e.key === 'ArrowLeft') { lbNavigate(-1);
+                        e.preventDefault(); }
+                    if (e.key === 'ArrowRight') { lbNavigate(1);
+                        e.preventDefault(); }
+                    return;
+                }
+                if (e.key === 'ArrowLeft') { prev();
+                    e.preventDefault(); }
+                if (e.key === 'ArrowRight') { next();
+                    e.preventDefault(); }
+            }
+
+            // ----- resize -----
+            let resizeTimer;
+            function onResize() {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(function() {
+                    updateSlideWidth();
+                }, 120);
+            }
+
+            // ----- touch / drag support (simple) -----
+            let touchStartX = 0;
+            let touchStartY = 0;
+            let isDragging = false;
+
+            function onTouchStart(e) {
+                const touch = e.touches[0];
+                touchStartX = touch.clientX;
+                touchStartY = touch.clientY;
+                isDragging = true;
+                stopAutoPlay();
+            }
+
+            function onTouchMove(e) {
+                if (!isDragging) return;
+                const touch = e.touches[0];
+                const deltaX = touch.clientX - touchStartX;
+                const deltaY = touch.clientY - touchStartY;
+                if (Math.abs(deltaX) > 20 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2) {
+                    e.preventDefault();
+                    // we don't do live dragging, just detect swipe at end
                 }
             }
 
-            // ---- Pause on hover / touch ----
-            function pauseAutoPlay() {
-                if (autoInterval) {
-                    clearInterval(autoInterval);
-                    autoInterval = null;
+            function onTouchEnd(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                const touch = e.changedTouches[0];
+                if (!touch) { resetAutoPlay(); return; }
+                const deltaX = touch.clientX - touchStartX;
+                const deltaY = touch.clientY - touchStartY;
+                if (Math.abs(deltaX) > 40 && Math.abs(deltaX) > Math.abs(deltaY) * 1.2) {
+                    if (deltaX < 0) next();
+                    else prev();
+                } else {
+                    // if it was a tap, let the slide's click handler open lightbox
                 }
+                resetAutoPlay();
             }
 
-            function resumeAutoPlay() {
-                if (!autoInterval) {
-                    startAutoPlay();
-                }
-            }
-
-            // ---- Init ----
+            // ----- init -----
             function init() {
                 buildCarousel();
-                startAutoPlay();
-
-                // Controls
-                prevBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    prev();
-                });
-                nextBtn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    next();
+                // wait for layout
+                requestAnimationFrame(function() {
+                    updateSlideWidth();
+                    // if images loaded, update again
+                    setTimeout(updateSlideWidth, 300);
                 });
 
-                // Keyboard
-                wrapper.addEventListener('keydown', function(e) {
-                    if (e.key === 'ArrowLeft') { e.preventDefault();
-                        prev(); }
-                    if (e.key === 'ArrowRight') { e.preventDefault();
-                        next(); }
+                // events
+                prevBtn.addEventListener('click', function(e) { e.stopPropagation();
+                    prev(); });
+                nextBtn.addEventListener('click', function(e) { e.stopPropagation();
+                    next(); });
+                window.addEventListener('resize', onResize);
+                document.addEventListener('keydown', onKeydown);
+
+                // touch
+                wrapper.addEventListener('touchstart', onTouchStart, { passive: true });
+                wrapper.addEventListener('touchmove', onTouchMove, { passive: false });
+                wrapper.addEventListener('touchend', onTouchEnd, { passive: true });
+
+                // lightbox
+                lbClose.addEventListener('click', closeLightbox);
+                lbPrev.addEventListener('click', function() { lbNavigate(-1); });
+                lbNext.addEventListener('click', function() { lbNavigate(1); });
+                lightbox.addEventListener('click', function(e) {
+                    if (e.target === lightbox) closeLightbox();
+                });
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && lightbox.classList.contains('open')) {
+                        closeLightbox();
+                        e.preventDefault();
+                    }
                 });
 
-                // Pause on hover
-                wrapper.addEventListener('mouseenter', pauseAutoPlay);
-                wrapper.addEventListener('mouseleave', resumeAutoPlay);
-                wrapper.addEventListener('touchstart', pauseAutoPlay, { passive: true });
-                wrapper.addEventListener('touchend', function() {
-                    // Resume after a short delay to avoid accidental restart
-                    setTimeout(resumeAutoPlay, 3000);
-                }, { passive: true });
+                // start autoplay
+                resetAutoPlay();
 
-                // Handle window resize – ensure slide stays correct
-                let resizeTimer;
-                window.addEventListener('resize', function() {
-                    clearTimeout(resizeTimer);
-                    resizeTimer = setTimeout(function() {
-                        updateCarousel(false);
-                    }, 150);
+                // handle visibility change - pause when tab hidden
+                document.addEventListener('visibilitychange', function() {
+                    if (document.hidden) {
+                        stopAutoPlay();
+                    } else {
+                        resetAutoPlay();
+                    }
                 });
-
-                // Expose for debugging
-                window._carousel = { goTo, next, prev, currentIndex: () => currentIndex };
             }
 
-            // ---- Start when DOM ready ----
+            // ----- run after DOM ready -----
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', init);
             } else {
                 init();
             }
-        })();
 
-        // ============================================================
-        // 3. LAZY LOAD FALLBACK (for images already loaded)
-        // ============================================================
-        (function lazyFallback() {
-            document.querySelectorAll('.carousel-slide img.lazy').forEach(function(img) {
-                if (img.complete) {
-                    img.classList.add('loaded');
-                } else {
-                    img.addEventListener('load', function() {
-                        this.classList.add('loaded');
-                    });
-                }
-            });
         })();
     </script>
 
